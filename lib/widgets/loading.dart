@@ -8,7 +8,7 @@ class LoadingPro extends StatelessWidget {
   final double? size;
   final bool isLinear;
   final Color? valueColor, backgroundColor;
-  LoadingPro({this.size, this.isLinear = false, this.valueColor = Clr.colorPrimary, this.backgroundColor});
+  LoadingPro({this.size, this.isLinear = false, this.valueColor, this.backgroundColor});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,16 +19,16 @@ class LoadingPro extends StatelessWidget {
             ?
         LinearProgressIndicator(
           backgroundColor: backgroundColor,
-          valueColor: AlwaysStoppedAnimation<Color>(valueColor!),
+          valueColor: AlwaysStoppedAnimation<Color>(valueColor??Clr.colorPrimary),
         )
             :
         Platform.isAndroid
             ?
         CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(valueColor!),
+          valueColor: AlwaysStoppedAnimation<Color>(valueColor??Clr.colorPrimary),
         )
             :
-        CupertinoActivityIndicator(color: valueColor,),
+        CupertinoActivityIndicator(color: valueColor??Clr.colorPrimary,),
 //      child: LinearProgressIndicator(),
       ),
     );

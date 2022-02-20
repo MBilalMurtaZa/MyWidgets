@@ -29,7 +29,7 @@ class Btn extends StatelessWidget {
         this.onPressed,
         this.textColor,
         this.bgColor,
-        this.borderColor = Clr.colorPrimary,
+        this.borderColor,
         this.hasBorder = true,
         this.isLoose = false,
         this.radius = Siz.defaultRadius,
@@ -116,7 +116,7 @@ class Btn extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius!),
         ),
         side: side??(hasBorder?BorderSide(
-          color: borderColor!,
+          color: borderColor??Clr.colorPrimary,
           width: borderWidth!
         ):null)
 

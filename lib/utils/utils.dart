@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
+
 class Clr {
+  static  Color colorPrimary = Colors.black;
+  static  Color colorSecondary = Colors.black;
   static const Color colorCyan = Colors.cyan;
   static const Color colorTransparent = Color(0x00000000);
   static const Color colorBlue = Color(0xFF272264);
@@ -8,12 +11,11 @@ class Clr {
   static const Color colorGrey= Colors.grey;
   static const Color colorRed = Color(0xFFFF0000);
   static const Color colorGreen = Color(0xFF0BB116);
-  static const Color colorPrimary = Colors.black;
   static const Color colorWhite = Colors.white;
   static const Color colorBlack = Colors.black;
-  static const Color colorSecondary = Color(0xFF933086);
 
   Clr._();
+
 }
 
 class Siz {

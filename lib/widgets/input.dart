@@ -6,7 +6,7 @@ import '../utils/utils.dart';
 class TxtFormInput extends StatelessWidget {
 
   final TextEditingController? controller;
-  final String? errorMessage, hintText;
+  final String? errorMessage, hintText, labelText;
   final String? errorLengthMessage;
   final int? maxLines, maxLength, validationLength;
   final double? textSize;
@@ -61,6 +61,7 @@ class TxtFormInput extends StatelessWidget {
         this.formKey,
         this.isOptional = false,
         this.validationLength,
+        this.labelText
 
       }
       ) : super(key: key);
@@ -95,7 +96,7 @@ class TxtFormInput extends StatelessWidget {
                 label: hasLabel
                     ?
                 (Text.rich(
-                    TextSpan(text: hintText,children: <InlineSpan>[
+                    TextSpan(text: labelText??hintText,children: <InlineSpan>[
                       TextSpan(text:isOptional?'':' *',
                         style: TextStyle(color: Colors.red),
                       ),

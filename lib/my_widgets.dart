@@ -25,11 +25,11 @@ BoxDecoration pBoxDecoration({Color? color, BorderRadius? borderRadius, double r
   );
 }
 
-pShowToast({ required String message,Color colorText = Colors.white, Color backgroundColor = Clr.colorPrimary,bool isError = false, ToastGravity toastGravity = ToastGravity.CENTER}){
+pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity}){
   Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_LONG,
-    gravity: toastGravity,
+    gravity: toastGravity??ToastGravity.CENTER,
     backgroundColor: backgroundColor,
     textColor: colorText,
     fontSize: 16.0,
@@ -45,7 +45,7 @@ pFocusOut({BuildContext? context, bool isHide = true,FocusNode? focusNode }) {
   return SystemChannels.textInput.invokeMethod('TextInput.hide');
 }
 
-Widget pSetCard({Widget? child, Color shadowColor = Clr.colorPrimary, double elevation = 10, GestureTapCallback? onTap, EdgeInsetsGeometry? padding, double paddingSize = 0, double radius = Siz.defaultRadius,}) {
+Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, GestureTapCallback? onTap, EdgeInsetsGeometry? padding, double paddingSize = 0, double radius = Siz.defaultRadius,}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
@@ -56,7 +56,7 @@ Widget pSetCard({Widget? child, Color shadowColor = Clr.colorPrimary, double ele
         ),
         elevation: elevation,
         child: child,
-        shadowColor: shadowColor,
+        shadowColor: shadowColor??Clr.colorPrimary,
         clipBehavior: Clip.antiAlias,
       ),
     ),
@@ -133,5 +133,9 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
       pShowToast(message: error);
     }
   }
-  
+}
+
+pSetMyColors({required Color primaryColor, required Color secondaryColor}) {
+  Clr.colorPrimary = primaryColor;
+  Clr.colorSecondary = secondaryColor;
 }
