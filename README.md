@@ -1,24 +1,24 @@
 
-## [version] - 2022-02-18
+## [0.0.1] - 2022-02-18
 * add class and functions for speedy coding.
+
+## [0.0.2] - 2022-02-20
 * no need to remember long syntax now 
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Users can change colors for every app.
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Users can change colors for every app. 
 
 ## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
+user can set color bow according to his color requirement.
+if you use before main will be preferable.
 ```
-
+pSetMyColors(primaryColor: primaryColor, secondaryColor: secondaryColor);
+runMain();
 ```
 
 ## Additional information

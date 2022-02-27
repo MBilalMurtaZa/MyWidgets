@@ -129,7 +129,6 @@ class TxtFormInput extends StatelessWidget {
               color: Clr.colorTransparent,
               height: 60,
               width: double.infinity,
-
             ),
           )
       ],
