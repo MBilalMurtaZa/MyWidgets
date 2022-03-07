@@ -28,7 +28,11 @@ class LoadingPro extends StatelessWidget {
           valueColor: AlwaysStoppedAnimation<Color>(valueColor??Clr.colorPrimary),
         )
             :
-        CupertinoActivityIndicator(color: valueColor??Clr.colorPrimary,),
+        CircleAvatar(
+          backgroundColor: valueColor??Clr.colorWhite,
+          child: CupertinoActivityIndicator(color: valueColor??Clr.colorPrimary,),
+        ),
+
 //      child: LinearProgressIndicator(),
       ),
     );

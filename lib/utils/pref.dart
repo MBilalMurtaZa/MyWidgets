@@ -15,8 +15,16 @@ class Pref {
   static const String hasAuth = 'auth';
   static const String platform = 'platform';
   static const String pushNotifications = 'pushNotifications';
-
   static const String contactTermAccepted = 'contactTermAccepted';
+  static const String option1 = 'option1';
+  static const String option2 = 'option2';
+  static const String option3 = 'option3';
+  static const String option4 = 'option4';
+  static const String option5 = 'option5';
+  static const String option6 = 'option6';
+  static const String option7 = 'option7';
+  static const String option8 = 'option8';
+  static const String option9 = 'option9';
 
 
   static getPref() async {

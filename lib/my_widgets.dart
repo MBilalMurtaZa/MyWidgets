@@ -63,12 +63,12 @@ Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, Gestu
   );
 }
 
-Future<bool?> pSetRout({required dynamic page,RouteType routeType = RouteType.push,bool fullscreenDialog = false, BuildContext? context}) async{
+Future<bool?> pSetRout({required dynamic page,RouteType routeType = RouteType.push,bool fullscreenDialog = false, BuildContext? context, Duration? duration, Curve? curve}) async{
   pFocusOut();
   switch(routeType){
     case RouteType.push:
     // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
-      return Get.to(page, fullscreenDialog: fullscreenDialog);
+      return Get.to(page, fullscreenDialog: fullscreenDialog, duration: duration, curve: curve);
     case RouteType.pushReplace:
       return Get.off(page, fullscreenDialog: fullscreenDialog);
     case RouteType.pushReplaceAll:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 class Txt extends StatelessWidget {
   final String text;
+  final String?  fontFamily;
   final bool hasBold, hasItalic, hasUnderLine, checkOverFlow;
   final Color textColor;
   final TextStyle? textStyle;
@@ -8,6 +9,7 @@ class Txt extends StatelessWidget {
   final TextOverflow? overflow;
   final int? maxLine;
   final TextAlign textAlign;
+
   const Txt(
       this.text,
       {this.hasBold = false,
@@ -20,6 +22,7 @@ class Txt extends StatelessWidget {
         this.checkOverFlow = false,
         this.maxLine,
         this.textAlign = TextAlign.start,
+        this.fontFamily,
       Key? key}
       ) : super(key: key);
 
@@ -33,6 +36,7 @@ class Txt extends StatelessWidget {
         color: textColor,
         fontSize: fontSize,
         overflow: overflow??(checkOverFlow?TextOverflow.ellipsis:TextOverflow.visible),
+        fontFamily: fontFamily,
       ),
       maxLines: maxLine,
       textAlign: textAlign,

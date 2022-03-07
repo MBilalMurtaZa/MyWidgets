@@ -18,6 +18,7 @@ dependencies:
   fluttertoast: ^8.0.9
   get: ^4.6.1
   url_launcher: ^6.0.20
+  intl: ^0.17.0
 
 
 dev_dependencies:
