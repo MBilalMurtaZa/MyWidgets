@@ -16,13 +16,13 @@ import '../my_widgets.dart';
 
 class HttpCalls{
   static bool isLive = true;
-  static String live = "https://mobbe.esolutionsprovider.com/";
-  static String testing = "https://mobbe.esolutionsprovider.com/";
+  static String live = "";
+  static String testing = "";
   static String sServerURL = isLive?live:testing;
 
 
   static Uri getRequestURL(String postFix) {
-    return Uri.parse(sServerURL+'api/'+postFix);
+    return Uri.parse(sServerURL+postFix);
   }
 
   static ViewResponse getDataObject(Response result) {

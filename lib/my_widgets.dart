@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:my_widgets/services/HttpCalls.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'utils/utils.dart';
 
@@ -135,7 +136,11 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
   }
 }
 
-pSetMyColors({required Color primaryColor, required Color secondaryColor}) {
+pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
+  HttpCalls.live = baseUrlLive;
+  HttpCalls.testing = baseUrlTest;
+  HttpCalls.isLive = isLive;
 }
+
