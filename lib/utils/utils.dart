@@ -43,6 +43,8 @@ class Str {
   static String noDataFound = 'There is no data to show';
   static const String NA = "N/A";
 
+
+
   Str._();
 }
 

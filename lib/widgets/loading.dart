@@ -8,10 +8,10 @@ class LoadingPro extends StatelessWidget {
   final double? size;
   final bool isLinear;
   final Color? valueColor, backgroundColor;
-  LoadingPro({this.size, this.isLinear = false, this.valueColor, this.backgroundColor});
+  const LoadingPro({this.size, this.isLinear = false, this.valueColor, this.backgroundColor, Key? key}): super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: size,
       height: size,
       child: Center(
@@ -29,7 +29,7 @@ class LoadingPro extends StatelessWidget {
         )
             :
         CircleAvatar(
-          backgroundColor: valueColor??Clr.colorWhite,
+          backgroundColor: backgroundColor??Clr.colorWhite,
           child: CupertinoActivityIndicator(color: valueColor??Clr.colorPrimary,),
         ),
 

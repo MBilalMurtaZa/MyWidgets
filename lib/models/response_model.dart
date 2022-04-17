@@ -7,7 +7,7 @@ class ViewResponse{
 
 
   ViewResponse.fromJson(Map<String, dynamic> json)
-      : status = json['status'],
-        message = json['message'],
-        data = json['data'];
+      : status = json['status']??json['Status'],
+        message = json['message']??json['Message'],
+        data = json['data']??json['Data'];
 }
