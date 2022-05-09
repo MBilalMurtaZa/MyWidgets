@@ -15,15 +15,40 @@ enum URLType { call, sms, web, email }
 
 var pTimeout = 20;
 
-BoxDecoration pBoxDecoration({Color? color, BorderRadius? borderRadius, double radius = Siz.defaultRadius, String? image, BoxFit? fit, DecorationImage? decorationImage,Border? border,bool hasBorder = false, Color? borderColor}  ) {
+BoxDecoration pBoxDecoration(
+    {
+      Color? color,
+      BorderRadius? borderRadius,
+      double radius = Siz.defaultRadius,
+      String? image,
+      BoxFit? fit,
+      DecorationImage? decorationImage,
+      Border? border,
+      bool hasBorder = false,
+      Color? borderColor,
+      List<BoxShadow>? boxShadow,
+      Color shadowColor = Clr.colorWhite,
+      double shadowRadius = 0,
+      Offset shadowOffset = const Offset(0.0, 0.0),
+    }) {
   return BoxDecoration(
-    borderRadius: borderRadius??BorderRadius.all(Radius.circular(radius)),
-    border: border??(hasBorder?Border.all(color: borderColor??Clr.colorTransparent):null),
+    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
+    border: border ?? (hasBorder
+            ? Border.all(color: borderColor ?? Clr.colorTransparent)
+            : null),
     color: color,
-    image: decorationImage??(image != null?DecorationImage(
-      image: AssetImage(image),
-      fit: fit,
-    ):null),
+    image: decorationImage ?? (image != null
+            ? DecorationImage(
+                image: AssetImage(image),
+                fit: fit,
+              )
+            : null),
+      boxShadow: boxShadow??[
+        BoxShadow(
+            color: shadowColor,
+            blurRadius: shadowRadius,
+            offset: shadowOffset),
+      ]
   );
 }
 

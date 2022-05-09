@@ -9,7 +9,7 @@ class TxtFormInput extends StatelessWidget {
   final String? errorMessage, hintText, labelText;
   final String? errorLengthMessage;
   final int? maxLines, maxLength, validationLength;
-  final double? textSize;
+  final double? textSize, hintTextSize;
   final Color? textColor, hintTextColor;
   final List<MaskTextInputFormatter>? inputFormatters;
   final TextAlign textAlign;
@@ -41,6 +41,7 @@ class TxtFormInput extends StatelessWidget {
         this.textAlign = TextAlign.start,
         this.textCapitalization = TextCapitalization.sentences,
         this.textSize,
+        this.hintTextSize,
         this.textColor,
         this.onChanged,
         this.onTap,
@@ -103,7 +104,7 @@ class TxtFormInput extends StatelessWidget {
                     ], style: TextStyle(color: hintTextColor),))):null,
                 border: hasBorder?OutlineInputBorder():null,
                 hintText: (hintText!),
-                hintStyle: TextStyle(fontSize: textSize, color: hintTextColor),
+                hintStyle: TextStyle(fontSize: hintTextSize??textSize, color: hintTextColor),
                 suffixIcon: postFix,
                 prefixIcon: preFix,
                 counterText: '',

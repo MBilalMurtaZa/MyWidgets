@@ -1,3 +1,9 @@
+## 0.0.7
+* with default response true 
+
+## 0.0.6
+* add multy type response support
+
 ## 0.0.5
 * add support full Image view (only for single image)
 

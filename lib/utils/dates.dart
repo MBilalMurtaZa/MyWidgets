@@ -10,6 +10,7 @@ class Dates {
    static const String pGetDateTime = 'dd-MM-yyyy HH:mm';
    static const String pGetShortDate = 'dd-MM-yyyy';
    static const String pGetLongDate = 'dd-MMM-yyyy';
+   static const String pGetDateFormat = 'yyyy-MM-dd';
    static const String pGetDate = 'dd-MMM-yyyy';
    static const String pGetDay = 'dd';
    static const String pGetMonth = 'MMM';
