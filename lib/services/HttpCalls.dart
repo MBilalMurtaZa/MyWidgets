@@ -15,29 +15,30 @@ import '../my_widgets.dart';
 //   ..badCertificateCallback = ((X509Certificate cert, String host, int port) => trustSelfSigned);
 // IOClient ioClient = IOClient(httpClient);
 
+
 class HttpCalls{
   static bool isLive = true;
   static String live = "";
   static String testing = "";
   static String sServerURL = isLive?live:testing;
+  static bool httpCallsDefaultResponse = true;
+
+
 
 
   static Uri getRequestURL(String postFix) {
     return Uri.parse(sServerURL+postFix);
   }
 
-  static dynamic getDataObject(Response result, {bool defaultResponse = true}) {
+  static dynamic getDataObject(Response result, {bool? defaultResponse}) {
     Map<String, dynamic> userMap = jsonDecode(result.body);
-    if(defaultResponse){
+    if((defaultResponse??HttpCalls.httpCallsDefaultResponse)){
       return ViewResponse.fromJson(userMap);
     }
     return userMap;
   }
 
-
-
-
-  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool defaultResponse = true}) async {
+  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
@@ -75,7 +76,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool defaultResponse = true}) async {
+  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse}) async {
     dynamic response;
 
     print(params);
@@ -122,7 +123,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool defaultResponse = true}) async {
+  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse}) async {
     dynamic response;
 
 
@@ -161,7 +162,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool defaultResponse = true}) async {
+  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool? defaultResponse}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -199,7 +200,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> uploadFile(String endPoint, String filename, {String fileKey = 'image',bool isUserAvatar = false,bool hasAuth = true,Map<String, String>? params,required String token, bool defaultResponse = true}) async {
+  static Future<dynamic> uploadFile(String endPoint, String filename, {String fileKey = 'image',bool isUserAvatar = false,bool hasAuth = true,Map<String, String>? params,required String token, bool? defaultResponse}) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     print(url);
     var header = {
@@ -231,7 +232,7 @@ class HttpCalls{
     }
   }
 
-  static Future<dynamic> uploadImage(String filename,String fileType, {bool isUserAvatar = false,bool hasAuth = true, String thumbnail = '',required String token,required String userName, bool defaultResponse = true}) async {
+  static Future<dynamic> uploadImage(String filename,String fileType, {bool isUserAvatar = false,bool hasAuth = true, String thumbnail = '',required String token,required String userName, bool? defaultResponse}) async {
     dynamic file;
     Uri url = HttpCalls.getRequestURL('file-upload');
     print(url.toString());

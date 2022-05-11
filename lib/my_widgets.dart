@@ -154,16 +154,16 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
     }
 
     debugPrint(url);
-    await launch(url);
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   pShowToast(message: error);
-    // }
+    await launchUrl(Uri.parse(url));
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      pShowToast(message: error);
+    }
   }
 }
 
-pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true }) {
+pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
@@ -171,5 +171,6 @@ pSetSettings({required Color primaryColor, required Color secondaryColor, String
   HttpCalls.isLive = isLive;
   GetImage.defaultImage = defaultImage;
   GetImage.defImageIsAsset = defImageIsAsset;
+  HttpCalls.httpCallsDefaultResponse = httpCallsDefaultResponse;
 }
 
