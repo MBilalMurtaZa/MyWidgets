@@ -233,11 +233,11 @@ class HttpCalls{
   }
 
   static Future<dynamic> uploadImage(String filename,String fileType, {bool isUserAvatar = false,bool hasAuth = true, String thumbnail = '',required String token,required String userName, bool? defaultResponse}) async {
-    dynamic file;
+    dynamic response;
     Uri url = HttpCalls.getRequestURL('file-upload');
     print(url.toString());
     var header = {
-      HttpHeaders.contentTypeHeader: 'application/json'
+      'Accept' : 'application/json'
     };
 
     if(hasAuth) {
@@ -253,9 +253,11 @@ class HttpCalls{
       request.fields['fileType'] = fileType;
       request.fields['userName'] = userName;
       if (kDebugMode) {
-        print(request.fields.toString());
-        print(request.files.toString());
-        print(request.files.toString());
+        print('upload detail');
+        print(request.fields['fileType'].toString());
+        print(request.fields['userName'].toString());
+        print(request.files.first.toString());
+        print(request.files.first.toString());
       }
 
       if(hasAuth)request.headers.addAll(header);
@@ -263,20 +265,13 @@ class HttpCalls{
       var result = await Response.fromStream(streamedResponse);
       if (kDebugMode) {
         print("result.body");
+        print(result.body);
       }
-      dynamic response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-
-      if (response.status) {
-        file = response.data;
-      } else {
-        if (kDebugMode) {
-          print(response.message);
-        }
-      }
+      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     }catch (e){
       pShowToast(message: e.toString());
     }
-    return file;
+    return response;
   }
 
 
