@@ -1,3 +1,8 @@
+## 0.0.8
+* add native dialogs
+* update on flutter 3.0.0
+* add snackbar 
+
 ## 0.0.7
 * with default response true 
 

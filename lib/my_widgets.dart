@@ -163,6 +163,10 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
   }
 }
 
+pSnackBar({String title = 'Info', String message = '',Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
+  Get.snackbar(isError?'Error':title, message, colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
+}
+
 pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
