@@ -99,10 +99,10 @@ class TxtFormInput extends StatelessWidget {
                 (Text.rich(
                     TextSpan(text: labelText??hintText,children: <InlineSpan>[
                       TextSpan(text:isOptional?'':' *',
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ], style: TextStyle(color: hintTextColor),))):null,
-                border: hasBorder?OutlineInputBorder():null,
+                border: hasBorder?const OutlineInputBorder():null,
                 hintText: (hintText!),
                 hintStyle: TextStyle(fontSize: hintTextSize??textSize, color: hintTextColor),
                 suffixIcon: postFix,

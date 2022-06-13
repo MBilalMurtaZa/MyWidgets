@@ -107,7 +107,7 @@ Future<bool?> pSetRout({required dynamic page,RouteType routeType = RouteType.pu
   }
 }
 
-Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<int>> listDropDown,int? selectedValue, Function(int? val) onChange,{bool isExpanded = true,double paddingHorizontal = 0.0, bool enabled=true, FocusNode? focusNode}) {
+Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<int>> listDropDown,int? selectedValue, Function(int? val) onChange,{bool isExpanded = true,double paddingHorizontal = 0.0, bool enabled=true, FocusNode? focusNode, bool hasBorder = false}) {
   return IgnorePointer(
     ignoring: !enabled,
     child: Container(
@@ -116,6 +116,7 @@ Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<i
       child: DropdownButtonFormField(
         decoration: InputDecoration(
           labelText: labelHint,
+          border: hasBorder ? const OutlineInputBorder() : null,
         ),
         focusNode: focusNode,
         isExpanded: true,
@@ -163,7 +164,7 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
   }
 }
 
-pSnackBar({String title = 'Info', String message = '',Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
+pSnackBar({String title = 'Info',required String message,Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
   Get.snackbar(isError?'Error':title, message, colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
 }
 

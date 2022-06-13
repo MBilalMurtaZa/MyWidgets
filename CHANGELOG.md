@@ -1,3 +1,12 @@
+## 0.0.9
+* add border into dropdown
+
+## 0.0.9
+* update dart version 
+* update flutter to 3.0.1
+* add view response more flexible 
+* update dependencies 
+
 ## 0.0.8
 * add native dialogs
 * update on flutter 3.0.0
