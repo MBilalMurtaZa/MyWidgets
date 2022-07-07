@@ -19,7 +19,7 @@ BoxDecoration pBoxDecoration(
     {
       Color? color,
       BorderRadius? borderRadius,
-      double radius = Siz.defaultRadius,
+      double? radius,
       String? image,
       BoxFit? fit,
       DecorationImage? decorationImage,
@@ -32,7 +32,7 @@ BoxDecoration pBoxDecoration(
       Offset shadowOffset = const Offset(0.0, 0.0),
     }) {
   return BoxDecoration(
-    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius)),
+    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius??Siz.defaultRadius)),
     border: border ?? (hasBorder
             ? Border.all(color: borderColor ?? Clr.colorTransparent)
             : null),
@@ -72,25 +72,25 @@ pFocusOut({BuildContext? context, bool isHide = true,FocusNode? focusNode }) {
   return SystemChannels.textInput.invokeMethod('TextInput.hide');
 }
 
-Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, GestureTapCallback? onTap, EdgeInsetsGeometry? padding, double paddingSize = 0, double radius = Siz.defaultRadius,}) {
+Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, GestureTapCallback? onTap, EdgeInsetsGeometry? padding, double paddingSize = 0, double? radius}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
       padding:padding??EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(radius??Siz.defaultRadius),
         ),
         elevation: elevation,
-        child: child,
         shadowColor: shadowColor??Clr.colorPrimary,
         clipBehavior: Clip.antiAlias,
+        child: child,
       ),
     ),
   );
 }
 
-Future<bool?> pSetRout({required dynamic page,RouteType routeType = RouteType.push,bool fullscreenDialog = false, BuildContext? context, Duration? duration, Curve? curve}) async{
+Future<dynamic> pSetRout({required dynamic page,RouteType routeType = RouteType.push,bool fullscreenDialog = false, BuildContext? context, Duration? duration, Curve? curve}) async{
   pFocusOut();
   switch(routeType){
     case RouteType.push:
@@ -168,7 +168,7 @@ pSnackBar({String title = 'Info',required String message,Color colorText = Clr.c
   Get.snackbar(isError?'Error':title, message, colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
 }
 
-pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true }) {
+pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true,double defaultRadius = 8.0, bool httpCallsWithStream = false, bool httpResponseUtf8Convert = false}) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
@@ -177,5 +177,8 @@ pSetSettings({required Color primaryColor, required Color secondaryColor, String
   GetImage.defaultImage = defaultImage;
   GetImage.defImageIsAsset = defImageIsAsset;
   HttpCalls.httpCallsDefaultResponse = httpCallsDefaultResponse;
+  Siz.defaultRadius = defaultRadius;
+  HttpCalls.httpCallsWithStream = httpCallsWithStream;
+  HttpCalls.httpResponseUtf8Convert = httpResponseUtf8Convert;
 }
 

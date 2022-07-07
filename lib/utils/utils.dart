@@ -9,6 +9,7 @@ class Clr {
   static const Color colorBlue = Color(0xFF272264);
   static const Color colorGreyBackground = Color(0xFFFEFEFE);
   static const Color colorGrey= Colors.grey;
+  static const Color colorGreyLight= Color(0xFFF1F5F9);
   static const Color colorRed = Color(0xFFFF0000);
   static const Color colorGreen = Color(0xFF0BB116);
   static const Color colorWhite = Colors.white;
@@ -31,7 +32,7 @@ class Siz {
   static const double h6 = 12.0;
   static const double h7 = 10.0;
   static const double h8 = 8.0;
-  static const double defaultRadius = 8.0;
+  static double defaultRadius = 8.0;
   static const double standardPadding = 16.0;
   static const double standardMargin = 16.0;
   static const double profileImageSize = 150;

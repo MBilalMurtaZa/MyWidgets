@@ -21,6 +21,8 @@ class HttpCalls{
   static String live = "";
   static String testing = "";
   static String sServerURL = isLive?live:testing;
+  static bool httpCallsWithStream = false;
+  static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
 
 
@@ -30,15 +32,17 @@ class HttpCalls{
     return Uri.parse(sServerURL+postFix);
   }
 
-  static dynamic getDataObject(Response result, {bool? defaultResponse}) {
+  static dynamic getDataObject(Response result, {bool? defaultResponse}) async{
+
     Map<String, dynamic> userMap = jsonDecode(result.body);
+    userMap['statusCode'] = result.statusCode;
     if((defaultResponse??HttpCalls.httpCallsDefaultResponse)){
       return ViewResponse.fromJson(userMap);
     }
     return userMap;
   }
 
-  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse}) async {
+  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
@@ -51,12 +55,41 @@ class HttpCalls{
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
 
-    var result;
+
     try {
-      result = await http.get(url,headers: header,).timeout(Duration(seconds: pTimeout));
-      debugPrint('${result.body}');
-      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-      
+
+      if(withStream??httpCallsWithStream){
+        var request = http.Request('GET', url);
+        request.headers.addAll(header);
+        var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
+        var result = await Response.fromStream(streamedResponse);
+        if(result.statusCode == 200){
+          if(utf8Convert??httpResponseUtf8Convert){
+            response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(utf8.decoder.convert(result.bodyBytes));
+            }
+          }else{
+            response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(result.body);
+            }
+          }
+        }
+
+      }
+      else{
+        var result = await http.get(url,headers: header,).timeout(Duration(seconds: pTimeout));
+        if(result.statusCode == 200){
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
+          }
+        }else{
+          throw Exception(result.statusCode);
+        }
+      }
+
     } on TimeoutException catch (e) {
       debugPrint("$e 001");
       pShowToast(message: e.toString());
@@ -76,7 +109,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse}) async {
+  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
     dynamic response;
 
     print(params);
@@ -90,14 +123,40 @@ class HttpCalls{
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
 
-    Response result;
     try {
 
-      result = await http.post(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
-      if (kDebugMode) {
-        print(result.body);
+      if(withStream??httpCallsWithStream){
+        var request = http.Request('POST', url);
+        request.body = json.encode(params);
+        request.headers.addAll(header);
+        var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
+        var result = await Response.fromStream(streamedResponse);
+        if(result.statusCode == 200){
+          if(utf8Convert??httpResponseUtf8Convert){
+            response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(utf8.decoder.convert(result.bodyBytes));
+            }
+          }else{
+            response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(result.body);
+            }
+          }
+        }
+
       }
-      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+      else{
+        var result = await http.post(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
+        if(result.statusCode == 200){
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
+          }
+        }else{
+          throw Exception(result.statusCode);
+        }
+      }
 
     } on TimeoutException catch (e) {
       if (kDebugMode) {
@@ -123,7 +182,86 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse}) async {
+  static Future<dynamic> callPatchApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+    dynamic response;
+
+    if (kDebugMode) {
+      print(params);
+    }
+    Uri url = HttpCalls.getRequestURL(endPoint);
+    if (kDebugMode) {
+      print(url);
+    }
+    var header = {
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
+
+    if(hasAuth) {
+      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    }
+
+    try {
+
+      if(withStream??httpCallsWithStream){
+        var request = http.Request('PATCH', url);
+        request.body = json.encode(params);
+        request.headers.addAll(header);
+        var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
+        var result = await Response.fromStream(streamedResponse);
+        if(result.statusCode == 200){
+          if(utf8Convert??httpResponseUtf8Convert){
+            response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(utf8.decoder.convert(result.bodyBytes));
+            }
+          }else{
+            response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(result.body);
+            }
+          }
+        }else{
+          throw Exception(result.statusCode);
+        }
+
+      }
+      else{
+        var result = await http.patch(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
+        if(result.statusCode == 200){
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
+          }
+        }else{
+          throw Exception(result.statusCode);
+        }
+      }
+
+    } on TimeoutException catch (e) {
+      if (kDebugMode) {
+        print("$e 001");
+        pShowToast(message: e.toString());
+      }
+    } on HandshakeException catch (e) {
+      if (kDebugMode) {
+        print("$e 002");
+        pShowToast(message: e.toString());
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Exception $e 003");
+        pShowToast(message: e.toString());
+      }
+      String error = e.toString();
+      if(e.toString().contains('SocketException')){
+        error = 'seems like internet issue';
+        pShowToast(message: error);
+      }
+    }
+    return response;
+  }
+
+  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
     dynamic response;
 
 
@@ -145,9 +283,38 @@ class HttpCalls{
     var result;
     try {
 
-      result = await http.put(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
-      debugPrint('${result.body}');
-      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+      if(withStream??httpCallsWithStream){
+        var request = http.Request('PUT', url);
+        request.body = json.encode(params);
+        request.headers.addAll(header);
+        var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
+        var result = await Response.fromStream(streamedResponse);
+        if(result.statusCode == 200){
+          if(utf8Convert??httpResponseUtf8Convert){
+            response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(utf8.decoder.convert(result.bodyBytes));
+            }
+          }else{
+            response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+            if (kDebugMode) {
+              print(result.body);
+            }
+          }
+        }
+
+      }
+      else{
+        var result = await http.put(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
+        if(result.statusCode == 200){
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
+          }
+        }else{
+          throw Exception(result.statusCode);
+        }
+      }
       
     } on TimeoutException catch (e) {
       debugPrint("$e 001");
@@ -162,7 +329,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool? defaultResponse}) async {
+  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -181,14 +348,25 @@ class HttpCalls{
     }
 
     try {
-      final request = Request("DELETE", url);
+
+      var request = http.Request('DELETE', url);
+      request.body = json.encode(params);
       request.headers.addAll(header);
-      request.body = jsonEncode(params);
-      var streamedResponse = await request.send();
+      var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
       var result = await Response.fromStream(streamedResponse);
-      debugPrint('${result.body}');
-      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-      
+      if(result.statusCode == 200){
+        if(utf8Convert??httpResponseUtf8Convert){
+          response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(utf8.decoder.convert(result.bodyBytes));
+          }
+        }else{
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
+          }
+        }
+      }
 
     } on TimeoutException catch (e) {
       pShowToast(message: e.toString());

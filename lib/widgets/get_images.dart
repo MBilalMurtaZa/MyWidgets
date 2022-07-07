@@ -12,12 +12,12 @@ class GetImage extends StatelessWidget {
   final double width;
   final double height;
   final BoxFit fit;
-  final double radius;
+  final double? radius;
   final bool isAssets;
   final Color? imageColor, loadingColor;
   final BorderRadius? borderRadius;
   final GestureTapCallback? onTap;
-  const GetImage({Key? key, this.imagePath = '', this.width = Siz.profileImageSize, this.height = Siz.profileImageSize, this.fit = BoxFit.cover, this.radius = Siz.defaultRadius, this.isAssets = false, this.imageColor, this.borderRadius, this.loadingColor, this.onTap}) : super(key: key);
+  const GetImage({Key? key, this.imagePath = '', this.width = Siz.profileImageSize, this.height = Siz.profileImageSize, this.fit = BoxFit.cover, this.radius, this.isAssets = false, this.imageColor, this.borderRadius, this.loadingColor, this.onTap}) : super(key: key);
   static String defaultImage = '';
   static bool defImageIsAsset = true;
   @override
@@ -32,7 +32,7 @@ class GetImage extends StatelessWidget {
         pSetRout(page: ()=> FullPhotoView(images: [imageUrl], isAsset: isAsset,));
       },
       child: ClipRRect(
-        borderRadius: borderRadius??BorderRadius.circular(radius),
+        borderRadius: borderRadius??BorderRadius.circular(radius??Siz.defaultRadius),
         child: isAsset
             ?
         SizedBox(
@@ -51,7 +51,7 @@ class GetImage extends StatelessWidget {
             height: height,
             width: width,
             decoration: pBoxDecoration(
-              borderRadius: borderRadius??BorderRadius.circular(radius),
+              borderRadius: borderRadius??BorderRadius.circular(radius??Siz.defaultRadius),
             ),
             child: LoadingPro(valueColor: loadingColor??Clr.colorPrimary,),
           ),
@@ -60,7 +60,7 @@ class GetImage extends StatelessWidget {
                 height: height,
                 width: width,
                 decoration: pBoxDecoration(
-                  borderRadius: borderRadius??BorderRadius.circular(radius),
+                  borderRadius: borderRadius??BorderRadius.circular(radius??Siz.defaultRadius),
                 ),
                 child: const Icon(Icons.error),
               ),

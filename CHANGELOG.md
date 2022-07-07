@@ -1,4 +1,15 @@
-## 0.0.9
+## 0.0.13
+* add patch call
+
+## 0.0.12
+* add stream http calls
+
+
+## 0.0.11
+* add status code in response model
+* Add default radius as optional
+
+## 0.0.10
 * add border into dropdown
 
 ## 0.0.9

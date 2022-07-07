@@ -9,7 +9,7 @@ class Btn extends StatelessWidget {
   final String? text;
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
-  final bool hasBorder, isLoose;
+  final bool hasBorder, isLoose, hasBold;
   final double? radius, textSize, verticalPadding, elevation, borderWidth, width,height;
   final Widget? preFix;
   final Widget? postFix;
@@ -32,7 +32,8 @@ class Btn extends StatelessWidget {
         this.borderColor,
         this.hasBorder = true,
         this.isLoose = false,
-        this.radius = Siz.defaultRadius,
+        this.hasBold = false,
+        this.radius,
         this.textSize,
         this.preFix,
         this.postFix,
@@ -113,7 +114,7 @@ class Btn extends StatelessWidget {
         elevation: elevation,
         shadowColor: shadowColor,
         shape: shape??RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius!),
+          borderRadius: BorderRadius.circular(radius??Siz.defaultRadius),
         ),
         side: side??(hasBorder?BorderSide(
           color: borderColor??Clr.colorPrimary,
@@ -127,9 +128,10 @@ class Btn extends StatelessWidget {
   }
 
   textStyleLocal(){
-    TextStyle(
+    return TextStyle(
       color: textColor,
       fontSize: textSize,
+      fontWeight: hasBold?FontWeight.bold:FontWeight.normal
     );
   }
 }

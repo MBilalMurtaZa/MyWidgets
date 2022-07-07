@@ -3,7 +3,7 @@ class ViewResponse{
   bool status;
   String message;
   dynamic data;
-  String statusCode;
+  dynamic statusCode;
 
   ViewResponse(
       {
