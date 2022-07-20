@@ -32,7 +32,7 @@ class Txt extends StatelessWidget {
       style: textStyle??TextStyle(
         fontWeight: hasBold?FontWeight.bold:FontWeight.normal,
         fontStyle: hasItalic?FontStyle.italic:FontStyle.normal,
-        decoration: hasItalic?TextDecoration.underline: TextDecoration.none,
+        decoration: hasUnderLine?TextDecoration.underline: TextDecoration.none,
         color: textColor,
         fontSize: fontSize,
         overflow: overflow??(checkOverFlow?TextOverflow.ellipsis:TextOverflow.visible),

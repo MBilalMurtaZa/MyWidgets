@@ -1,3 +1,9 @@
+## 0.0.15
+* add error handling in httpCalls 
+
+## 0.0.14
+* ui fix
+
 ## 0.0.13
 * add patch call
 
@@ -21,13 +27,13 @@
 ## 0.0.8
 * add native dialogs
 * update on flutter 3.0.0
-* add snackbar 
+* add snack bar 
 
 ## 0.0.7
 * with default response true 
 
 ## 0.0.6
-* add multy type response support
+* add multi type response support
 
 ## 0.0.5
 * add support full Image view (only for single image)

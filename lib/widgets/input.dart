@@ -116,8 +116,9 @@ class TxtFormInput extends StatelessWidget {
                 return errorMessage;
               }
               if(validationLength != null){
-                if(value.length < validationLength!)
+                if(value.length < validationLength!) {
                   return errorLengthMessage??'At least $validationLength character required';
+                }
               }
               return null;
             }),

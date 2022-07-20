@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_widgets/models/response_model.dart';
@@ -24,6 +23,7 @@ class HttpCalls{
   static bool httpCallsWithStream = false;
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
+  static String internetIssue = 'Seems like internet issue please check your device internet';
 
 
 
@@ -46,7 +46,9 @@ class HttpCalls{
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
-    print(url);
+    if (kDebugMode) {
+      print(url);
+    }
     var header = {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
@@ -90,31 +92,22 @@ class HttpCalls{
         }
       }
 
-    } on TimeoutException catch (e) {
-      debugPrint("$e 001");
-      pShowToast(message: e.toString());
-
-    } on HandshakeException catch (e) {
-      debugPrint("$e 002");
-      pShowToast(message: e.toString());
-
     } catch (e) {
-      debugPrint("Exception $e 003");
-      pShowToast(message: e.toString());
-
-
-
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
-
     return response;
   }
 
   static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
     dynamic response;
 
-    print(params);
+    if (kDebugMode) {
+      print(params);
+    }
     Uri url = HttpCalls.getRequestURL(endPoint);
-    print(url);
+    if (kDebugMode) {
+      print(url);
+    }
     var header = {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
@@ -158,26 +151,8 @@ class HttpCalls{
         }
       }
 
-    } on TimeoutException catch (e) {
-      if (kDebugMode) {
-        print("$e 001");
-        pShowToast(message: e.toString());
-      }
-    } on HandshakeException catch (e) {
-      if (kDebugMode) {
-        print("$e 002");
-        pShowToast(message: e.toString());
-      }
     } catch (e) {
-      if (kDebugMode) {
-        print("Exception $e 003");
-        pShowToast(message: e.toString());
-      }
-      String error = e.toString();
-      if(e.toString().contains('SocketException')){
-        error = 'seems like internet issue';
-        pShowToast(message: error);
-      }
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
     return response;
   }
@@ -237,26 +212,8 @@ class HttpCalls{
         }
       }
 
-    } on TimeoutException catch (e) {
-      if (kDebugMode) {
-        print("$e 001");
-        pShowToast(message: e.toString());
-      }
-    } on HandshakeException catch (e) {
-      if (kDebugMode) {
-        print("$e 002");
-        pShowToast(message: e.toString());
-      }
     } catch (e) {
-      if (kDebugMode) {
-        print("Exception $e 003");
-        pShowToast(message: e.toString());
-      }
-      String error = e.toString();
-      if(e.toString().contains('SocketException')){
-        error = 'seems like internet issue';
-        pShowToast(message: error);
-      }
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
     return response;
   }
@@ -280,7 +237,7 @@ class HttpCalls{
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
 
-    var result;
+
     try {
 
       if(withStream??httpCallsWithStream){
@@ -316,15 +273,8 @@ class HttpCalls{
         }
       }
       
-    } on TimeoutException catch (e) {
-      debugPrint("$e 001");
-      pShowToast(message: e.toString());
-    } on HandshakeException catch (e) {
-      debugPrint("$e 002");
-      pShowToast(message: e.toString());
-    } catch (e) {
-      debugPrint("Exception $e 003");
-      pShowToast(message: e.toString());
+    }  catch (e) {
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
     return response;
   }
@@ -367,20 +317,18 @@ class HttpCalls{
           }
         }
       }
-
-    } on TimeoutException catch (e) {
-      pShowToast(message: e.toString());
-    } on HandshakeException catch (e) {
-      pShowToast(message: e.toString());
     } catch (e) {
-      pShowToast(message: e.toString());
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
     return response;
   }
 
   static Future<dynamic> uploadFile(String endPoint, String filename, {String fileKey = 'image',bool isUserAvatar = false,bool hasAuth = true,Map<String, String>? params,required String token, bool? defaultResponse}) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
-    print(url);
+    dynamic response;
+    if (kDebugMode) {
+      print(url);
+    }
     var header = {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
@@ -399,21 +347,25 @@ class HttpCalls{
 
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      print(result.body);
-      dynamic response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-      return response;
+      if (kDebugMode) {
+        print(result.body);
+      }
+      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+
 
     }catch (e){
-      print(e.toString());
-      pShowToast(message: e.toString());
-      return null;
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
+
+    return response;
   }
 
   static Future<dynamic> uploadImage(String filename,String fileType, {bool isUserAvatar = false,bool hasAuth = true, String thumbnail = '',required String token,required String userName, bool? defaultResponse}) async {
     dynamic response;
     Uri url = HttpCalls.getRequestURL('file-upload');
-    print(url.toString());
+    if (kDebugMode) {
+      print(url.toString());
+    }
     var header = {
       'Accept' : 'application/json'
     };
@@ -447,10 +399,33 @@ class HttpCalls{
       }
       response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     }catch (e){
-      pShowToast(message: e.toString());
+      response = errorHandler(e.toString(), response, defaultResponse);
     }
     return response;
   }
+
+  static errorHandler(String error, response, bool? defaultResponse) {
+    if (kDebugMode) {
+      print("Exception $error 003");
+      pShowToast(message: error);
+    }
+    if(defaultResponse??HttpCalls.httpCallsDefaultResponse){
+      return response = ViewResponse(status: false, message: error.contains('SocketException')?internetIssue:error);
+    }
+    else{
+      Map<String, dynamic> userMap = {
+        'status': false,
+        'Status': false,
+        'statusCode': 003,
+        'message': error.contains('SocketException')?internetIssue:error,
+        'Message': error.contains('SocketException')?internetIssue:error,
+      };
+      return userMap;
+    }
+
+  }
+
+
 
 
 

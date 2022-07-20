@@ -1,4 +1,5 @@
- import 'package:intl/intl.dart';
+ import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class Dates {
 
@@ -51,7 +52,9 @@ class Dates {
        String formatted = pDateTimeFormatter().format(dateTime);
        return formatted;
      }catch (e){
-       print(e.toString());
+       if (kDebugMode) {
+         print(e.toString());
+       }
        return '00-00-0000';
      }
 

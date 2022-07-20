@@ -130,7 +130,7 @@ Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<i
 
 Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
 
-  if (action == Str.NA) {
+  if (action == Str.na) {
     pShowToast(message: "Invalid Content");
   } else {
     String url = '';
@@ -168,7 +168,7 @@ pSnackBar({String title = 'Info',required String message,Color colorText = Clr.c
   Get.snackbar(isError?'Error':title, message, colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
 }
 
-pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true,double defaultRadius = 8.0, bool httpCallsWithStream = false, bool httpResponseUtf8Convert = false}) {
+pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true,double defaultRadius = 8.0, bool httpCallsWithStream = false, bool httpResponseUtf8Convert = false, String? internetIssueMessage}) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
@@ -180,5 +180,8 @@ pSetSettings({required Color primaryColor, required Color secondaryColor, String
   Siz.defaultRadius = defaultRadius;
   HttpCalls.httpCallsWithStream = httpCallsWithStream;
   HttpCalls.httpResponseUtf8Convert = httpResponseUtf8Convert;
+  if(internetIssueMessage != null) {
+    HttpCalls.internetIssue = internetIssueMessage;
+  }
 }
 

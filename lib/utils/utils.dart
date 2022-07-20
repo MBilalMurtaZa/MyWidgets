@@ -40,9 +40,9 @@ class Siz {
 
 class Str {
   static String error = 'Error';
-  static String success = 'Succcess';
+  static String success = 'Success';
   static String noDataFound = 'There is no data to show';
-  static const String NA = "N/A";
+  static const String na = "N/A";
 
 
 
