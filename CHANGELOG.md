@@ -1,3 +1,11 @@
+## 0.0.17
+* add more control in url launcher
+
+
+## 0.0.16
+* add Search bar
+* add Searchable dropdown
+
 ## 0.0.15
 * add error handling in httpCalls 
 

@@ -42,16 +42,19 @@ class HttpCalls{
     return userMap;
   }
 
-  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert,bool isTypeJson = true}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
     if (kDebugMode) {
       print(url);
     }
-    var header = {
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
+
+    var header;
+
+    if(isTypeJson){
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
+    }
 
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
@@ -59,13 +62,13 @@ class HttpCalls{
 
 
     try {
-
       if(withStream??httpCallsWithStream){
         var request = http.Request('GET', url);
-        request.headers.addAll(header);
+        if(header != null)
+          request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if(result.statusCode == 200){
+        // if(result.statusCode == 200){
           if(utf8Convert??httpResponseUtf8Convert){
             response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
             if (kDebugMode) {
@@ -77,7 +80,7 @@ class HttpCalls{
               print(result.body);
             }
           }
-        }
+        // }
 
       }
       else{
@@ -124,7 +127,7 @@ class HttpCalls{
         request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if(result.statusCode == 200){
+        // if(result.statusCode == 200){
           if(utf8Convert??httpResponseUtf8Convert){
             response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
             if (kDebugMode) {
@@ -136,7 +139,7 @@ class HttpCalls{
               print(result.body);
             }
           }
-        }
+        // }
 
       }
       else{

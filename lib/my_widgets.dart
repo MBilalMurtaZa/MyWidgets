@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:my_widgets/services/HttpCalls.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,10 +53,10 @@ BoxDecoration pBoxDecoration(
   );
 }
 
-pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity}){
+pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity,Toast toastLength = Toast.LENGTH_LONG}){
   Fluttertoast.showToast(
     msg: message,
-    toastLength: Toast.LENGTH_LONG,
+    toastLength: toastLength,
     gravity: toastGravity??ToastGravity.CENTER,
     backgroundColor: backgroundColor,
     textColor: colorText,
@@ -128,7 +129,7 @@ Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<i
   );
 }
 
-Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
+Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode? mode, String? webOnlyWindowName,WebViewConfiguration? webViewConfiguration }) async {
 
   if (action == Str.na) {
     pShowToast(message: "Invalid Content");
@@ -155,9 +156,8 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web}) async {
     }
 
     debugPrint(url);
-    await launchUrl(Uri.parse(url));
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+      await launchUrl(Uri.parse(url), mode: mode??LaunchMode.platformDefault,webOnlyWindowName: webOnlyWindowName, webViewConfiguration:webViewConfiguration??const WebViewConfiguration());
     } else {
       pShowToast(message: error);
     }
@@ -183,5 +183,14 @@ pSetSettings({required Color primaryColor, required Color secondaryColor, String
   if(internetIssueMessage != null) {
     HttpCalls.internetIssue = internetIssueMessage;
   }
+}
+
+
+String pRemoveHtmlIfNeeded(String text) {
+  return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
+}
+
+pCurrencyFormat(value,{String locale = 'INR', String symbol = 'PKR. ',int decimalDigits = 2}){
+  return NumberFormat.currency(locale: locale, symbol: symbol, decimalDigits: decimalDigits).format(value);
 }
 

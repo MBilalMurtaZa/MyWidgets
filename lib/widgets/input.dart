@@ -9,14 +9,16 @@ class TxtFormInput extends StatelessWidget {
   final String? errorMessage, hintText, labelText;
   final String? errorLengthMessage;
   final int? maxLines, maxLength, validationLength;
-  final double? textSize, hintTextSize;
+  final double? textSize, hintTextSize, radius;
+  final double borderWidth;
+  final BorderRadius? borderRadius;
   final Color? textColor, hintTextColor;
   final List<MaskTextInputFormatter>? inputFormatters;
   final TextAlign textAlign;
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
-  final bool isPassword, enabled, hasLabel, hasBorder, isOptional;
+  final bool isPassword, enabled, hasLabel, hasBorder, isOptional, removeAllBorders;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final VoidCallback? onEditingComplete;
@@ -25,6 +27,9 @@ class TxtFormInput extends StatelessWidget {
   final InputDecoration? decoration;
   final FormFieldValidator<String>? validator;
   final GlobalKey<FormState>? formKey;
+  final EdgeInsetsGeometry? contentPadding;
+  final Color? fillColor, borderColor;
+
 
 
 
@@ -33,7 +38,7 @@ class TxtFormInput extends StatelessWidget {
       {
         Key? key,
         this.controller,
-        this.errorMessage = 'Please enter some text',
+        this.errorMessage,
         this.errorLengthMessage,
         this.maxLines,
         this.maxLength,
@@ -62,7 +67,14 @@ class TxtFormInput extends StatelessWidget {
         this.formKey,
         this.isOptional = false,
         this.validationLength,
-        this.labelText
+        this.labelText,
+        this.radius,
+        this.borderRadius,
+        this.contentPadding,
+        this.fillColor,
+        this.borderColor,
+        this.borderWidth = 2,
+        this.removeAllBorders = false,
 
       }
       ) : super(key: key);
@@ -94,26 +106,29 @@ class TxtFormInput extends StatelessWidget {
 
             decoration: decoration??InputDecoration(
               // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
-                label: hasLabel
-                    ?
-                (Text.rich(
-                    TextSpan(text: labelText??hintText,children: <InlineSpan>[
-                      TextSpan(text:isOptional?'':' *',
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    ], style: TextStyle(color: hintTextColor),))):null,
-                border: hasBorder?const OutlineInputBorder():null,
-                hintText: (hintText!),
-                hintStyle: TextStyle(fontSize: hintTextSize??textSize, color: hintTextColor),
-                suffixIcon: postFix,
-                prefixIcon: preFix,
-                counterText: '',
-                enabled: enabled,
+              label: hasLabel
+                  ?
+              (Text.rich(
+                  TextSpan(text: labelText??hintText,children: <InlineSpan>[
+                    TextSpan(text:isOptional?'':' *',
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ], style: TextStyle(color: hintTextColor),))):null,
+
+              border: removeAllBorders?InputBorder.none:hasBorder?OutlineInputBorder(borderRadius:borderRadius??BorderRadius.all(Radius.circular(radius??Siz.defaultRadius)),borderSide: BorderSide(width: borderWidth, color: borderColor??Clr.colorGreyLight)):null,
+              hintText: (hintText!),
+              hintStyle: TextStyle(fontSize: hintTextSize??textSize, color: hintTextColor),
+              suffixIcon: postFix,
+              prefixIcon: preFix,
+              counterText: '',
+              enabled: enabled,
+              contentPadding: contentPadding,
+              fillColor: fillColor,
             ),
 
             validator: isOptional?null: (validator??(value){
               if (value == null || value.isEmpty) {
-                return errorMessage;
+                return errorMessage?? 'Please Enter $hintText';
               }
               if(validationLength != null){
                 if(value.length < validationLength!) {

@@ -33,7 +33,7 @@ class Pref {
   static bool getPrefBoolean(String key, {defaultValue = false}) {
     return prefs!.getBool(key)??defaultValue;
   }
-  static String getPrefString(String key, {String defaultValue = Str.na}) {
+  static  String getPrefString(String key, {String defaultValue = Str.na}) {
     return prefs!.getString(key)??defaultValue;
   }
   static int getPrefInt(String key, {int defaultValue = 0}) {

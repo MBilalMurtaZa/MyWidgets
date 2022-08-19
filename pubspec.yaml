@@ -1,6 +1,6 @@
 name: my_widgets
 description: a package for easy and speady developement.
-version: 0.0.15
+version: 0.0.17
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
@@ -11,16 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^0.13.4
+  http: ^0.13.5
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.1
-  mask_text_input_formatter: ^2.3.0
+  mask_text_input_formatter: ^2.4.0
   fluttertoast: ^8.0.9
   get: ^4.6.5
   url_launcher: ^6.1.5
   intl: ^0.17.0
   photo_view: ^0.14.0
-  flutter_dialogs: ^2.2.0
+  flutter_dialogs: ^3.0.0
 
 
 
@@ -29,7 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.1
-  lint: ^1.8.2
+  lint: ^1.10.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
