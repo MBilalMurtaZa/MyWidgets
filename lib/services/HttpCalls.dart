@@ -1,19 +1,15 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_widgets/models/response_model.dart';
+import 'package:http/http.dart';
+import '../models/response_model.dart';
 import '../my_widgets.dart';
-
-
 
 // bool trustSelfSigned = true;
 // HttpClient httpClient = new HttpClient()
 //   ..badCertificateCallback = ((X509Certificate cert, String host, int port) => trustSelfSigned);
 // IOClient ioClient = IOClient(httpClient);
-
 
 class HttpCalls{
   static bool isLive = true;
@@ -50,7 +46,7 @@ class HttpCalls{
       print(url);
     }
 
-    var header;
+    final Map<String, String> header = {};
 
     if(isTypeJson){
       header[HttpHeaders.contentTypeHeader] = 'application/json';
@@ -64,8 +60,7 @@ class HttpCalls{
     try {
       if(withStream??httpCallsWithStream){
         var request = http.Request('GET', url);
-        if(header != null)
-          request.headers.addAll(header);
+        request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
         // if(result.statusCode == 200){
@@ -101,7 +96,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, isTypeJson = true}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -111,9 +106,11 @@ class HttpCalls{
     if (kDebugMode) {
       print(url);
     }
-    var header = {
-      HttpHeaders.contentTypeHeader: 'application/json'
-    };
+    final Map<String, String> header = {};
+
+    if(isTypeJson){
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
+    }
 
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
@@ -249,17 +246,15 @@ class HttpCalls{
         request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if(result.statusCode == 200){
-          if(utf8Convert??httpResponseUtf8Convert){
-            response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              print(utf8.decoder.convert(result.bodyBytes));
-            }
-          }else{
-            response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              print(result.body);
-            }
+        if(utf8Convert??httpResponseUtf8Convert){
+          response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(utf8.decoder.convert(result.bodyBytes));
+          }
+        }else{
+          response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+          if (kDebugMode) {
+            print(result.body);
           }
         }
 

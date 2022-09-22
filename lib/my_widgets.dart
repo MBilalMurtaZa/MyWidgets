@@ -53,12 +53,12 @@ BoxDecoration pBoxDecoration(
   );
 }
 
-pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity,Toast toastLength = Toast.LENGTH_LONG}){
+pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity,Toast toastLength = Toast.LENGTH_SHORT}){
   Fluttertoast.showToast(
     msg: message,
     toastLength: toastLength,
-    gravity: toastGravity??ToastGravity.CENTER,
-    backgroundColor: backgroundColor,
+    gravity: toastGravity??ToastGravity.TOP,
+    backgroundColor: backgroundColor??Clr.colorPrimary,
     textColor: colorText,
     fontSize: 16.0,
   );
@@ -190,7 +190,7 @@ String pRemoveHtmlIfNeeded(String text) {
   return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
 }
 
-pCurrencyFormat(value,{String locale = 'INR', String symbol = 'PKR. ',int decimalDigits = 2}){
+pCurrencyFormat(value,{String locale = 'en_us', String symbol = '\$',int decimalDigits = 2}){
   return NumberFormat.currency(locale: locale, symbol: symbol, decimalDigits: decimalDigits).format(value);
 }
 

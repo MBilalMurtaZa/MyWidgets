@@ -9,7 +9,7 @@ class Btn extends StatelessWidget {
   final String? text;
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
-  final bool hasBorder, isLoose, hasBold;
+  final bool hasBorder, isLoose, hasBold, isTextOnly;
   final double? radius, textSize, verticalPadding, elevation, borderWidth, width,height;
   final Widget? preFix;
   final Widget? postFix;
@@ -33,6 +33,7 @@ class Btn extends StatelessWidget {
         this.hasBorder = true,
         this.isLoose = false,
         this.hasBold = false,
+        this.isTextOnly = false,
         this.radius,
         this.textSize,
         this.preFix,
@@ -56,6 +57,8 @@ class Btn extends StatelessWidget {
   }
 
   Widget buildButton() {
+
+
 
     if(preFix != null && postFix == null){
       return button(
@@ -108,16 +111,16 @@ class Btn extends StatelessWidget {
   Widget button(Widget child){
     return ElevatedButton(
       style: style??ElevatedButton.styleFrom(
-        primary: bgColor,
-        onPrimary: textColor,
-        onSurface: onSurface,
-        elevation: elevation,
+        backgroundColor: isTextOnly?Clr.colorTransparent:bgColor,
+        foregroundColor: textColor,
+        disabledForegroundColor: onSurface,
+        elevation: isTextOnly?0:elevation,
         shadowColor: shadowColor,
         shape: shape??RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius??Siz.defaultRadius),
         ),
         side: side??(hasBorder?BorderSide(
-          color: borderColor??Clr.colorPrimary,
+          color: isTextOnly?Clr.colorTransparent:borderColor??Clr.colorPrimary,
           width: borderWidth!
         ):null)
 
@@ -129,7 +132,7 @@ class Btn extends StatelessWidget {
 
   textStyleLocal(){
     return TextStyle(
-      color: textColor,
+      color: isTextOnly?(textColor??Clr.colorBlack):textColor,
       fontSize: textSize,
       fontWeight: hasBold?FontWeight.bold:FontWeight.normal
     );

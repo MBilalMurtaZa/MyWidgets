@@ -80,7 +80,7 @@ class SearchableController extends GetxController {
 }
 class SearchListModel{
   String? name;
-  int id;
+  dynamic id;
 
   SearchListModel(this.name, this.id);
 }

@@ -18,7 +18,7 @@ class GetImage extends StatelessWidget {
   final BorderRadius? borderRadius;
   final GestureTapCallback? onTap;
   const GetImage({Key? key, this.imagePath = '', this.width = Siz.profileImageSize, this.height = Siz.profileImageSize, this.fit = BoxFit.cover, this.radius, this.isAssets = false, this.imageColor, this.borderRadius, this.loadingColor, this.onTap}) : super(key: key);
-  static String defaultImage = '';
+  static String defaultImage = 'assets/default.png';
   static bool defImageIsAsset = true;
   @override
   Widget build(BuildContext context) {

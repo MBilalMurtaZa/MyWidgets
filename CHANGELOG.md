@@ -1,3 +1,6 @@
+## 0.0.18
+* Now you can control your streams 
+
 ## 0.0.17
 * add more control in url launcher
 
