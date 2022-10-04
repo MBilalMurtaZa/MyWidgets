@@ -16,40 +16,46 @@ enum URLType { call, sms, web, email }
 
 var pTimeout = 20;
 
-BoxDecoration pBoxDecoration(
-    {
-      Color? color,
-      BorderRadius? borderRadius,
-      double? radius,
-      String? image,
-      BoxFit? fit,
-      DecorationImage? decorationImage,
-      Border? border,
-      bool hasBorder = false,
-      Color? borderColor,
-      List<BoxShadow>? boxShadow,
-      Color shadowColor = Clr.colorWhite,
-      double shadowRadius = 0,
-      Offset shadowOffset = const Offset(0.0, 0.0),
-    }) {
+BoxDecoration pBoxDecoration({
+  Color? color,
+  BorderRadius? borderRadius,
+  double? radius,
+  String? image,
+  BoxFit? fit,
+  DecorationImage? decorationImage,
+  Border? border,
+  bool hasBorder = false,
+  Color? borderColor,
+  List<BoxShadow>? boxShadow,
+  Color shadowColor = Clr.colorWhite,
+  double shadowRadius = 0,
+  Offset shadowOffset = const Offset(0.0, 0.0),
+  Gradient? gradient,
+
+}) {
   return BoxDecoration(
-    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius??Siz.defaultRadius)),
-    border: border ?? (hasBorder
+    borderRadius: borderRadius ??
+        BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+    border: border ??
+        (hasBorder
             ? Border.all(color: borderColor ?? Clr.colorTransparent)
             : null),
     color: color,
-    image: decorationImage ?? (image != null
+    image: decorationImage ??
+        (image != null
             ? DecorationImage(
                 image: AssetImage(image),
                 fit: fit,
               )
             : null),
-      boxShadow: boxShadow??[
-        BoxShadow(
-            color: shadowColor,
-            blurRadius: shadowRadius,
-            offset: shadowOffset),
-      ]
+    boxShadow: boxShadow ??
+        [
+          BoxShadow(
+              color: shadowColor,
+              blurRadius: shadowRadius,
+              offset: shadowOffset),
+        ],
+    gradient: gradient
   );
 }
 
@@ -164,8 +170,8 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode?
   }
 }
 
-pSnackBar({String title = 'Info',required String message,Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
-  Get.snackbar(isError?'Error':title, message, colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
+pSnackBar({String title = 'Info',required String? message,Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
+  Get.snackbar(isError?'Error':title, message??'', colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
 }
 
 pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true,double defaultRadius = 8.0, bool httpCallsWithStream = false, bool httpResponseUtf8Convert = false, String? internetIssueMessage}) {

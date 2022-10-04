@@ -6,19 +6,19 @@ import '../utils/utils.dart';
 class TxtFormInput extends StatelessWidget {
 
   final TextEditingController? controller;
-  final String? errorMessage, hintText, labelText;
+  final String? errorMessage, hintText, labelText, prefixText;
   final String? errorLengthMessage;
   final int? maxLines, maxLength, validationLength;
-  final double? textSize, hintTextSize, radius;
+  final double? textSize, hintTextSize, radius, prefixTextSize;
   final double borderWidth;
   final BorderRadius? borderRadius;
-  final Color? textColor, hintTextColor;
+  final Color? textColor, hintTextColor,prefixTextColor;
   final List<MaskTextInputFormatter>? inputFormatters;
   final TextAlign textAlign;
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
-  final bool isPassword, enabled, hasLabel, hasBorder, isOptional, removeAllBorders;
+  final bool isPassword, enabled, hasLabel, hasBorder, isOptional, removeAllBorders, autofocus;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final VoidCallback? onEditingComplete;
@@ -74,7 +74,8 @@ class TxtFormInput extends StatelessWidget {
         this.fillColor,
         this.borderColor,
         this.borderWidth = 2,
-        this.removeAllBorders = false,
+        this.autofocus = false,
+        this.removeAllBorders = false, this.prefixText, this.prefixTextSize, this.prefixTextColor,
 
       }
       ) : super(key: key);
@@ -103,6 +104,7 @@ class TxtFormInput extends StatelessWidget {
             textInputAction: textInputAction,
             onEditingComplete: onEditingComplete,
             focusNode: focusNode,
+            autofocus: autofocus,
 
             decoration: decoration??InputDecoration(
               // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
@@ -124,6 +126,12 @@ class TxtFormInput extends StatelessWidget {
               enabled: enabled,
               contentPadding: contentPadding,
               fillColor: fillColor,
+              prefixText: prefixText,
+              prefixStyle: TextStyle(
+                color: prefixTextColor??textColor,
+                fontSize: prefixTextSize??textSize,
+              ),
+
             ),
 
             validator: isOptional?null: (validator??(value){
