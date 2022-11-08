@@ -4,9 +4,10 @@ import 'package:get/get.dart';
 
 
 class Dialogs {
-  static Future showNativeDialog({BuildContext? context,String title = 'Info', Widget? body,String message = 'Action cannot be undone.', String okBtn = 'OK',String? cancelBtn,}) async{
+  static Future showNativeDialog({BuildContext? context,String title = 'Info', Widget? body,String message = 'Action cannot be undo.', String okBtn = 'OK',String? cancelBtn,}) async{
     return showPlatformDialog(
       context: context??Get.context!,
+      androidBarrierDismissible: true,
       builder: (context) => BasicDialogAlert(
         title: Text(title),
         content:body?? Text(message),

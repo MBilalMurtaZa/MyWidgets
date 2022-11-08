@@ -1,3 +1,20 @@
+## 0.0.23
+* Add Error Code 
+
+## 0.0.22
+* Add styles
+
+## 0.0.21
+* Add more flexibility In TxtFormField
+* add shape in decoration
+
+## 0.0.20
+* Add more flexibility In TxtFormField
+
+
+## 0.0.19
+* Add more flexibility in buttons,
+
 ## 0.0.18
 * Now you can control your streams 
 

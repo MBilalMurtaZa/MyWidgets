@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 class Dates {
 
+  Dates._();
    static const String pGetTime12 = 'hh:mm:ss a';
    static const String pGetTime24 = 'HH:mm:ss';
    static const String pGetTime24WithOutSec = 'HH:mm';

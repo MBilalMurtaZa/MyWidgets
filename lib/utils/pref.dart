@@ -4,6 +4,7 @@ import 'utils.dart';
 
 class Pref {
 
+  Pref._();
   // Functions
   static SharedPreferences? prefs;
 

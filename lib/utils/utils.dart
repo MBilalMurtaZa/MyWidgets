@@ -23,6 +23,21 @@ class Siz {
 
 
   Siz._();
+
+  static const double extraLargeTitle100 = 100.0;
+  static const double largeTitle34 = 34.0;
+  static const double title28 = 28.0;
+  static const double title22 = 22.0;
+  static const double title20 = 20.0;
+  static const double headline17 = 17.0;
+  static const double body17 = 17;
+  static const double callOut16 = 16;
+  static const double subhead15 = 15;
+  static const double footnote13 = 13;
+  static const double caption12 = 12;
+  static const double caption11 = 11;
+  static const double caption8 = 8;
+
   static const double h0 = 100.0;
   static const double h1 = 40.0;
   static const double h2 = 25.0;
@@ -33,6 +48,7 @@ class Siz {
   static const double h7 = 10.0;
   static const double h8 = 8.0;
   static double defaultRadius = 8.0;
+  static double defaultBtnHeight = 50;
   static const double standardPadding = 16.0;
   static const double standardMargin = 16.0;
   static const double profileImageSize = 150;
@@ -51,6 +67,16 @@ class Str {
 
 class EndPoints {
   static String products = 'products';
-
   EndPoints._();
+}
+
+class Static {
+  static bool txtInputHasBorder = false;
+  static bool txtInputHasLabel = false;
+  static bool txtInputHasLabelOnTop = false;
+  static bool txtInputHasLabelWithStar = true;
+  static EdgeInsetsGeometry? txtInoutDefaultContentPadding;
+  static FontWeight? fontWeight;
+  static double? defaultFontSize;
+  Static._();
 }

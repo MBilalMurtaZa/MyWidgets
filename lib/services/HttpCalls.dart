@@ -20,9 +20,11 @@ class HttpCalls{
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
   static String internetIssue = 'Seems like internet issue please check your device internet';
+  static String? localization;
 
 
 
+  HttpCalls._();
 
   static Uri getRequestURL(String postFix) {
     return Uri.parse(sServerURL+postFix);
@@ -38,7 +40,7 @@ class HttpCalls{
     return userMap;
   }
 
-  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert,bool isTypeJson = true}) async {
+  static Future<dynamic> callGetApi(String endPoint,{bool hasAuth = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert,bool isTypeJson = true, String? changeLocalization}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
@@ -48,8 +50,14 @@ class HttpCalls{
 
     final Map<String, String> header = {};
 
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
+
     if(isTypeJson){
       header[HttpHeaders.contentTypeHeader] = 'application/json';
+
+
     }
 
     if(hasAuth) {
@@ -63,7 +71,7 @@ class HttpCalls{
         request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        // if(result.statusCode == 200){
+        if(result.statusCode < 400){
           if(utf8Convert??httpResponseUtf8Convert){
             response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
             if (kDebugMode) {
@@ -75,12 +83,14 @@ class HttpCalls{
               print(result.body);
             }
           }
-        // }
+        }else{
+        throw Exception(result.statusCode);
+      }
 
       }
       else{
         var result = await http.get(url,headers: header,).timeout(Duration(seconds: pTimeout));
-        if(result.statusCode == 200){
+        if(result.statusCode < 400){
           response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
             print(result.body);
@@ -96,7 +106,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, isTypeJson = true}) async {
+  static Future<dynamic> callPostApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, isTypeJson = true, String? changeLocalization}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -107,7 +117,9 @@ class HttpCalls{
       print(url);
     }
     final Map<String, String> header = {};
-
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
     if(isTypeJson){
       header[HttpHeaders.contentTypeHeader] = 'application/json';
     }
@@ -124,7 +136,7 @@ class HttpCalls{
         request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        // if(result.statusCode == 200){
+        if(result.statusCode < 400){
           if(utf8Convert??httpResponseUtf8Convert){
             response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
             if (kDebugMode) {
@@ -136,12 +148,14 @@ class HttpCalls{
               print(result.body);
             }
           }
-        // }
+        }else{
+          throw Exception(result.statusCode);
+        }
 
       }
       else{
         var result = await http.post(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
-        if(result.statusCode == 200){
+        if(result.statusCode < 400){
           response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
             print(result.body);
@@ -157,7 +171,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPatchApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+  static Future<dynamic> callPatchApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, String? changeLocalization}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -170,6 +184,9 @@ class HttpCalls{
     var header = {
       HttpHeaders.contentTypeHeader: 'application/json'
     };
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
 
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
@@ -183,7 +200,7 @@ class HttpCalls{
         request.headers.addAll(header);
         var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if(result.statusCode == 200){
+        if(result.statusCode < 400){
           if(utf8Convert??httpResponseUtf8Convert){
             response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
             if (kDebugMode) {
@@ -202,7 +219,7 @@ class HttpCalls{
       }
       else{
         var result = await http.patch(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
-        if(result.statusCode == 200){
+        if(result.statusCode < 400){
           response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
             print(result.body);
@@ -218,7 +235,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+  static Future<dynamic> callPutApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true,required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, String? changeLocalization}) async {
     dynamic response;
 
 
@@ -233,6 +250,9 @@ class HttpCalls{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
 
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
@@ -261,7 +281,7 @@ class HttpCalls{
       }
       else{
         var result = await http.put(url,headers: header, body: utf8.encode(json.encode(params))).timeout(Duration(seconds: pTimeout));
-        if(result.statusCode == 200){
+        if(result.statusCode < 400){
           response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
             print(result.body);
@@ -277,7 +297,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert}) async {
+  static Future<dynamic> callDeleteApi(String endPoint,  Map params,{bool hasAuth = true,bool hasEncoded = true, required String token, bool? defaultResponse, bool? withStream,bool? utf8Convert, String? changeLocalization}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -291,6 +311,10 @@ class HttpCalls{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
 
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
+
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
@@ -302,7 +326,7 @@ class HttpCalls{
       request.headers.addAll(header);
       var streamedResponse = await request.send().timeout(Duration(seconds: pTimeout));
       var result = await Response.fromStream(streamedResponse);
-      if(result.statusCode == 200){
+      if(result.statusCode < 400){
         if(utf8Convert??httpResponseUtf8Convert){
           response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
           if (kDebugMode) {
@@ -321,7 +345,7 @@ class HttpCalls{
     return response;
   }
 
-  static Future<dynamic> uploadFile(String endPoint, String filename, {String fileKey = 'image',bool isUserAvatar = false,bool hasAuth = true,Map<String, String>? params,required String token, bool? defaultResponse}) async {
+  static Future<dynamic> uploadFile(String endPoint, String filename, {String fileKey = 'image',bool isUserAvatar = false,bool hasAuth = true,Map<String, String>? params,required String token, bool? defaultResponse,String? changeLocalization}) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     dynamic response;
     if (kDebugMode) {
@@ -331,6 +355,9 @@ class HttpCalls{
       HttpHeaders.contentTypeHeader: 'application/json'
     };
 
+    if((localization??changeLocalization) != null){
+      header['X-localization'] = localization!;
+    }
     if(hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }

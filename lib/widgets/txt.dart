@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_widgets/my_widgets.dart';
+
+import '../utils/utils.dart';
 class Txt extends StatelessWidget {
   final String text;
   final String?  fontFamily;
+  final FontWeight? fontWeight;
   final bool hasBold, hasItalic, hasUnderLine, hasLineThrough, checkOverFlow, removeHTML;
   final Color textColor;
   final TextStyle? textStyle;
@@ -22,6 +25,7 @@ class Txt extends StatelessWidget {
         this.textColor = Colors.black,
         this.textStyle,
         this.fontSize,
+        this.fontWeight,
         this.overflow,
         this.checkOverFlow = false,
         this.maxLine,
@@ -39,11 +43,11 @@ class Txt extends StatelessWidget {
       onTap: onTap,
       child: Text(removeHTML?pRemoveHtmlIfNeeded(text):text,
         style: textStyle??TextStyle(
-          fontWeight: hasBold?FontWeight.bold:FontWeight.normal,
+          fontWeight: hasBold?fontWeight??Static.fontWeight??FontWeight.bold:FontWeight.normal,
           fontStyle: hasItalic?FontStyle.italic:FontStyle.normal,
           decoration: textDecoration??(hasUnderLine?TextDecoration.underline: hasLineThrough?TextDecoration.lineThrough:TextDecoration.none),
           color: textColor,
-          fontSize: fontSize,
+          fontSize: fontSize??Static.defaultFontSize,
           overflow: overflow??(checkOverFlow?TextOverflow.ellipsis:TextOverflow.visible),
           fontFamily: fontFamily,
         ),

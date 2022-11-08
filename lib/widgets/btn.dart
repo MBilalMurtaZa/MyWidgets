@@ -44,13 +44,13 @@ class Btn extends StatelessWidget {
         this.style, this.shadowColor, this.onSurface, this.elevation, this.padding, this.minimumSize, this.maximumSize, this.fixedSize, this.side, this.shape,
         this.mainAxisAlignment = MainAxisAlignment.center,
         this.width,
-        this.height
+        this.height,
       }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height??Siz.defaultBtnHeight,
       width: width,
       child: buildButton(),
     );

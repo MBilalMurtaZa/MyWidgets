@@ -20,10 +20,11 @@ BoxDecoration pBoxDecoration({
   Color? color,
   BorderRadius? borderRadius,
   double? radius,
+  double borderWidth = 1,
   String? image,
   BoxFit? fit,
   DecorationImage? decorationImage,
-  Border? border,
+  BoxBorder? border,
   bool hasBorder = false,
   Color? borderColor,
   List<BoxShadow>? boxShadow,
@@ -31,30 +32,23 @@ BoxDecoration pBoxDecoration({
   double shadowRadius = 0,
   Offset shadowOffset = const Offset(0.0, 0.0),
   Gradient? gradient,
+  BorderStyle borderStyle = BorderStyle.solid,
+  BoxShape shape = BoxShape.rectangle,
 
 }) {
   return BoxDecoration(
-    borderRadius: borderRadius ??
-        BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
-    border: border ??
-        (hasBorder
-            ? Border.all(color: borderColor ?? Clr.colorTransparent)
-            : null),
+    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+    border: border ?? (hasBorder ? Border.all(color: borderColor ?? Clr.colorTransparent, width: borderWidth, style: borderStyle) : null),
     color: color,
-    image: decorationImage ??
-        (image != null
-            ? DecorationImage(
+    shape: shape,
+    image: decorationImage ?? (image != null ? DecorationImage(
                 image: AssetImage(image),
                 fit: fit,
-              )
-            : null),
-    boxShadow: boxShadow ??
-        [
-          BoxShadow(
+              ) : null),
+    boxShadow: boxShadow ?? [BoxShadow(
               color: shadowColor,
               blurRadius: shadowRadius,
-              offset: shadowOffset),
-        ],
+              offset: shadowOffset),],
     gradient: gradient
   );
 }
@@ -174,7 +168,28 @@ pSnackBar({String title = 'Info',required String? message,Color colorText = Clr.
   Get.snackbar(isError?'Error':title, message??'', colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
 }
 
-pSetSettings({required Color primaryColor, required Color secondaryColor, String baseUrlLive = '', String baseUrlTest = '',bool isLive = true,String defaultImage = 'assets/default.png',bool defImageIsAsset = true, httpCallsDefaultResponse = true,double defaultRadius = 8.0, bool httpCallsWithStream = false, bool httpResponseUtf8Convert = false, String? internetIssueMessage}) {
+pSetSettings({
+  required Color primaryColor,
+  required Color secondaryColor,
+  String baseUrlLive = '',
+  String baseUrlTest = '',
+  bool isLive = true,
+  String defaultImage = 'assets/default.png',
+  bool defImageIsAsset = true,
+  httpCallsDefaultResponse = true,
+  double defaultFontSize = 14.0,
+  double defaultRadius = 8.0,
+  double defaultBtnHeight = 50,
+  bool txtInputHasBorder = false,
+  bool txtInputHasLabel = false,
+  bool txtInputHasLabelOnTop = false,
+  bool txtInputHasLabelWithStar = true,
+  EdgeInsetsGeometry? txtInoutDefaultContentPadding,
+  bool httpCallsWithStream = false,
+  bool httpResponseUtf8Convert = false,
+  String? internetIssueMessage, localization,
+  FontWeight? fontWeight,
+}) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
@@ -184,13 +199,21 @@ pSetSettings({required Color primaryColor, required Color secondaryColor, String
   GetImage.defImageIsAsset = defImageIsAsset;
   HttpCalls.httpCallsDefaultResponse = httpCallsDefaultResponse;
   Siz.defaultRadius = defaultRadius;
+  Siz.defaultBtnHeight = defaultBtnHeight;
   HttpCalls.httpCallsWithStream = httpCallsWithStream;
   HttpCalls.httpResponseUtf8Convert = httpResponseUtf8Convert;
-  if(internetIssueMessage != null) {
+  if (internetIssueMessage != null) {
     HttpCalls.internetIssue = internetIssueMessage;
   }
+  Static.txtInputHasBorder = txtInputHasBorder;
+  Static.txtInputHasLabel = txtInputHasLabel;
+  Static.txtInputHasLabelOnTop = txtInputHasLabelOnTop;
+  Static.txtInputHasLabelWithStar = txtInputHasLabelWithStar;
+  Static.txtInoutDefaultContentPadding = txtInoutDefaultContentPadding;
+  Static.fontWeight = fontWeight;
+  Static.defaultFontSize = defaultFontSize;
+  HttpCalls.localization = localization;
 }
-
 
 String pRemoveHtmlIfNeeded(String text) {
   return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
@@ -199,4 +222,6 @@ String pRemoveHtmlIfNeeded(String text) {
 pCurrencyFormat(value,{String locale = 'en_us', String symbol = '\$',int decimalDigits = 2}){
   return NumberFormat.currency(locale: locale, symbol: symbol, decimalDigits: decimalDigits).format(value);
 }
+
+
 
