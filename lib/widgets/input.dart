@@ -33,7 +33,6 @@ class TxtFormInput extends StatelessWidget {
   final Color? fillColor, borderColor;
   final TextStyle? labelStyle, hintStyle, style, prefixStyle;
 
-
   const TxtFormInput({
     Key? key,
     this.controller,
@@ -109,7 +108,7 @@ class TxtFormInput extends StatelessWidget {
                             style: const TextStyle(color: Colors.red),
                           ),
                       ],
-                      style: labelStyle??TextStyle(color: hintTextColor, fontSize: hintTextSize ?? textSize),))) : Container(),
+                      style: labelStyle??Style.labelInputStyle??TextStyle(color: hintTextColor, fontSize: hintTextSize ?? textSize),))) : Container(),
                 const MyDivider(height: 1,),
               ],
 
@@ -123,7 +122,7 @@ class TxtFormInput extends StatelessWidget {
                   inputFormatters: inputFormatters,
                   textAlign: textAlign,
                   textCapitalization: textCapitalization,
-                  style: style??TextStyle(fontSize: textSize, color: textColor),
+                  style: style??Style.styleInput??TextStyle(fontSize: textSize, color: textColor??Clr.colorTxt),
                   obscureText: isPassword,
                   keyboardType: keyboardType,
                   onChanged: onChanged ?? (formKey != null ? (value) {
@@ -148,7 +147,7 @@ class TxtFormInput extends StatelessWidget {
                             TextSpan(text: isOptional ? '' : ' *',
                               style: const TextStyle(color: Colors.red),
                             ),
-                        ], style: labelStyle??TextStyle(color: hintTextColor),))) : null,
+                        ], style: labelStyle??Style.labelInputStyle??TextStyle(color: hintTextColor),))) : null,
 
                     border: removeAllBorders
                         ?
@@ -162,19 +161,20 @@ class TxtFormInput extends StatelessWidget {
                         :
                     null,
                     hintText: (hintText!),
-                    hintStyle: hintStyle??TextStyle(
+                    hintStyle: hintStyle??Style.hintInputStyle??TextStyle(
                         fontSize: hintTextSize ?? textSize,
                         color: hintTextColor),
-                    labelStyle: labelStyle,
+                    labelStyle: labelStyle??Style.labelInputStyle,
                     suffixIcon: postFix,
                     prefixIcon: preFix,
                     counterText: hasCounter?null:'',
                     enabled: enabled,
                     contentPadding: (contentPadding ?? Static.txtInoutDefaultContentPadding),
                     fillColor: fillColor,
+                    filled: fillColor != null,
                     prefixText: prefixText,
-                    prefixStyle: prefixStyle??TextStyle(
-                      color: prefixTextColor ?? textColor,
+                    prefixStyle: prefixStyle??Style.styleInput??TextStyle(
+                      color: prefixTextColor ?? textColor??Clr.colorTxt,
                       fontSize: prefixTextSize ?? textSize,
                     ),
 

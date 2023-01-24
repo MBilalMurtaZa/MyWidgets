@@ -17,3 +17,50 @@ runMain();
 
 ## Additional information
  in case of any issue please contact us at bilal.faith@gmail.com
+
+## if you use pUrlLaunch you have to set android and iOS keys 
+in andorid please
+```
+<queries>
+    <!-- If your app checks for SMS support -->
+<intent>
+<action android:name="android.intent.action.VIEW" />
+<data android:scheme="sms" />
+</intent>
+<!-- If your app checks for call support -->
+<intent>
+<action android:name="android.intent.action.VIEW" />
+<data android:scheme="tel" />
+</intent>
+<intent>
+<action android:name="android.intent.action.VIEW" />
+<data android:scheme="http" />
+</intent>
+<intent>
+<action android:name="android.intent.action.VIEW" />
+<data android:scheme="https" />
+</intent>
+<intent>
+<action android:name="android.intent.action.SEND" />
+<data android:mimeType="*/*" />
+</intent>
+</queries>
+```
+
+
+for iOS 
+
+```
+<key>LSApplicationQueriesSchemes</key>
+<array>
+<string>sms</string>
+<string>tel</string>
+<string>http</string>
+<string>https</string>
+</array>
+```
+
+
+
+# to uninstall package 
+# adb uninstall "com.domain.yourapp"

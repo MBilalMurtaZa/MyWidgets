@@ -1,4 +1,4 @@
- import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Dates {
@@ -38,8 +38,11 @@ class Dates {
 //    print(formatted); // something like 2013-04-20
      return formatted;
    }
-   static String pDateToString(DateTime dateTime) {
+   static String pDateToString(DateTime? dateTime, {String? defaultValue}) {
      try{
+       if(dateTime == null){
+         return defaultValue??'';
+       }
        String formatted = pDateFormatter().format(dateTime);
        return formatted;
      }catch (e){
@@ -48,8 +51,11 @@ class Dates {
 
    }
 
-   static String pDateTimeToString(DateTime dateTime) {
+   static String pDateTimeToString(DateTime? dateTime, {String? defaultValue}) {
      try{
+       if(dateTime == null){
+         return defaultValue??'';
+       }
        String formatted = pDateTimeFormatter().format(dateTime);
        return formatted;
      }catch (e){
@@ -61,8 +67,11 @@ class Dates {
 
    }
 
-   static String pGetDateTimeCustomFormat(DateTime dateTime, String format) {
+   static String pGetDateTimeCustomFormat(DateTime? dateTime, String format,  {String? defaultValue}) {
      try{
+       if(dateTime == null){
+         return defaultValue??'';
+       }
        String formatted = DateFormat(format).format(dateTime);
        return formatted;
      }catch (e){

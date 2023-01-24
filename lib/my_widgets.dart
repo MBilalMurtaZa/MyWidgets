@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/services/HttpCalls.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,6 +23,7 @@ BoxDecoration pBoxDecoration({
   double? radius,
   double borderWidth = 1,
   String? image,
+  bool isAsset = true,
   BoxFit? fit,
   DecorationImage? decorationImage,
   BoxBorder? border,
@@ -41,10 +43,10 @@ BoxDecoration pBoxDecoration({
     border: border ?? (hasBorder ? Border.all(color: borderColor ?? Clr.colorTransparent, width: borderWidth, style: borderStyle) : null),
     color: color,
     shape: shape,
-    image: decorationImage ?? (image != null ? DecorationImage(
+    image: decorationImage ?? (image != null ? isAsset?DecorationImage(
                 image: AssetImage(image),
                 fit: fit,
-              ) : null),
+              ):DecorationImage(image: NetworkImage(image,), fit: fit,) : null),
     boxShadow: boxShadow ?? [BoxShadow(
               color: shadowColor,
               blurRadius: shadowRadius,
@@ -129,7 +131,7 @@ Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<i
   );
 }
 
-Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode? mode, String? webOnlyWindowName,WebViewConfiguration? webViewConfiguration }) async {
+Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode? mode, String? webOnlyWindowName,WebViewConfiguration? webViewConfiguration,String? emailBody }) async {
 
   if (action == Str.na) {
     pShowToast(message: "Invalid Content");
@@ -150,7 +152,12 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode?
         error = 'Could not open $action';
         break;
       case URLType.email:
-        url = 'mailto:$action';
+        final Uri params = Uri(
+          scheme: 'mailto',
+          path: action,
+          query: emailBody??'', //add subject and body here
+        );
+        url = params.toString();
         error = 'Could not send an email on $action';
         break;
     }
@@ -184,11 +191,20 @@ pSetSettings({
   bool txtInputHasLabel = false,
   bool txtInputHasLabelOnTop = false,
   bool txtInputHasLabelWithStar = true,
+  bool defaultImageClick = true,
   EdgeInsetsGeometry? txtInoutDefaultContentPadding,
   bool httpCallsWithStream = false,
   bool httpResponseUtf8Convert = false,
   String? internetIssueMessage, localization,
   FontWeight? fontWeight,
+  TextStyle? txtStyle,
+  TextStyle? labelInputStyle,TextStyle? hintInputStyle,TextStyle? styleInput,TextStyle? prefixInputStyle,
+  Color? txtColor,
+  Color? txtInputColor,
+  String? currencySymbol,
+  String? currencyLocale,
+  int? currencyDecimal,
+  bool isCurrencyCompact = false,
 }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -211,16 +227,44 @@ pSetSettings({
   Static.txtInputHasLabelWithStar = txtInputHasLabelWithStar;
   Static.txtInoutDefaultContentPadding = txtInoutDefaultContentPadding;
   Static.fontWeight = fontWeight;
+  Static.defaultImageClick = defaultImageClick;
   Static.defaultFontSize = defaultFontSize;
   HttpCalls.localization = localization;
+  Clr.colorTxt = txtColor??Clr.colorBlack;
+  Clr.colorTxtInput = txtInputColor??Clr.colorBlack;
+  Style.textStyle = txtStyle;
+  Style.labelInputStyle = labelInputStyle;
+  Style.hintInputStyle = hintInputStyle;
+  Style.styleInput = styleInput;
+  Style.prefixInputStyle = prefixInputStyle;
+  Static.currencyLocale = currencyLocale;
+  Static.currencySymbol = currencySymbol;
+  Static.isCurrencyCompact = isCurrencyCompact;
+  Static.currencyDecimal = currencyDecimal;
 }
 
 String pRemoveHtmlIfNeeded(String text) {
   return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
 }
 
-pCurrencyFormat(value,{String locale = 'en_us', String symbol = '\$',int decimalDigits = 2}){
-  return NumberFormat.currency(locale: locale, symbol: symbol, decimalDigits: decimalDigits).format(value);
+pCurrencyFormat(dynamic value,{String? locale, String? symbol ,int? decimalDigits, bool? isCurrencyCompact}){
+  try{
+    if(value == null || value == ''){
+      value = 0;
+    }
+    double price = double.parse((value).toString());
+    if(isCurrencyCompact??Static.isCurrencyCompact){
+      return NumberFormat.compactCurrency(locale: locale??Static.currencyLocale, symbol: symbol??Static.currencySymbol, decimalDigits: decimalDigits??Static.currencyDecimal).format(price);
+    }else{
+      return NumberFormat.currency(locale: locale??Static.currencyLocale, symbol: symbol??Static.currencySymbol, decimalDigits: decimalDigits??Static.currencyDecimal).format(price);
+    }
+  }catch (e){
+    // Dialogs.showNativeDialog(title: 'Alert', message: 'You Enter Wrong Prices');
+    pShowToast(message: 'You Enter Invalid Amount');
+    value = 0;
+  }
+
+
 }
 
 

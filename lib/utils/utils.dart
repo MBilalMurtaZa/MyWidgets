@@ -6,17 +6,23 @@ class Clr {
   static  Color colorSecondary = Colors.black;
   static const Color colorCyan = Colors.cyan;
   static const Color colorTransparent = Color(0x00000000);
-  static const Color colorBlue = Color(0xFF272264);
-  static const Color colorGreyBackground = Color(0xFFFEFEFE);
-  static const Color colorGrey= Colors.grey;
   static const Color colorGreyLight= Color(0xFFF1F5F9);
-  static const Color colorRed = Color(0xFFFF0000);
-  static const Color colorGreen = Color(0xFF0BB116);
   static const Color colorWhite = Colors.white;
   static const Color colorBlack = Colors.black;
+  static Color colorTxt = Colors.black;
+  static Color colorTxtInput = Colors.black;
+
+
+
 
   Clr._();
 
+}
+
+class Style {
+  Style._();
+  static TextStyle? textStyle;
+  static TextStyle? labelInputStyle, hintInputStyle, styleInput, prefixInputStyle;
 }
 
 class Siz {
@@ -75,8 +81,13 @@ class Static {
   static bool txtInputHasLabel = false;
   static bool txtInputHasLabelOnTop = false;
   static bool txtInputHasLabelWithStar = true;
+  static bool defaultImageClick = true;
   static EdgeInsetsGeometry? txtInoutDefaultContentPadding;
   static FontWeight? fontWeight;
   static double? defaultFontSize;
+  static String? currencySymbol;
+  static String? currencyLocale;
+  static bool isCurrencyCompact = false;
+  static int? currencyDecimal;
   Static._();
 }

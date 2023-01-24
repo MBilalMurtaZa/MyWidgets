@@ -1,3 +1,29 @@
+## 0.0.33
+* Check Currency empty or null
+## 0.0.32
+* add currency optional
+## 0.0.31
+* add currency format options
+## 0.0.30
+* fix minor issues 
+## 0.0.29
+* set image full view optional
+## 0.0.28
+* add more flexibility in txt and txtInput
+## 0.0.27
+* add default image
+## 0.0.26
+* add support of network image in container decoration
+* add filled in input
+
+## 0.0.25
+* add null safety in Txt file to save more time reduce error chances
+
+## 0.0.24
+* update dependencies 
+* update txt file 
+* fix minor issues
+
 ## 0.0.23
 * Add Error Code 
 
