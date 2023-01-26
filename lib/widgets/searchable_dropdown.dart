@@ -4,8 +4,6 @@ import 'package:my_widgets/my_widgets.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'search_bar.dart';
 
-
-
 class SearchableDropdown extends StatelessWidget {
   final List<SearchListModel> list;
   const SearchableDropdown({Key? key, required this.list}) : super(key: key);
@@ -29,17 +27,19 @@ class SearchableDropdown extends StatelessWidget {
                 ),
                 const MyDivider(),
                 Expanded(
-                  child: Obx(()=> ListView.separated(
-                    itemBuilder: (context, index) {
-                      final item = controller.filteredList[index];
-                      return ListTile(
-                        title: Text(item.name ?? ''),
-                        onTap: ()=> controller.onItemTap(item),
-                      );
-                    },
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: controller.filteredList.length,
-                  ),),
+                  child: Obx(
+                    () => ListView.separated(
+                      itemBuilder: (context, index) {
+                        final item = controller.filteredList[index];
+                        return ListTile(
+                          title: Text(item.name ?? ''),
+                          onTap: () => controller.onItemTap(item),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: controller.filteredList.length,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -66,19 +66,20 @@ class SearchableController extends GetxController {
   }
 
   void onSearch(String value) {
-    if(value.isEmpty){
+    if (value.isEmpty) {
       filteredList.assignAll(list);
-    }else{
-      filteredList.assignAll(list.where((element) => (element.name??'').toLowerCase().contains(value.toLowerCase())));
+    } else {
+      filteredList.assignAll(list.where((element) =>
+          (element.name ?? '').toLowerCase().contains(value.toLowerCase())));
     }
   }
 
   void onItemTap(SearchListModel item) {
     Get.back(result: item);
-
   }
 }
-class SearchListModel{
+
+class SearchListModel {
   String? name;
   dynamic id;
 

@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'utils.dart';
 
 class Pref {
-
   Pref._();
   // Functions
   static SharedPreferences? prefs;
@@ -27,34 +26,39 @@ class Pref {
   static const String option8 = 'option8';
   static const String option9 = 'option9';
 
-
   static getPref() async {
     prefs = await SharedPreferences.getInstance();
   }
+
   static bool getPrefBoolean(String key, {defaultValue = false}) {
-    return prefs!.getBool(key)??defaultValue;
+    return prefs!.getBool(key) ?? defaultValue;
   }
-  static  String getPrefString(String key, {String defaultValue = Str.na}) {
-    return prefs!.getString(key)??defaultValue;
+
+  static String getPrefString(String key, {String defaultValue = Str.na}) {
+    return prefs!.getString(key) ?? defaultValue;
   }
+
   static int getPrefInt(String key, {int defaultValue = 0}) {
-    return prefs!.getInt(key)??defaultValue;
+    return prefs!.getInt(key) ?? defaultValue;
   }
+
   static double getPrefDouble(String key, {double defaultValue = 0.0}) {
-    return prefs!.getDouble(key)??defaultValue;
+    return prefs!.getDouble(key) ?? defaultValue;
   }
 
   static setPrefString(String prefsKey, String value) {
     prefs!.setString(prefsKey, value);
   }
+
   static setPrefDouble(String prefsKey, double value) {
     prefs!.setDouble(prefsKey, value);
   }
+
   static setPrefInt(String prefsKey, int value) {
     prefs!.setInt(prefsKey, value);
   }
+
   static setPrefBoolean(String key, bool value) {
     prefs!.setBool(key, value);
   }
-
 }

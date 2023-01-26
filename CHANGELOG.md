@@ -1,3 +1,7 @@
+## 0.1.1
+* improve performance
+## 0.1.0
+* Update on 3.7.0
 ## 0.0.33
 * Check Currency empty or null
 ## 0.0.32

@@ -5,14 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:my_widgets/dialogs/dialogs.dart';
-import 'package:my_widgets/services/HttpCalls.dart';
+import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'utils/utils.dart';
 
-
 enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
+
 enum URLType { call, sms, web, email }
 
 var pTimeout = 20;
@@ -36,56 +35,89 @@ BoxDecoration pBoxDecoration({
   Gradient? gradient,
   BorderStyle borderStyle = BorderStyle.solid,
   BoxShape shape = BoxShape.rectangle,
-
 }) {
   return BoxDecoration(
-    borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
-    border: border ?? (hasBorder ? Border.all(color: borderColor ?? Clr.colorTransparent, width: borderWidth, style: borderStyle) : null),
-    color: color,
-    shape: shape,
-    image: decorationImage ?? (image != null ? isAsset?DecorationImage(
-                image: AssetImage(image),
-                fit: fit,
-              ):DecorationImage(image: NetworkImage(image,), fit: fit,) : null),
-    boxShadow: boxShadow ?? [BoxShadow(
-              color: shadowColor,
-              blurRadius: shadowRadius,
-              offset: shadowOffset),],
-    gradient: gradient
-  );
+      borderRadius: borderRadius ??
+          BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+      border: border ??
+          (hasBorder
+              ? Border.all(
+                  color: borderColor ?? Clr.colorTransparent,
+                  width: borderWidth,
+                  style: borderStyle)
+              : null),
+      color: color,
+      shape: shape,
+      image: decorationImage ??
+          (image != null
+              ? isAsset
+                  ? DecorationImage(
+                      image: AssetImage(image),
+                      fit: fit,
+                    )
+                  : DecorationImage(
+                      image: NetworkImage(
+                        image,
+                      ),
+                      fit: fit,
+                    )
+              : null),
+      boxShadow: boxShadow ??
+          [
+            BoxShadow(
+                color: shadowColor,
+                blurRadius: shadowRadius,
+                offset: shadowOffset),
+          ],
+      gradient: gradient);
 }
 
-pShowToast({ required String message,Color colorText = Colors.white, Color? backgroundColor,bool isError = false,ToastGravity? toastGravity,Toast toastLength = Toast.LENGTH_SHORT}){
+pShowToast(
+    {required String message,
+    Color colorText = Colors.white,
+    Color? backgroundColor,
+    bool isError = false,
+    ToastGravity? toastGravity,
+    Toast toastLength = Toast.LENGTH_SHORT}) {
   Fluttertoast.showToast(
     msg: message,
     toastLength: toastLength,
-    gravity: toastGravity??ToastGravity.TOP,
-    backgroundColor: backgroundColor??Clr.colorPrimary,
+    gravity: toastGravity ?? ToastGravity.TOP,
+    backgroundColor: backgroundColor ?? Clr.colorPrimary,
     textColor: colorText,
     fontSize: 16.0,
   );
 }
 
-pFocusOut({BuildContext? context, bool isHide = true,FocusNode? focusNode }) {
-  FocusScope.of(context??Get.context!).requestFocus(focusNode??FocusNode());
-  if(isHide) {
+pFocusOut({BuildContext? context, bool isHide = true, FocusNode? focusNode}) {
+  FocusScope.of(context ?? Get.context!).requestFocus(focusNode ?? FocusNode());
+  if (isHide) {
     return;
   }
 
   return SystemChannels.textInput.invokeMethod('TextInput.hide');
 }
 
-Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, GestureTapCallback? onTap, EdgeInsetsGeometry? padding, double paddingSize = 0, double? radius}) {
+Widget pSetCard(
+    {Widget? child,
+    Color? shadowColor,
+    double elevation = 10,
+    GestureTapCallback? onTap,
+    EdgeInsetsGeometry? padding,
+    double paddingSize = 0,
+    double? radius}) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      padding:padding??EdgeInsets.only(left: paddingSize, right: paddingSize, top: paddingSize),
+      padding: padding ??
+          EdgeInsets.only(
+              left: paddingSize, right: paddingSize, top: paddingSize),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(radius??Siz.defaultRadius),
+          borderRadius: BorderRadius.circular(radius ?? Siz.defaultRadius),
         ),
         elevation: elevation,
-        shadowColor: shadowColor??Clr.colorPrimary,
+        shadowColor: shadowColor ?? Clr.colorPrimary,
         clipBehavior: Clip.antiAlias,
         child: child,
       ),
@@ -93,24 +125,42 @@ Widget pSetCard({Widget? child, Color? shadowColor, double elevation = 10, Gestu
   );
 }
 
-Future<dynamic> pSetRout({required dynamic page,RouteType routeType = RouteType.push,bool fullscreenDialog = false, BuildContext? context, Duration? duration, Curve? curve}) async{
+Future<dynamic> pSetRout(
+    {required dynamic page,
+    RouteType routeType = RouteType.push,
+    bool fullscreenDialog = false,
+    BuildContext? context,
+    Duration? duration,
+    Curve? curve}) async {
   pFocusOut();
-  switch(routeType){
+  switch (routeType) {
     case RouteType.push:
-    // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
-      return Get.to(page, fullscreenDialog: fullscreenDialog, duration: duration, curve: curve);
+      // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
+      return Get.to(page,
+          fullscreenDialog: fullscreenDialog, duration: duration, curve: curve);
     case RouteType.pushReplace:
       return Get.off(page, fullscreenDialog: fullscreenDialog);
     case RouteType.pushReplaceAll:
       return Get.offAll(page, fullscreenDialog: fullscreenDialog);
-  // return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
+    // return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
     case RouteType.pushRemoveUntil:
-      return Navigator.pushAndRemoveUntil(context??Get.context!, MaterialPageRoute(builder: (context)=> page), (route) => false);
-  // return Get.offUntil(MaterialPageRoute(builder: (context)=> page), (route) => false);
+      return Navigator.pushAndRemoveUntil(context ?? Get.context!,
+          MaterialPageRoute(builder: (context) => page), (route) => false);
+    // return Get.offUntil(MaterialPageRoute(builder: (context)=> page), (route) => false);
   }
 }
 
-Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<int>> listDropDown,int? selectedValue, Function(int? val) onChange,{bool isExpanded = true,double paddingHorizontal = 0.0, bool enabled=true, FocusNode? focusNode, bool hasBorder = false}) {
+Widget pDropDownButton(
+    String labelHint,
+    String hintText,
+    List<DropdownMenuItem<int>> listDropDown,
+    int? selectedValue,
+    Function(int? val) onChange,
+    {bool isExpanded = true,
+    double paddingHorizontal = 0.0,
+    bool enabled = true,
+    FocusNode? focusNode,
+    bool hasBorder = false}) {
   return IgnorePointer(
     ignoring: !enabled,
     child: Container(
@@ -131,8 +181,12 @@ Widget pDropDownButton(String labelHint, String hintText,List<DropdownMenuItem<i
   );
 }
 
-Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode? mode, String? webOnlyWindowName,WebViewConfiguration? webViewConfiguration,String? emailBody }) async {
-
+Future<void> pLaunchURL(String action,
+    {URLType urlType = URLType.web,
+    LaunchMode? mode,
+    String? webOnlyWindowName,
+    WebViewConfiguration? webViewConfiguration,
+    String? emailBody}) async {
   if (action == Str.na) {
     pShowToast(message: "Invalid Content");
   } else {
@@ -155,7 +209,7 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode?
         final Uri params = Uri(
           scheme: 'mailto',
           path: action,
-          query: emailBody??'', //add subject and body here
+          query: emailBody ?? '', //add subject and body here
         );
         url = params.toString();
         error = 'Could not send an email on $action';
@@ -164,15 +218,31 @@ Future<void> pLaunchURL(String action,{URLType urlType = URLType.web,LaunchMode?
 
     debugPrint(url);
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url), mode: mode??LaunchMode.platformDefault,webOnlyWindowName: webOnlyWindowName, webViewConfiguration:webViewConfiguration??const WebViewConfiguration());
+      await launchUrl(Uri.parse(url),
+          mode: mode ?? LaunchMode.platformDefault,
+          webOnlyWindowName: webOnlyWindowName,
+          webViewConfiguration:
+              webViewConfiguration ?? const WebViewConfiguration());
     } else {
       pShowToast(message: error);
     }
   }
 }
 
-pSnackBar({String title = 'Info',required String? message,Color colorText = Clr.colorWhite, Color? backgroundColor,bool isError = false, SnackPosition snackPosition = SnackPosition.TOP}){
-  Get.snackbar(isError?'Error':title, message??'', colorText: isError?Colors.white: colorText, backgroundColor: isError?Colors.red: backgroundColor??Clr.colorPrimary, borderColor: Colors.white, snackPosition: snackPosition, borderWidth: 2.0);
+pSnackBar(
+    {String title = 'Info',
+    required String? message,
+    Color colorText = Clr.colorWhite,
+    Color? backgroundColor,
+    bool isError = false,
+    SnackPosition snackPosition = SnackPosition.TOP}) {
+  Get.snackbar(isError ? 'Error' : title, message ?? '',
+      colorText: isError ? Colors.white : colorText,
+      backgroundColor:
+          isError ? Colors.red : backgroundColor ?? Clr.colorPrimary,
+      borderColor: Colors.white,
+      snackPosition: snackPosition,
+      borderWidth: 2.0);
 }
 
 pSetSettings({
@@ -195,10 +265,14 @@ pSetSettings({
   EdgeInsetsGeometry? txtInoutDefaultContentPadding,
   bool httpCallsWithStream = false,
   bool httpResponseUtf8Convert = false,
-  String? internetIssueMessage, localization,
+  String? internetIssueMessage,
+  localization,
   FontWeight? fontWeight,
   TextStyle? txtStyle,
-  TextStyle? labelInputStyle,TextStyle? hintInputStyle,TextStyle? styleInput,TextStyle? prefixInputStyle,
+  TextStyle? labelInputStyle,
+  TextStyle? hintInputStyle,
+  TextStyle? styleInput,
+  TextStyle? prefixInputStyle,
   Color? txtColor,
   Color? txtInputColor,
   String? currencySymbol,
@@ -230,8 +304,8 @@ pSetSettings({
   Static.defaultImageClick = defaultImageClick;
   Static.defaultFontSize = defaultFontSize;
   HttpCalls.localization = localization;
-  Clr.colorTxt = txtColor??Clr.colorBlack;
-  Clr.colorTxtInput = txtInputColor??Clr.colorBlack;
+  Clr.colorTxt = txtColor ?? Clr.colorBlack;
+  Clr.colorTxtInput = txtInputColor ?? Clr.colorBlack;
   Style.textStyle = txtStyle;
   Style.labelInputStyle = labelInputStyle;
   Style.hintInputStyle = hintInputStyle;
@@ -247,25 +321,32 @@ String pRemoveHtmlIfNeeded(String text) {
   return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
 }
 
-pCurrencyFormat(dynamic value,{String? locale, String? symbol ,int? decimalDigits, bool? isCurrencyCompact}){
-  try{
-    if(value == null || value == ''){
+pCurrencyFormat(dynamic value,
+    {String? locale,
+    String? symbol,
+    int? decimalDigits,
+    bool? isCurrencyCompact}) {
+  try {
+    if (value == null || value == '') {
       value = 0;
     }
     double price = double.parse((value).toString());
-    if(isCurrencyCompact??Static.isCurrencyCompact){
-      return NumberFormat.compactCurrency(locale: locale??Static.currencyLocale, symbol: symbol??Static.currencySymbol, decimalDigits: decimalDigits??Static.currencyDecimal).format(price);
-    }else{
-      return NumberFormat.currency(locale: locale??Static.currencyLocale, symbol: symbol??Static.currencySymbol, decimalDigits: decimalDigits??Static.currencyDecimal).format(price);
+    if (isCurrencyCompact ?? Static.isCurrencyCompact) {
+      return NumberFormat.compactCurrency(
+              locale: locale ?? Static.currencyLocale,
+              symbol: symbol ?? Static.currencySymbol,
+              decimalDigits: decimalDigits ?? Static.currencyDecimal)
+          .format(price);
+    } else {
+      return NumberFormat.currency(
+              locale: locale ?? Static.currencyLocale,
+              symbol: symbol ?? Static.currencySymbol,
+              decimalDigits: decimalDigits ?? Static.currencyDecimal)
+          .format(price);
     }
-  }catch (e){
+  } catch (e) {
     // Dialogs.showNativeDialog(title: 'Alert', message: 'You Enter Wrong Prices');
     pShowToast(message: 'You Enter Invalid Amount');
     value = 0;
   }
-
-
 }
-
-
-

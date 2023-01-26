@@ -3,13 +3,11 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import '../utils/utils.dart';
 
-
 class TxtFormInput extends StatelessWidget {
-
   final TextEditingController? controller;
   final String? errorMessage, hintText, labelText, prefixText;
   final String? errorLengthMessage;
-  final int? maxLines,minLines,  maxLength, validationLength;
+  final int? maxLines, minLines, maxLength, validationLength;
   final double? textSize, hintTextSize, radius, prefixTextSize, height;
   final double borderWidth;
   final BorderRadius? borderRadius;
@@ -19,7 +17,12 @@ class TxtFormInput extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
-  final bool isPassword, enabled, isOptional, removeAllBorders, autofocus, hasCounter;
+  final bool isPassword,
+      enabled,
+      isOptional,
+      removeAllBorders,
+      autofocus,
+      hasCounter;
   final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -76,14 +79,16 @@ class TxtFormInput extends StatelessWidget {
     this.borderColor,
     this.borderWidth = 2,
     this.autofocus = false,
-    this.removeAllBorders = false, this.prefixText, this.prefixTextSize, this.prefixTextColor,
+    this.removeAllBorders = false,
+    this.prefixText,
+    this.prefixTextSize,
+    this.prefixTextColor,
     this.height,
     this.labelStyle,
     this.hintStyle,
     this.style,
     this.prefixStyle,
     this.hasCounter = false,
-
   }) : super(key: key);
 
   @override
@@ -96,22 +101,28 @@ class TxtFormInput extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if(hasLabelOnTop ?? Static.txtInputHasLabelOnTop)...[
+              if (hasLabelOnTop ?? Static.txtInputHasLabelOnTop) ...[
                 (hasLabel ?? Static.txtInputHasLabel)
-                    ?
-                (Text.rich(
-                    TextSpan(
-                      text: labelText ?? hintText,
-                      children: <InlineSpan>[
-                        if(showLabelStat ?? Static.txtInputHasLabelWithStar)
-                          TextSpan(text: isOptional ? '' : ' *',
-                            style: const TextStyle(color: Colors.red),
-                          ),
-                      ],
-                      style: labelStyle??Style.labelInputStyle??TextStyle(color: hintTextColor, fontSize: hintTextSize ?? textSize),))) : Container(),
-                const MyDivider(height: 1,),
+                    ? (Text.rich(TextSpan(
+                        text: labelText ?? hintText,
+                        children: <InlineSpan>[
+                          if (showLabelStat ?? Static.txtInputHasLabelWithStar)
+                            TextSpan(
+                              text: isOptional ? '' : ' *',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                        ],
+                        style: labelStyle ??
+                            Style.labelInputStyle ??
+                            TextStyle(
+                                color: hintTextColor,
+                                fontSize: hintTextSize ?? textSize),
+                      )))
+                    : Container(),
+                const MyDivider(
+                  height: 1,
+                ),
               ],
-
               SizedBox(
                 height: height,
                 child: TextFormField(
@@ -122,82 +133,103 @@ class TxtFormInput extends StatelessWidget {
                   inputFormatters: inputFormatters,
                   textAlign: textAlign,
                   textCapitalization: textCapitalization,
-                  style: style??Style.styleInput??TextStyle(fontSize: textSize, color: textColor??Clr.colorTxt),
+                  style: style ??
+                      Style.styleInput ??
+                      TextStyle(
+                          fontSize: textSize, color: textColor ?? Clr.colorTxt),
                   obscureText: isPassword,
                   keyboardType: keyboardType,
-                  onChanged: onChanged ?? (formKey != null ? (value) {
-                    if (value.isNotEmpty) {
-                      formKey!.currentWidget;
-                    }
-                  } : null),
+                  onChanged: onChanged ??
+                      (formKey != null
+                          ? (value) {
+                              if (value.isNotEmpty) {
+                                formKey!.currentWidget;
+                              }
+                            }
+                          : null),
                   textInputAction: textInputAction,
                   onEditingComplete: onEditingComplete,
                   focusNode: focusNode,
                   autofocus: autofocus,
+                  decoration: decoration ??
+                      InputDecoration(
+                        // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
+                        label: ((hasLabel ?? Static.txtInputHasLabel) &&
+                                !(hasLabelOnTop ??
+                                    Static.txtInputHasLabelOnTop))
+                            ? (Text.rich(TextSpan(
+                                text: labelText ?? hintText,
+                                children: <InlineSpan>[
+                                  if (showLabelStat ??
+                                      Static.txtInputHasLabelWithStar)
+                                    TextSpan(
+                                      text: isOptional ? '' : ' *',
+                                      style: const TextStyle(color: Colors.red),
+                                    ),
+                                ],
+                                style: labelStyle ??
+                                    Style.labelInputStyle ??
+                                    TextStyle(color: hintTextColor),
+                              )))
+                            : null,
 
-                  decoration: decoration ?? InputDecoration(
-                    // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
-                    label: ((hasLabel ?? Static.txtInputHasLabel) &&
-                        !(hasLabelOnTop ?? Static.txtInputHasLabelOnTop))
-                        ?
-                    (Text.rich(
-                        TextSpan(
-                          text: labelText ?? hintText, children: <InlineSpan>[
-                          if(showLabelStat ?? Static.txtInputHasLabelWithStar)
-                            TextSpan(text: isOptional ? '' : ' *',
-                              style: const TextStyle(color: Colors.red),
+                        border: removeAllBorders
+                            ? InputBorder.none
+                            : hasBorder ?? Static.txtInputHasBorder
+                                ? OutlineInputBorder(
+                                    borderRadius: borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            radius ?? Siz.defaultRadius)),
+                                    borderSide: BorderSide(
+                                        width: borderWidth,
+                                        color:
+                                            borderColor ?? Clr.colorGreyLight))
+                                : null,
+                        hintText: (hintText!),
+                        hintStyle: hintStyle ??
+                            Style.hintInputStyle ??
+                            TextStyle(
+                                fontSize: hintTextSize ?? textSize,
+                                color: hintTextColor),
+                        labelStyle: labelStyle ?? Style.labelInputStyle,
+                        suffixIcon: postFix,
+                        prefixIcon: preFix,
+                        counterText: hasCounter ? null : '',
+                        enabled: enabled,
+                        contentPadding: (contentPadding ??
+                            Static.txtInoutDefaultContentPadding),
+                        fillColor: fillColor,
+                        filled: fillColor != null,
+                        prefixText: prefixText,
+                        prefixStyle: prefixStyle ??
+                            Style.styleInput ??
+                            TextStyle(
+                              color:
+                                  prefixTextColor ?? textColor ?? Clr.colorTxt,
+                              fontSize: prefixTextSize ?? textSize,
                             ),
-                        ], style: labelStyle??Style.labelInputStyle??TextStyle(color: hintTextColor),))) : null,
-
-                    border: removeAllBorders
-                        ?
-                    InputBorder.none
-                        :
-                    hasBorder??Static.txtInputHasBorder
-                        ?
-                    OutlineInputBorder(
-                        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
-                        borderSide: BorderSide(width: borderWidth, color: borderColor ?? Clr.colorGreyLight))
-                        :
-                    null,
-                    hintText: (hintText!),
-                    hintStyle: hintStyle??Style.hintInputStyle??TextStyle(
-                        fontSize: hintTextSize ?? textSize,
-                        color: hintTextColor),
-                    labelStyle: labelStyle??Style.labelInputStyle,
-                    suffixIcon: postFix,
-                    prefixIcon: preFix,
-                    counterText: hasCounter?null:'',
-                    enabled: enabled,
-                    contentPadding: (contentPadding ?? Static.txtInoutDefaultContentPadding),
-                    fillColor: fillColor,
-                    filled: fillColor != null,
-                    prefixText: prefixText,
-                    prefixStyle: prefixStyle??Style.styleInput??TextStyle(
-                      color: prefixTextColor ?? textColor??Clr.colorTxt,
-                      fontSize: prefixTextSize ?? textSize,
-                    ),
-
-                  ),
-
-                  validator: isOptional ? null : (validator ?? (value) {
-                    if (value == null || value.isEmpty) {
-                      return errorMessage ?? 'Please Enter $hintText';
-                    }
-                    if (validationLength != null) {
-                      if (value.length < validationLength!) {
-                        return errorLengthMessage ??
-                            'At least $validationLength character required';
-                      }
-                    }
-                    return null;
-                  }),
+                      ),
+                  validator: isOptional
+                      ? null
+                      : (validator ??
+                          (value) {
+                            if (value == null || value.isEmpty) {
+                              return errorMessage ?? 'Please Enter $hintText';
+                            }
+                            if (validationLength != null) {
+                              if (value.length < validationLength!) {
+                                return errorLengthMessage ??
+                                    'At least $validationLength character required';
+                              }
+                            }
+                            return null;
+                          }),
                 ),
               ),
             ],
           ),
         ),
-        if(onTap != null)
+        if (onTap != null)
           GestureDetector(
             onTap: onTap,
             child: Container(

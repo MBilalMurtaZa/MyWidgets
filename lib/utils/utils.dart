@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
 
-
 class Clr {
-  static  Color colorPrimary = Colors.black;
-  static  Color colorSecondary = Colors.black;
+  static Color colorPrimary = Colors.black;
+  static Color colorSecondary = Colors.black;
   static const Color colorCyan = Colors.cyan;
   static const Color colorTransparent = Color(0x00000000);
-  static const Color colorGreyLight= Color(0xFFF1F5F9);
+  static const Color colorGreyLight = Color(0xFFF1F5F9);
   static const Color colorWhite = Colors.white;
   static const Color colorBlack = Colors.black;
   static Color colorTxt = Colors.black;
   static Color colorTxtInput = Colors.black;
 
-
-
-
   Clr._();
-
 }
 
 class Style {
   Style._();
   static TextStyle? textStyle;
-  static TextStyle? labelInputStyle, hintInputStyle, styleInput, prefixInputStyle;
+  static TextStyle? labelInputStyle,
+      hintInputStyle,
+      styleInput,
+      prefixInputStyle;
 }
 
 class Siz {
-
-
   Siz._();
 
   static const double extraLargeTitle100 = 100.0;
@@ -65,8 +61,6 @@ class Str {
   static String success = 'Success';
   static String noDataFound = 'There is no data to show';
   static const String na = "N/A";
-
-
 
   Str._();
 }

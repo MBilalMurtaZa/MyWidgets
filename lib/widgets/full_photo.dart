@@ -31,41 +31,41 @@ class FullPhotoView extends StatelessWidget {
   }
 
   _buildSingleImagePreview() {
-    return  PhotoView(
-            imageProvider: buildProvider(),
-            loadingBuilder: buildLoading,
-          );
-
+    return PhotoView(
+      imageProvider: buildProvider(),
+      loadingBuilder: buildLoading,
+    );
   }
 
-  buildProvider()  {
-    return isAsset?AssetImage(images.first):NetworkImage(images.first);
+  buildProvider() {
+    return isAsset ? AssetImage(images.first) : NetworkImage(images.first);
   }
 
   Widget buildLoading(context, event) => Center(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: 20.0,
-              height: 20.0,
-              child: Platform.isAndroid
-                  ?
-              CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Clr.colorPrimary),
-              )
-                  :
-              CircleAvatar(
-                backgroundColor: Clr.colorWhite,
-                child: CupertinoActivityIndicator(color: Clr.colorPrimary,),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 20.0,
+                height: 20.0,
+                child: Platform.isAndroid
+                    ? CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(Clr.colorPrimary),
+                      )
+                    : CircleAvatar(
+                        backgroundColor: Clr.colorWhite,
+                        child: CupertinoActivityIndicator(
+                          color: Clr.colorPrimary,
+                        ),
+                      ),
               ),
-            ),
-            Txt('Opening ${event == null ? 0 : double.parse((event.cumulativeBytesLoaded / event.expectedTotalBytes).toString()).toStringAsFixed(0)}'),
-          ],
+              Txt('Opening ${event == null ? 0 : double.parse((event.cumulativeBytesLoaded / event.expectedTotalBytes).toString()).toStringAsFixed(0)}'),
+            ],
+          ),
         ),
-      ),
-    );
+      );
 
   _buildMultiImageView() {}
 }
