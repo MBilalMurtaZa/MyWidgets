@@ -35,6 +35,7 @@ class TxtFormInput extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final Color? fillColor, borderColor;
   final TextStyle? labelStyle, hintStyle, style, prefixStyle;
+  final BorderSide? borderSide;
 
   const TxtFormInput({
     Key? key,
@@ -89,10 +90,16 @@ class TxtFormInput extends StatelessWidget {
     this.style,
     this.prefixStyle,
     this.hasCounter = false,
+    this.borderSide,
   }) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
+    if(Static.inputDecoration != null && hintText != null){
+      Static.inputDecoration = Static.inputDecoration!.copyWith(hintText: hintText??'');
+    }
     return Stack(
       children: [
         IgnorePointer(
@@ -151,7 +158,7 @@ class TxtFormInput extends StatelessWidget {
                   onEditingComplete: onEditingComplete,
                   focusNode: focusNode,
                   autofocus: autofocus,
-                  decoration: decoration ??
+                  decoration: decoration ?? Static.inputDecoration??
                       InputDecoration(
                         // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
                         label: ((hasLabel ?? Static.txtInputHasLabel) &&
@@ -180,7 +187,7 @@ class TxtFormInput extends StatelessWidget {
                                     borderRadius: borderRadius ??
                                         BorderRadius.all(Radius.circular(
                                             radius ?? Siz.defaultRadius)),
-                                    borderSide: BorderSide(
+                                    borderSide: borderSide??BorderSide(
                                         width: borderWidth,
                                         color:
                                             borderColor ?? Clr.colorGreyLight))

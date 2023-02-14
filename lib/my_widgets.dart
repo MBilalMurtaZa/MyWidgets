@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'my_widgets_platform_interface.dart';
 import 'utils/utils.dart';
 
 enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
@@ -15,6 +16,12 @@ enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
 enum URLType { call, sms, web, email }
 
 var pTimeout = 20;
+
+class MyWidgets {
+  Future<String?> getPlatformVersion() {
+    return MyWidgetsPlatform.instance.getPlatformVersion();
+  }
+}
 
 BoxDecoration pBoxDecoration({
   Color? color,
@@ -279,6 +286,7 @@ pSetSettings({
   String? currencyLocale,
   int? currencyDecimal,
   bool isCurrencyCompact = false,
+  InputDecoration? inputDecoration,
 }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -314,7 +322,7 @@ pSetSettings({
   Static.currencyLocale = currencyLocale;
   Static.currencySymbol = currencySymbol;
   Static.isCurrencyCompact = isCurrencyCompact;
-  Static.currencyDecimal = currencyDecimal;
+  Static.inputDecoration = inputDecoration;
 }
 
 String pRemoveHtmlIfNeeded(String text) {

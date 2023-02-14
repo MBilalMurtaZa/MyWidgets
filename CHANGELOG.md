@@ -1,3 +1,7 @@
+## 0.1.3
+* improve performance
+## 0.1.2
+* add decoration in txtInput and now you can set from pSetSetting
 ## 0.1.1
 * improve performance
 ## 0.1.0

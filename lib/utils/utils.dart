@@ -83,5 +83,6 @@ class Static {
   static String? currencyLocale;
   static bool isCurrencyCompact = false;
   static int? currencyDecimal;
+  static InputDecoration? inputDecoration;
   Static._();
 }
