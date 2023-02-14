@@ -7,7 +7,7 @@ import 'my_widgets_platform_interface.dart';
 class MethodChannelFlutterWidgetZoom extends MyWidgetsPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
-  final methodChannel = const MethodChannel('flutter_widget_zoom');
+  final methodChannel = const MethodChannel('my_widgets');
 
   @override
   Future<String?> getPlatformVersion() async {

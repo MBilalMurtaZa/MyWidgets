@@ -10,6 +10,8 @@ Users can change colors for every app.
 ## Usage
 user can set color bow according to his color requirement.
 if you use before main will be preferable.
+
+for more detail please check example 
 ```
 pSetSettings();
 runMain();
@@ -19,7 +21,7 @@ runMain();
  in case of any issue please contact us at bilal.faith@gmail.com
 
 ## if you use pUrlLaunch you have to set android and iOS keys 
-in andorid please
+in android side please add below queries in AndroidManifest.xml
 ```
 <queries>
     <!-- If your app checks for SMS support -->
@@ -48,7 +50,8 @@ in andorid please
 ```
 
 
-for iOS 
+
+for iOS side please add below queries in info.plist
 
 ```
 <key>LSApplicationQueriesSchemes</key>

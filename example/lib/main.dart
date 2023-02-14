@@ -3,9 +3,42 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:my_widgets/my_widgets.dart';
+import 'package:my_widgets/utils/pref.dart';
+import 'package:my_widgets/utils/utils.dart';
+import 'package:get/get.dart';
+import 'package:my_widgets/widgets/input.dart';
 
-void main() {
+var isArabic = false.obs;
+
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Pref.getPref();
+  isArabic.value = Pref.getPrefBoolean(Pref.option1);
+
+  String stgBaseURL = 'https://xvz/api/'; // optional
+  pSetSettings(
+    primaryColor: Clr.colorPrimary,
+    secondaryColor: Colors.white,
+    defaultImage: 'assets/images/avatar.png',
+    defImageIsAsset: true,
+    baseUrlLive: stgBaseURL,
+    baseUrlTest: stgBaseURL,
+    isLive: false,
+    defaultRadius: Siz.defaultRadius,
+    defaultBtnHeight: Siz.defaultBtnHeight,
+    txtInputHasBorder: true,
+    txtInputHasLabel: true,
+    txtInputHasLabelOnTop: true,
+    txtInputHasLabelWithStar: false,
+    txtInoutDefaultContentPadding: const EdgeInsets.symmetric(horizontal: 10),
+    fontWeight: FontWeight.w600,
+    defaultFontSize: Siz.body17,
+    localization: isArabic()?'ar':'en',
+
+  );
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatefulWidget {
@@ -16,47 +49,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _flutterWidgetZoomPlugin = MyWidgets();
+
+  var inputEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion = await _flutterWidgetZoomPlugin.getPlatformVersion() ??
-          'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Example My Widgets'),
         ),
         body: Container(
           padding: const EdgeInsets.all(30),
-          child: Center(),
+          child: Form(
+            child: Column(
+              children: [
+                TxtFormInput(
+                  controller: inputEditingController,
+                  hasBorder: true,
+                  fillColor: Clr.colorCyan,
+                  removeAllBorders: true,
+                  preFix: IconButton(icon: const Icon(Icons.remove), onPressed: () {
+                    debugPrint('I am clickable');
+                  },),
+                  postFix: const Icon(Icons.add),
+                  radius: 20,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

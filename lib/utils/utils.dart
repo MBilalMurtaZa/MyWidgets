@@ -71,7 +71,7 @@ class EndPoints {
 }
 
 class Static {
-  static bool txtInputHasBorder = false;
+  static bool? txtInputHasBorder;
   static bool txtInputHasLabel = false;
   static bool txtInputHasLabelOnTop = false;
   static bool txtInputHasLabelWithStar = true;

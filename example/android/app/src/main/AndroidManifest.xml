@@ -1,7 +1,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.esolutions.flutter_widget_zoom_example">
+    package="com.esolutions.my_widgets_example">
+
+    <queries>
+        <!-- If your app checks for SMS support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="sms" />
+        </intent>
+        <!-- If your app checks for call support -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
    <application
-        android:label="flutter_widget_zoom_example"
+        android:label="my_widgets_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

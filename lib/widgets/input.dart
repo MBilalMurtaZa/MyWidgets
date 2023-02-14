@@ -132,105 +132,110 @@ class TxtFormInput extends StatelessWidget {
               ],
               SizedBox(
                 height: height,
-                child: TextFormField(
-                  controller: controller,
-                  maxLines: isPassword ? 1 : maxLines,
-                  minLines: minLines,
-                  maxLength: maxLength,
-                  inputFormatters: inputFormatters,
-                  textAlign: textAlign,
-                  textCapitalization: textCapitalization,
-                  style: style ??
-                      Style.styleInput ??
-                      TextStyle(
-                          fontSize: textSize, color: textColor ?? Clr.colorTxt),
-                  obscureText: isPassword,
-                  keyboardType: keyboardType,
-                  onChanged: onChanged ??
-                      (formKey != null
-                          ? (value) {
-                              if (value.isNotEmpty) {
-                                formKey!.currentWidget;
+                child: Theme(
+                  data: ThemeData(
+                    primaryColor: Colors.redAccent,
+                    primaryColorDark: Colors.red,
+                  ),
+                  child: TextFormField(
+                    controller: controller,
+                    maxLines: isPassword ? 1 : maxLines,
+                    minLines: minLines,
+                    maxLength: maxLength,
+                    inputFormatters: inputFormatters,
+                    textAlign: textAlign,
+                    textCapitalization: textCapitalization,
+                    style: style ??
+                        Style.styleInput ??
+                        TextStyle(
+                            fontSize: textSize, color: textColor ?? Clr.colorTxt),
+                    obscureText: isPassword,
+                    keyboardType: keyboardType,
+                    onChanged: onChanged ??
+                        (formKey != null
+                            ? (value) {
+                                if (value.isNotEmpty) {
+                                  formKey!.currentWidget;
+                                }
                               }
-                            }
-                          : null),
-                  textInputAction: textInputAction,
-                  onEditingComplete: onEditingComplete,
-                  focusNode: focusNode,
-                  autofocus: autofocus,
-                  decoration: decoration ?? Static.inputDecoration??
-                      InputDecoration(
-                        // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
-                        label: ((hasLabel ?? Static.txtInputHasLabel) &&
-                                !(hasLabelOnTop ??
-                                    Static.txtInputHasLabelOnTop))
-                            ? (Text.rich(TextSpan(
-                                text: labelText ?? hintText,
-                                children: <InlineSpan>[
-                                  if (showLabelStat ??
-                                      Static.txtInputHasLabelWithStar)
-                                    TextSpan(
-                                      text: isOptional ? '' : ' *',
-                                      style: const TextStyle(color: Colors.red),
-                                    ),
-                                ],
-                                style: labelStyle ??
-                                    Style.labelInputStyle ??
-                                    TextStyle(color: hintTextColor),
-                              )))
-                            : null,
+                            : null),
+                    textInputAction: textInputAction,
+                    onEditingComplete: onEditingComplete,
+                    focusNode: focusNode,
+                    autofocus: autofocus,
+                    decoration: decoration ?? Static.inputDecoration??
+                        InputDecoration(
+                          // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
+                          label: ((hasLabel ?? Static.txtInputHasLabel) &&
+                                  !(hasLabelOnTop ??
+                                      Static.txtInputHasLabelOnTop))
+                              ? (Text.rich(TextSpan(
+                                  text: labelText ?? hintText,
+                                  children: <InlineSpan>[
+                                    if (showLabelStat ??
+                                        Static.txtInputHasLabelWithStar)
+                                      TextSpan(
+                                        text: isOptional ? '' : ' *',
+                                        style: const TextStyle(color: Colors.red),
+                                      ),
+                                  ],
+                                  style: labelStyle ??
+                                      Style.labelInputStyle ??
+                                      TextStyle(color: hintTextColor),
+                                )))
+                              : null,
 
-                        border: removeAllBorders
-                            ? InputBorder.none
-                            : hasBorder ?? Static.txtInputHasBorder
-                                ? OutlineInputBorder(
-                                    borderRadius: borderRadius ??
-                                        BorderRadius.all(Radius.circular(
-                                            radius ?? Siz.defaultRadius)),
-                                    borderSide: borderSide??BorderSide(
-                                        width: borderWidth,
-                                        color:
-                                            borderColor ?? Clr.colorGreyLight))
-                                : null,
-                        hintText: (hintText!),
-                        hintStyle: hintStyle ??
-                            Style.hintInputStyle ??
-                            TextStyle(
-                                fontSize: hintTextSize ?? textSize,
-                                color: hintTextColor),
-                        labelStyle: labelStyle ?? Style.labelInputStyle,
-                        suffixIcon: postFix,
-                        prefixIcon: preFix,
-                        counterText: hasCounter ? null : '',
-                        enabled: enabled,
-                        contentPadding: (contentPadding ??
-                            Static.txtInoutDefaultContentPadding),
-                        fillColor: fillColor,
-                        filled: fillColor != null,
-                        prefixText: prefixText,
-                        prefixStyle: prefixStyle ??
-                            Style.styleInput ??
-                            TextStyle(
-                              color:
-                                  prefixTextColor ?? textColor ?? Clr.colorTxt,
-                              fontSize: prefixTextSize ?? textSize,
+                          border: hasBorder ?? Static.txtInputHasBorder??false
+                              ?
+                          OutlineInputBorder(
+                            borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+                            borderSide: removeAllBorders?BorderSide.none:borderSide??BorderSide(
+                              width: borderWidth,
+                              color: borderColor ?? Clr.colorGreyLight,
+                              style: removeAllBorders?BorderStyle.none:BorderStyle.solid
+
                             ),
-                      ),
-                  validator: isOptional
-                      ? null
-                      : (validator ??
-                          (value) {
-                            if (value == null || value.isEmpty) {
-                              return errorMessage ?? 'Please Enter $hintText';
-                            }
-                            if (validationLength != null) {
-                              if (value.length < validationLength!) {
-                                return errorLengthMessage ??
-                                    'At least $validationLength character required';
+                          ):removeAllBorders?InputBorder.none: null,
+                          hintText: (hintText!),
+                          hintStyle: hintStyle ??
+                              Style.hintInputStyle ??
+                              TextStyle(
+                                  fontSize: hintTextSize ?? textSize,
+                                  color: hintTextColor),
+                          labelStyle: labelStyle ?? Style.labelInputStyle,
+                          suffixIcon: postFix,
+                          prefixIcon: preFix,
+                          counterText: hasCounter ? null : '',
+                          enabled: enabled,
+                          contentPadding: (contentPadding ??
+                              Static.txtInoutDefaultContentPadding),
+                          fillColor: fillColor,
+                          filled: fillColor != null,
+                          prefixText: prefixText,
+                          prefixStyle: prefixStyle ??
+                              Style.styleInput ??
+                              TextStyle(
+                                color:
+                                    prefixTextColor ?? textColor ?? Clr.colorTxt,
+                                fontSize: prefixTextSize ?? textSize,
+                              ),
+                        ),
+                    validator: isOptional
+                        ? null
+                        : (validator ??
+                            (value) {
+                              if (value == null || value.isEmpty) {
+                                return errorMessage ?? 'Please Enter $hintText';
                               }
-                            }
-                            return null;
-                          }),
+                              if (validationLength != null) {
+                                if (value.length < validationLength!) {
+                                  return errorLengthMessage ??
+                                      'At least $validationLength character required';
+                                }
+                              }
+                              return null;
+                            }),
+                  ),
                 ),
               ),
             ],

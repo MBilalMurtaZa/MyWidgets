@@ -264,7 +264,7 @@ pSetSettings({
   double defaultFontSize = 14.0,
   double defaultRadius = 8.0,
   double defaultBtnHeight = 50,
-  bool txtInputHasBorder = false,
+  bool? txtInputHasBorder,
   bool txtInputHasLabel = false,
   bool txtInputHasLabelOnTop = false,
   bool txtInputHasLabelWithStar = true,

@@ -1,4 +1,4 @@
-package com.esolutions.flutter_widget_zoom_example
+package com.esolutions.my_widgets_example
 
 import io.flutter.embedding.android.FlutterActivity
 
