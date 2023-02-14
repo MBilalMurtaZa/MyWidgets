@@ -6,7 +6,10 @@ import 'package:my_widgets/my_widgets.dart';
 import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:get/get.dart';
+import 'package:my_widgets/widgets/btn.dart';
+import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
+import 'package:my_widgets/widgets/txt.dart';
 
 var isArabic = false.obs;
 
@@ -69,8 +72,46 @@ class _MyAppState extends State<MyApp> {
         body: Container(
           padding: const EdgeInsets.all(30),
           child: Form(
-            child: Column(
+            child: ListView(
               children: [
+
+                // Use Txt to show text with easy format options
+                const Txt('I am Plane '),
+
+                const Txt('I am Colored ', textColor: Clr.colorCyan,),
+
+
+                const Txt('I am bold and Colored', hasBold: true,textColor: Clr.colorCyan,),
+
+                const Txt('I am bold, Colored and UnderLine', hasBold: true,textColor: Clr.colorCyan,hasUnderLine: true,),
+
+                const MyDivider(),
+                const MyDivider(),
+
+                TxtFormInput(
+                  controller: inputEditingController,
+                  hintText: 'I am with border,radius and with hint',
+                  hasBorder: true,
+                  radius: 20,
+                  hasLabel: false,
+                ),
+                const MyDivider(),
+                TxtFormInput(
+                  controller: inputEditingController,
+                  hintText: 'I am with border,radius, label and with hint',
+                  hasBorder: true,
+                  radius: 20,
+                  labelText: 'I am label',
+                ),
+                const MyDivider(),
+                TxtFormInput(
+                  controller: inputEditingController,
+                  hintText: 'I am with border,radius, label and with hint',
+                  hasBorder: true,
+                  radius: 20,
+                  labelText: 'I am label',
+                  hasLabelOnTop: false,
+                ),
                 TxtFormInput(
                   controller: inputEditingController,
                   hasBorder: true,
@@ -82,6 +123,10 @@ class _MyAppState extends State<MyApp> {
                   postFix: const Icon(Icons.add),
                   radius: 20,
                 ),
+
+                const MyDivider(),
+                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorCyan,)
+
               ],
             ),
           ),
