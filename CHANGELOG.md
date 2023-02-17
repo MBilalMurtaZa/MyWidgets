@@ -1,3 +1,8 @@
+## 0.2.1
+* Fix iOS issue 
+* Update Dependencies
+## 0.2.0
+* Add example project
 ## 0.1.3
 * improve performance
 ## 0.1.2

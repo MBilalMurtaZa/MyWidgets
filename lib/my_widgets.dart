@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'my_widgets_platform_interface.dart';
 import 'utils/utils.dart';
 
 enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
@@ -18,9 +17,7 @@ enum URLType { call, sms, web, email }
 var pTimeout = 20;
 
 class MyWidgets {
-  Future<String?> getPlatformVersion() {
-    return MyWidgetsPlatform.instance.getPlatformVersion();
-  }
+
 }
 
 BoxDecoration pBoxDecoration({
@@ -138,13 +135,14 @@ Future<dynamic> pSetRout(
     bool fullscreenDialog = false,
     BuildContext? context,
     Duration? duration,
-    Curve? curve}) async {
+    Curve? curve,
+      Transition? transition}) async {
   pFocusOut();
   switch (routeType) {
     case RouteType.push:
       // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
       return Get.to(page,
-          fullscreenDialog: fullscreenDialog, duration: duration, curve: curve);
+          fullscreenDialog: fullscreenDialog, duration: duration, curve: curve, transition: transition, );
     case RouteType.pushReplace:
       return Get.off(page, fullscreenDialog: fullscreenDialog);
     case RouteType.pushReplaceAll:
