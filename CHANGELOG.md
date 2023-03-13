@@ -1,3 +1,5 @@
+## 0.2.2
+* Add custom widget option in searchable list 
 ## 0.2.1
 * Fix iOS issue 
 * Update Dependencies

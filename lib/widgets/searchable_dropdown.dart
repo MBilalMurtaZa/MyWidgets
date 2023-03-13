@@ -31,9 +31,9 @@ class SearchableDropdown extends StatelessWidget {
                     () => ListView.separated(
                       itemBuilder: (context, index) {
                         final item = controller.filteredList[index];
-                        return ListTile(
-                          title: Text(item.name ?? ''),
-                          onTap: () => controller.onItemTap(item),
+                        return GestureDetector(
+                          child: item.widget??ListTile(title: Text(item.name ?? ''),),
+                          onTap: ()=> controller.onItemTap(item),
                         );
                       },
                       separatorBuilder: (context, index) => const Divider(),
@@ -82,6 +82,7 @@ class SearchableController extends GetxController {
 class SearchListModel {
   String? name;
   dynamic id;
+  Widget? widget;
 
-  SearchListModel(this.name, this.id);
+  SearchListModel(this.name, this.id, this.widget);
 }
