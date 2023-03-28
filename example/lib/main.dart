@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:my_widgets/my_widgets.dart';
 import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
-import 'package:get/get.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
 import 'package:my_widgets/widgets/txt.dart';
 
-var isArabic = false.obs;
 
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Pref.getPref();
-  isArabic.value = Pref.getPrefBoolean(Pref.option1);
 
   String stgBaseURL = 'https://xvz/api/'; // optional
   pSetSettings(
@@ -37,7 +33,7 @@ Future<void> main() async {
     txtInoutDefaultContentPadding: const EdgeInsets.symmetric(horizontal: 10),
     fontWeight: FontWeight.w600,
     defaultFontSize: Siz.body17,
-    localization: isArabic()?'ar':'en',
+    localization: 'en',
 
   );
   runApp(const MyApp());
@@ -57,6 +53,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    
     super.initState();
 
   }

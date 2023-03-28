@@ -1,3 +1,7 @@
+## 0.3.1
+* add header addons
+## 0.3.0
+* Add custom header in pSetSettings
 ## 0.2.2
 * Add custom widget option in searchable list 
 ## 0.2.1

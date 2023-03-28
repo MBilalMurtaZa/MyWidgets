@@ -23,6 +23,9 @@ class HttpCalls {
       'Seems like internet issue please check your device internet';
   static String? localization;
 
+  static Map<String, String>? httpHeader;
+  static Map<String, String>? headerAddOns;
+
   HttpCalls._();
 
   static Uri getRequestURL(String postFix) {
@@ -45,18 +48,18 @@ class HttpCalls {
       bool? withStream,
       bool? utf8Convert,
       bool isTypeJson = true,
+      Map<String, String>? customHeader,
       String? changeLocalization}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
-    if (kDebugMode) {
-      print(url);
-    }
+    debugPrint(url.toString());
 
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
     }
 
     if (isTypeJson) {
@@ -67,10 +70,15 @@ class HttpCalls {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
 
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
+
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
-        request.headers.addAll(header);
+        request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
@@ -80,14 +88,13 @@ class HttpCalls {
                 Response(utf8.decoder.convert(result.bodyBytes),
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              print(utf8.decoder.convert(result.bodyBytes));
-            }
+
+            debugPrint(utf8.decoder.convert(result.bodyBytes).toString());
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
             if (kDebugMode) {
-              print(result.body);
+              debugPrint(result.body.toString());
             }
           }
         } else {
@@ -97,15 +104,14 @@ class HttpCalls {
         var result = await http
             .get(
               url,
-              headers: header,
+              headers: customHeader ?? httpHeader ?? header,
             )
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < 400) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            print(result.body);
-          }
+
+          debugPrint(result.body.toString());
         } else {
           throw Exception(result.statusCode);
         }
@@ -124,19 +130,20 @@ class HttpCalls {
       bool? withStream,
       bool? utf8Convert,
       isTypeJson = true,
+      Map<String, String>? customHeader,
       String? changeLocalization}) async {
     dynamic response;
 
-    if (kDebugMode) {
-      print(params);
-    }
+    debugPrint(jsonEncode(params));
+
     Uri url = HttpCalls.getRequestURL(endPoint);
     if (kDebugMode) {
       print(url);
     }
     final Map<String, String> header = {};
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
     }
     if (isTypeJson) {
       header[HttpHeaders.contentTypeHeader] = 'application/json';
@@ -145,12 +152,16 @@ class HttpCalls {
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
 
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
         request.body = json.encode(params);
-        request.headers.addAll(header);
+        request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
@@ -160,14 +171,13 @@ class HttpCalls {
                 Response(utf8.decoder.convert(result.bodyBytes),
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              print(utf8.decoder.convert(result.bodyBytes));
-            }
+
+            debugPrint(utf8.decoder.convert(result.bodyBytes));
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
             if (kDebugMode) {
-              print(result.body);
+              debugPrint(result.body.toString());
             }
           }
         } else {
@@ -175,14 +185,15 @@ class HttpCalls {
         }
       } else {
         var result = await http
-            .post(url, headers: header, body: utf8.encode(json.encode(params)))
+            .post(url,
+                headers: customHeader ?? httpHeader ?? header,
+                body: utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < 400) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            print(result.body);
-          }
+
+          debugPrint(result.body.toString());
         } else {
           throw Exception(result.statusCode);
         }
@@ -200,30 +211,40 @@ class HttpCalls {
       bool? defaultResponse,
       bool? withStream,
       bool? utf8Convert,
+      bool isTypeJson = true,
+      Map<String, String>? customHeader,
       String? changeLocalization}) async {
     dynamic response;
 
-    if (kDebugMode) {
-      print(params);
-    }
+    debugPrint(jsonEncode(params));
     Uri url = HttpCalls.getRequestURL(endPoint);
     if (kDebugMode) {
       print(url);
     }
-    var header = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final Map<String, String> header = {
+      'X-localization': '',
+      'content-type': 'application/json'
+    };
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
+    }
+    if (isTypeJson) {
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
     }
 
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
-
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
         request.body = json.encode(params);
-        request.headers.addAll(header);
+        request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
@@ -240,7 +261,7 @@ class HttpCalls {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
             if (kDebugMode) {
-              print(result.body);
+              debugPrint(result.body.toString());
             }
           }
         } else {
@@ -248,13 +269,15 @@ class HttpCalls {
         }
       } else {
         var result = await http
-            .patch(url, headers: header, body: utf8.encode(json.encode(params)))
+            .patch(url,
+                headers: customHeader ?? httpHeader ?? header,
+                body: utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < 400) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
-            print(result.body);
+            debugPrint(result.body.toString());
           }
         } else {
           throw Exception(result.statusCode);
@@ -273,30 +296,40 @@ class HttpCalls {
       bool? defaultResponse,
       bool? withStream,
       bool? utf8Convert,
+      bool isTypeJson = true,
+      Map<String, String>? customHeader,
       String? changeLocalization}) async {
     dynamic response;
 
-    if (kDebugMode) {
-      print(params);
-    }
+    debugPrint(jsonEncode(params));
+
     Uri url = HttpCalls.getRequestURL(endPoint);
     if (kDebugMode) {
       print(url);
     }
-    var header = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
     }
+
+    if (isTypeJson) {
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
+    }
+
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
-
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PUT', url);
         request.body = json.encode(params);
-        request.headers.addAll(header);
+        request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
@@ -311,19 +344,21 @@ class HttpCalls {
         } else {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            print(result.body);
-          }
+
+          debugPrint(result.body.toString());
         }
       } else {
         var result = await http
-            .put(url, headers: header, body: utf8.encode(json.encode(params)))
+            .put(url,
+                headers: customHeader ?? httpHeader ?? header,
+                body: utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < 400) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
-            print(result.body);
+            debugPrint(jsonEncode(params));
+            debugPrint(result.body.toString());
           }
         } else {
           throw Exception(result.statusCode);
@@ -342,30 +377,41 @@ class HttpCalls {
       bool? defaultResponse,
       bool? withStream,
       bool? utf8Convert,
+      bool isTypeJson = true,
+      Map<String, String>? customHeader,
       String? changeLocalization}) async {
     dynamic response;
 
     if (kDebugMode) {
-      print(params);
+      debugPrint(jsonEncode(params));
     }
     Uri url = HttpCalls.getRequestURL(endPoint);
     if (kDebugMode) {
       print(url);
     }
-    var header = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
+    }
+
+    if (isTypeJson) {
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
     }
 
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
 
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       var request = http.Request('DELETE', url);
       request.body = json.encode(params);
-      request.headers.addAll(header);
+      request.headers.addAll(customHeader ?? httpHeader ?? header);
       var streamedResponse =
           await request.send().timeout(Duration(seconds: pTimeout));
       var result = await Response.fromStream(streamedResponse);
@@ -382,7 +428,7 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
-            print(result.body);
+            debugPrint(result.body.toString());
           }
         }
       }
@@ -399,27 +445,40 @@ class HttpCalls {
       Map<String, String>? params,
       required String token,
       bool? defaultResponse,
+      Map<String, String>? customHeader,
+      bool isTypeJson = true,
       String? changeLocalization}) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     dynamic response;
     if (kDebugMode) {
       print(url);
     }
-    var header = {HttpHeaders.contentTypeHeader: 'application/json'};
+    final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization!;
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
     }
+
+    if (isTypeJson) {
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
+    }
+
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
+
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       var request = MultipartRequest(
         'POST',
         url,
       );
       request.files.add(await MultipartFile.fromPath(fileKey, filename));
-      request.headers.addAll(header);
+      request.headers.addAll(customHeader ?? httpHeader ?? header);
       if (params != null) {
         request.fields.addAll(params);
       }
@@ -427,7 +486,7 @@ class HttpCalls {
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
       if (kDebugMode) {
-        print(result.body);
+        debugPrint(result.body.toString());
       }
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -438,12 +497,14 @@ class HttpCalls {
     return response;
   }
 
+  @Deprecated('Please use uploadFile function to upload multipart')
   static Future<dynamic> uploadImage(String filename, String fileType,
       {bool isUserAvatar = false,
       bool hasAuth = true,
       String thumbnail = '',
       required String token,
       required String userName,
+      Map<String, String>? customHeader,
       bool? defaultResponse}) async {
     dynamic response;
     Uri url = HttpCalls.getRequestURL('file-upload');
@@ -455,7 +516,11 @@ class HttpCalls {
     if (hasAuth) {
       header[HttpHeaders.authorizationHeader] = 'Bearer $token';
     }
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
 
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -476,12 +541,12 @@ class HttpCalls {
         print(request.files.first.toString());
       }
 
-      if (hasAuth) request.headers.addAll(header);
+      if (hasAuth) request.headers.addAll(customHeader ?? httpHeader ?? header);
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
       if (kDebugMode) {
         print("result.body");
-        print(result.body);
+        debugPrint(result.body.toString());
       }
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);

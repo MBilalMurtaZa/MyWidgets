@@ -16,9 +16,7 @@ enum URLType { call, sms, web, email }
 
 var pTimeout = 20;
 
-class MyWidgets {
-
-}
+class MyWidgets {}
 
 BoxDecoration pBoxDecoration({
   Color? color,
@@ -136,13 +134,18 @@ Future<dynamic> pSetRout(
     BuildContext? context,
     Duration? duration,
     Curve? curve,
-      Transition? transition}) async {
+    Transition? transition}) async {
   pFocusOut();
   switch (routeType) {
     case RouteType.push:
       // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
-      return Get.to(page,
-          fullscreenDialog: fullscreenDialog, duration: duration, curve: curve, transition: transition, );
+      return Get.to(
+        page,
+        fullscreenDialog: fullscreenDialog,
+        duration: duration,
+        curve: curve,
+        transition: transition,
+      );
     case RouteType.pushReplace:
       return Get.off(page, fullscreenDialog: fullscreenDialog);
     case RouteType.pushReplaceAll:
@@ -285,6 +288,8 @@ pSetSettings({
   int? currencyDecimal,
   bool isCurrencyCompact = false,
   InputDecoration? inputDecoration,
+  Map<String, String>? httpHeader,
+  Map<String, String>? httpHeaderAddOns,
 }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -310,6 +315,8 @@ pSetSettings({
   Static.defaultImageClick = defaultImageClick;
   Static.defaultFontSize = defaultFontSize;
   HttpCalls.localization = localization;
+  HttpCalls.httpHeader = httpHeader;
+  HttpCalls.headerAddOns = httpHeaderAddOns;
   Clr.colorTxt = txtColor ?? Clr.colorBlack;
   Clr.colorTxtInput = txtInputColor ?? Clr.colorBlack;
   Style.textStyle = txtStyle;
