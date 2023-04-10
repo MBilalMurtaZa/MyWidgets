@@ -1,3 +1,9 @@
+## 0.4.1
+* handle btn colors
+## 0.4.0
+* set input borders and labels
+## 0.3.2
+* expand header options
 ## 0.3.1
 * add header addons
 ## 0.3.0

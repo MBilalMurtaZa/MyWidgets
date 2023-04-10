@@ -61,7 +61,7 @@ class Btn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? Siz.defaultBtnHeight,
+      height: height ?? Static.btnHeight?? Siz.defaultBtnHeight,
       width: width,
       child: buildButton(),
     );
@@ -118,7 +118,7 @@ class Btn extends StatelessWidget {
     return ElevatedButton(
       style: style ??
           ElevatedButton.styleFrom(
-              backgroundColor: isTextOnly ? Clr.colorTransparent : bgColor,
+              backgroundColor: isTextOnly ? Clr.colorTransparent : (bgColor??Static.btnBgColor),
               foregroundColor: textColor,
               disabledForegroundColor: onSurface,
               elevation: isTextOnly ? 0 : elevation,
@@ -126,14 +126,14 @@ class Btn extends StatelessWidget {
               shape: shape ??
                   RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(radius ?? Siz.defaultRadius),
+                        BorderRadius.circular(radius ?? Static.btnRadius?? Siz.defaultRadius),
                   ),
               side: side ??
                   (hasBorder
                       ? BorderSide(
                           color: isTextOnly
                               ? Clr.colorTransparent
-                              : borderColor ?? Clr.colorPrimary,
+                              : borderColor ??Static.btnBorderColor ?? Clr.colorPrimary,
                           width: borderWidth!)
                       : null)),
       onPressed: onPressed,

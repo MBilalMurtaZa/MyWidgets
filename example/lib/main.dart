@@ -34,6 +34,18 @@ Future<void> main() async {
     fontWeight: FontWeight.w600,
     defaultFontSize: Siz.body17,
     localization: 'en',
+    txtInputEnabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+      borderSide: const BorderSide(
+          width: 1,
+          color: Colors.red,
+          style:  BorderStyle.solid
+      ),
+    ),
+    txtInputBorderColor: Colors.amberAccent,
+    txtInputLabelPadding: 10,
+    btnBgColor: Colors.red
+
 
   );
   runApp(const MyApp());
@@ -84,13 +96,22 @@ class _MyAppState extends State<MyApp> {
 
                 const MyDivider(),
                 const MyDivider(),
-
                 TxtFormInput(
                   controller: inputEditingController,
                   hintText: 'I am with border,radius and with hint',
                   hasBorder: true,
                   radius: 20,
                   hasLabel: false,
+
+                ),
+                TxtFormInput(
+                  controller: inputEditingController,
+                  hintText: 'I am with border,radius and with hint',
+                  hasBorder: false,
+                  radius: 20,
+                  hasLabel: false,
+
+
                 ),
                 const MyDivider(),
                 TxtFormInput(
@@ -99,6 +120,9 @@ class _MyAppState extends State<MyApp> {
                   hasBorder: true,
                   radius: 20,
                   labelText: 'I am label',
+                  hasLabelOnTop: false,
+                  hasLabel: true,
+                  onTap: (){},
                 ),
                 const MyDivider(),
                 TxtFormInput(
@@ -110,8 +134,9 @@ class _MyAppState extends State<MyApp> {
                   hasLabelOnTop: false,
                 ),
                 TxtFormInput(
+                  borderColor: Clr.colorCyan,
                   controller: inputEditingController,
-                  hasBorder: true,
+                  hasBorder: false,
                   fillColor: Clr.colorCyan,
                   removeAllBorders: true,
                   preFix: IconButton(icon: const Icon(Icons.remove), onPressed: () {
@@ -122,7 +147,8 @@ class _MyAppState extends State<MyApp> {
                 ),
 
                 const MyDivider(),
-                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorCyan,)
+                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorCyan,),
+                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorBlack,)
 
               ],
             ),

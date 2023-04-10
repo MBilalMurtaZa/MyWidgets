@@ -1,6 +1,6 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed. to use this package you can use all the common widgets with single touch customization.   The best examples are Text and TextFields.
-version: 0.3.1
+version: 0.4.1
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   http: ^0.13.5
-  shared_preferences: ^2.0.20
+  shared_preferences: ^2.1.0
   cached_network_image: ^3.2.3
   mask_text_input_formatter: ^2.4.0
   fluttertoast: ^8.2.1

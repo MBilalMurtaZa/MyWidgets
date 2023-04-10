@@ -9,34 +9,39 @@ class LoadingPro extends StatelessWidget {
   final Color? valueColor, backgroundColor;
   const LoadingPro(
       {this.size,
-      this.isLinear = false,
-      this.valueColor,
-      this.backgroundColor,
-      Key? key})
+        this.isLinear = false,
+        this.valueColor,
+        this.backgroundColor,
+        Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: size,
       height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor,
+      ),
+      padding: EdgeInsets.all(5),
       child: Center(
         child: isLinear
             ? LinearProgressIndicator(
-                backgroundColor: backgroundColor,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    valueColor ?? Clr.colorPrimary),
-              )
+          backgroundColor: backgroundColor,
+          valueColor: AlwaysStoppedAnimation<Color>(
+              valueColor ?? Clr.colorPrimary),
+        )
             : Platform.isAndroid
-                ? CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        valueColor ?? Clr.colorPrimary),
-                  )
-                : CircleAvatar(
-                    backgroundColor: backgroundColor ?? Clr.colorWhite,
-                    child: CupertinoActivityIndicator(
-                      color: valueColor ?? Clr.colorPrimary,
-                    ),
-                  ),
+            ? CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+              valueColor ?? Clr.colorPrimary),
+        )
+            : CircleAvatar(
+          backgroundColor: backgroundColor ?? Clr.colorWhite,
+          child: CupertinoActivityIndicator(
+            color: valueColor ?? Clr.colorPrimary,
+          ),
+        ),
 
 //      child: LinearProgressIndicator(),
       ),

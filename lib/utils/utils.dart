@@ -84,5 +84,15 @@ class Static {
   static bool isCurrencyCompact = false;
   static int? currencyDecimal;
   static InputDecoration? inputDecoration;
+  static InputBorder? enabledBorder;
+  static InputBorder? focusedBorder;
+  static InputBorder? errorBorder;
+  static InputBorder? border;
+  static Color? borderColor;
+  static double? labelPadding;
+  static double? btnHeight;
+  static double? btnRadius;
+  static Color? btnBgColor;
+  static Color? btnBorderColor;
   Static._();
 }

@@ -17,6 +17,7 @@ class TxtFormInput extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
+  final double? labelPadding;
   final bool isPassword,
       enabled,
       isOptional,
@@ -73,6 +74,7 @@ class TxtFormInput extends StatelessWidget {
     this.isOptional = false,
     this.validationLength,
     this.labelText,
+    this.labelPadding,
     this.radius,
     this.borderRadius,
     this.contentPadding,
@@ -93,12 +95,11 @@ class TxtFormInput extends StatelessWidget {
     this.borderSide,
   }) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-    if(Static.inputDecoration != null && hintText != null){
-      Static.inputDecoration = Static.inputDecoration!.copyWith(hintText: hintText??'');
+    if (Static.inputDecoration != null && hintText != null) {
+      Static.inputDecoration =
+          Static.inputDecoration!.copyWith(hintText: hintText ?? '');
     }
     return Stack(
       children: [
@@ -126,8 +127,8 @@ class TxtFormInput extends StatelessWidget {
                                 fontSize: hintTextSize ?? textSize),
                       )))
                     : Container(),
-                const MyDivider(
-                  height: 1,
+                MyDivider(
+                  height: labelPadding??Static.labelPadding??1,
                 ),
               ],
               SizedBox(
@@ -148,7 +149,8 @@ class TxtFormInput extends StatelessWidget {
                     style: style ??
                         Style.styleInput ??
                         TextStyle(
-                            fontSize: textSize, color: textColor ?? Clr.colorTxt),
+                            fontSize: textSize,
+                            color: textColor ?? Clr.colorTxt),
                     obscureText: isPassword,
                     keyboardType: keyboardType,
                     onChanged: onChanged ??
@@ -163,7 +165,8 @@ class TxtFormInput extends StatelessWidget {
                     onEditingComplete: onEditingComplete,
                     focusNode: focusNode,
                     autofocus: autofocus,
-                    decoration: decoration ?? Static.inputDecoration??
+                    decoration: decoration ??
+                        Static.inputDecoration ??
                         InputDecoration(
                           // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
                           label: ((hasLabel ?? Static.txtInputHasLabel) &&
@@ -176,7 +179,8 @@ class TxtFormInput extends StatelessWidget {
                                         Static.txtInputHasLabelWithStar)
                                       TextSpan(
                                         text: isOptional ? '' : ' *',
-                                        style: const TextStyle(color: Colors.red),
+                                        style:
+                                            const TextStyle(color: Colors.red),
                                       ),
                                   ],
                                   style: labelStyle ??
@@ -185,17 +189,60 @@ class TxtFormInput extends StatelessWidget {
                                 )))
                               : null,
 
-                          border: hasBorder ?? Static.txtInputHasBorder??false
-                              ?
-                          OutlineInputBorder(
-                            borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
-                            borderSide: removeAllBorders?BorderSide.none:borderSide??BorderSide(
-                              width: borderWidth,
-                              color: borderColor ?? Clr.colorGreyLight,
-                              style: removeAllBorders?BorderStyle.none:BorderStyle.solid
-
-                            ),
-                          ):removeAllBorders?InputBorder.none: null,
+                          errorBorder: Static.errorBorder,
+                          enabledBorder: hasBorder ??
+                                  Static.txtInputHasBorder ??
+                                  false
+                              ? Static.enabledBorder ??
+                                  OutlineInputBorder(
+                                    borderRadius: borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            radius ?? Siz.defaultRadius)),
+                                    borderSide: BorderSide(
+                                        width: borderWidth,
+                                        color:
+                                            borderColor ?? Static.borderColor ?? Clr.colorGreyLight,
+                                        style: removeAllBorders
+                                            ? BorderStyle.none
+                                            : BorderStyle.solid),
+                                  )
+                              : null,
+                          focusedBorder: hasBorder ??
+                                  Static.txtInputHasBorder ??
+                                  false
+                              ? Static.focusedBorder ??
+                                  OutlineInputBorder(
+                                    borderRadius: borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            radius ?? Siz.defaultRadius)),
+                                    borderSide: BorderSide(
+                                        width: borderWidth,
+                                        color:
+                                            borderColor ?? Static.borderColor ?? Clr.colorGreyLight,
+                                        style: removeAllBorders
+                                            ? BorderStyle.none
+                                            : BorderStyle.solid),
+                                  )
+                              : null,
+                          border: hasBorder ?? Static.txtInputHasBorder ?? false
+                              ? Static.border ??
+                                  OutlineInputBorder(
+                                    borderRadius: borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            radius ?? Siz.defaultRadius)),
+                                    borderSide: removeAllBorders
+                                        ? BorderSide.none
+                                        : borderSide ??
+                                            BorderSide(
+                                                width: borderWidth,
+                                                color: borderColor?? Static.borderColor  ?? Clr.colorGreyLight,
+                                                style: removeAllBorders
+                                                    ? BorderStyle.none
+                                                    : BorderStyle.solid),
+                                  )
+                              : removeAllBorders
+                                  ? InputBorder.none
+                                  : null,
                           hintText: (hintText!),
                           hintStyle: hintStyle ??
                               Style.hintInputStyle ??
@@ -215,8 +262,9 @@ class TxtFormInput extends StatelessWidget {
                           prefixStyle: prefixStyle ??
                               Style.styleInput ??
                               TextStyle(
-                                color:
-                                    prefixTextColor ?? textColor ?? Clr.colorTxt,
+                                color: prefixTextColor ??
+                                    textColor ??
+                                    Clr.colorTxt,
                                 fontSize: prefixTextSize ?? textSize,
                               ),
                         ),
@@ -246,7 +294,7 @@ class TxtFormInput extends StatelessWidget {
             onTap: onTap,
             child: Container(
               color: Clr.colorTransparent,
-              height: 40,
+              height: (hasLabelOnTop ?? false) ? 70+(labelPadding??Static.labelPadding??1) : 48,
               width: double.infinity,
             ),
           )

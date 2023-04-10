@@ -290,6 +290,16 @@ pSetSettings({
   InputDecoration? inputDecoration,
   Map<String, String>? httpHeader,
   Map<String, String>? httpHeaderAddOns,
+  InputBorder? txtInputEnabledBorder,
+  InputBorder? txtInputFocusedBorder,
+  InputBorder? txtInputErrorBorder,
+  InputBorder? txtInputBorder,
+  Color? txtInputBorderColor,
+  double? txtInputLabelPadding,
+  double? btnHeight,
+  double? btnRadius,
+  Color? btnBgColor,
+  Color? btnBorderColor,
 }) {
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -328,6 +338,16 @@ pSetSettings({
   Static.currencySymbol = currencySymbol;
   Static.isCurrencyCompact = isCurrencyCompact;
   Static.inputDecoration = inputDecoration;
+  Static.enabledBorder = txtInputEnabledBorder;
+  Static.focusedBorder = txtInputFocusedBorder;
+  Static.errorBorder = txtInputErrorBorder;
+  Static.border = txtInputBorder;
+  Static.borderColor = txtInputBorderColor;
+  Static.labelPadding = txtInputLabelPadding;
+  Static.btnHeight = btnHeight;
+  Static.btnRadius = btnRadius;
+  Static.btnBgColor = btnBgColor;
+  Static.btnBgColor = btnBorderColor;
 }
 
 String pRemoveHtmlIfNeeded(String text) {
