@@ -23,7 +23,7 @@ class LoadingPro extends StatelessWidget {
         shape: BoxShape.circle,
         color: backgroundColor,
       ),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Center(
         child: isLinear
             ? LinearProgressIndicator(
