@@ -1,6 +1,6 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed. to use this package you can use all the common widgets with single touch customization.   The best examples are Text and TextFields.
-version: 0.4.1
+version: 0.4.7
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:

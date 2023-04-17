@@ -17,6 +17,20 @@ pSetSettings();
 runMain();
 ```
 
+if you want to use Shared Preferences in you app please add *Pref.getPref()* just before pSetSettings
+```
+await Pref.getPref();
+pSetSettings();
+runMain();
+```
+
+if you want to localize date in you app please add *Dates.initializeDateFormat()* just before pSetSettings
+```
+await Dates.initializeDateFormat();
+pSetSettings();
+runMain();
+```
+
 ## Additional information
  in case of any issue please contact us at bilal.faith@gmail.com
 

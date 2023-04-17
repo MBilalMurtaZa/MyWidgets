@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+
+import '../services/http_calls.dart';
 
 class Dates {
   Dates._();
@@ -20,42 +23,38 @@ class Dates {
   static const String pGetMonthDayAndTime = 'MMM dd, hh:mm a';
   static const String pGetMonthDayAndTimeForDifference = 'dd-MM-yyyy, hh:mm a';
 
-  static DateFormat pDateFormatter() {
-    return DateFormat(pGetDate);
+
+  static Future<void> initializeDateFormat({String? localization}) async {
+    await initializeDateFormatting(localization??HttpCalls.localization??'en', null);
   }
 
-  static DateFormat pDateTimeFormatter() {
-    return DateFormat(pGetDateTime);
+  static DateFormat pDateFormatter({String? localization}) {
+    var formatter = DateFormat(Dates.pGetDate, localization??HttpCalls.localization??'en');
+    return formatter;
   }
 
-  static DateFormat pDateFormatterForSend() {
-    return DateFormat('yyyy-MM-dd');
+  static DateFormat pDateTimeFormatter({String? localization}) {
+    return DateFormat(pGetDateTime, localization??HttpCalls.localization??'en');
   }
 
-  static String sDateToStringForSend(DateTime dateTime) {
-    String formatted = pDateFormatterForSend().format(dateTime);
-//    print(formatted); // something like 2013-04-20
-    return formatted;
-  }
-
-  static String pDateToString(DateTime? dateTime, {String? defaultValue}) {
+  static String pDateToString(DateTime? dateTime, {String? defaultValue, String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = pDateFormatter().format(dateTime);
+      String formatted = pDateFormatter(localization: localization).format(dateTime);
       return formatted;
     } catch (e) {
       return '00-00-0000';
     }
   }
 
-  static String pDateTimeToString(DateTime? dateTime, {String? defaultValue}) {
+  static String pDateTimeToString(DateTime? dateTime, {String? defaultValue,String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = pDateTimeFormatter().format(dateTime);
+      String formatted = pDateTimeFormatter(localization: localization).format(dateTime);
       return formatted;
     } catch (e) {
       if (kDebugMode) {
@@ -66,12 +65,12 @@ class Dates {
   }
 
   static String pGetDateTimeCustomFormat(DateTime? dateTime, String format,
-      {String? defaultValue}) {
+      {String? defaultValue,String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = DateFormat(format).format(dateTime);
+      String formatted = DateFormat(format,  localization??HttpCalls.localization??'en').format(dateTime);
       return formatted;
     } catch (e) {
       return '00-00-0000';

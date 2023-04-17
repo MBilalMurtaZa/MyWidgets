@@ -25,11 +25,17 @@ class HttpCalls {
 
   static Map<String, String>? httpHeader;
   static Map<String, String>? headerAddOns;
+  static bool useDefaultURl = true;
 
   HttpCalls._();
 
   static Uri getRequestURL(String postFix) {
-    return Uri.parse(sServerURL + postFix);
+    if(useDefaultURl){
+      return Uri.parse(sServerURL + postFix);
+    }else {
+      return Uri.parse(postFix);
+    }
+
   }
 
   static dynamic getDataObject(Response result, {bool? defaultResponse}) async {
@@ -438,16 +444,19 @@ class HttpCalls {
     return response;
   }
 
+  @Deprecated('Please use uploadFiles instead of uploadFile')
   static Future<dynamic> uploadFile(String endPoint, String filename,
       {String fileKey = 'image',
-      bool isUserAvatar = false,
-      bool hasAuth = true,
-      Map<String, String>? params,
-      required String token,
-      bool? defaultResponse,
-      Map<String, String>? customHeader,
-      bool isTypeJson = true,
-      String? changeLocalization}) async {
+        bool isUserAvatar = false,
+        bool hasAuth = true,
+        Map<String, String>? params,
+        required String token,
+        bool? defaultResponse,
+        Map<String, String>? customHeader,
+        bool isTypeJson = true,
+        String? changeLocalization,
+        String requestType = 'POST',
+      }) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     dynamic response;
     if (kDebugMode) {
@@ -474,7 +483,7 @@ class HttpCalls {
     debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
     try {
       var request = MultipartRequest(
-        'POST',
+        requestType,
         url,
       );
       request.files.add(await MultipartFile.fromPath(fileKey, filename));
@@ -496,6 +505,77 @@ class HttpCalls {
 
     return response;
   }
+
+  static Future<dynamic> uploadFiles(String endPoint, Map<String, String> fileParams, {
+        bool isUserAvatar = false,
+        bool hasAuth = true,
+        Map<String, String>? dataParams,
+        required String token,
+        bool? defaultResponse,
+        Map<String, String>? customHeader,
+        bool isTypeJson = true,
+        String? changeLocalization,
+    String requestType = 'POST',
+  }) async {
+    Uri url = HttpCalls.getRequestURL(endPoint);
+    dynamic response;
+    if (kDebugMode) {
+      print(url);
+    }
+    final Map<String, String> header = {};
+
+    if ((localization ?? changeLocalization) != null) {
+      header['X-localization'] = localization??changeLocalization??'';
+      header['Accept-Language'] = localization??changeLocalization??'';
+    }
+
+    if (isTypeJson) {
+      header[HttpHeaders.contentTypeHeader] = 'application/json';
+    }
+
+    if (hasAuth) {
+      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+    }
+    if (headerAddOns != null) {
+      header.addAll(headerAddOns!);
+    }
+
+    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+
+    if(dataParams != null){
+      debugPrint(jsonEncode(dataParams));
+    }
+
+    debugPrint(jsonEncode(fileParams));
+
+    try {
+      var request = MultipartRequest(
+        requestType,
+        url,
+      );
+
+      Future.forEach(fileParams.entries, (file) async =>
+          request.files.add(await MultipartFile.fromPath(file.key, file.value)),
+      );
+      request.headers.addAll(customHeader ?? httpHeader ?? header);
+      if (dataParams != null) {
+        request.fields.addAll(dataParams);
+      }
+
+      var streamedResponse = await request.send();
+      var result = await Response.fromStream(streamedResponse);
+      if (kDebugMode) {
+        debugPrint(result.body.toString());
+      }
+      response =
+          HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+    } catch (e) {
+      response = errorHandler(e.toString(), response, defaultResponse);
+    }
+
+    return response;
+  }
+
 
   @Deprecated('Please use uploadFile function to upload multipart')
   static Future<dynamic> uploadImage(String filename, String fileType,

@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_widgets/services/http_calls.dart';
+import 'package:my_widgets/utils/dates.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'utils/utils.dart';
@@ -253,54 +254,58 @@ pSnackBar(
       borderWidth: 2.0);
 }
 
-pSetSettings({
-  required Color primaryColor,
-  required Color secondaryColor,
-  String baseUrlLive = '',
-  String baseUrlTest = '',
-  bool isLive = true,
-  String defaultImage = 'assets/default.png',
-  bool defImageIsAsset = true,
-  httpCallsDefaultResponse = true,
-  double defaultFontSize = 14.0,
-  double defaultRadius = 8.0,
-  double defaultBtnHeight = 50,
-  bool? txtInputHasBorder,
-  bool txtInputHasLabel = false,
-  bool txtInputHasLabelOnTop = false,
-  bool txtInputHasLabelWithStar = true,
-  bool defaultImageClick = true,
-  EdgeInsetsGeometry? txtInoutDefaultContentPadding,
-  bool httpCallsWithStream = false,
-  bool httpResponseUtf8Convert = false,
-  String? internetIssueMessage,
-  localization,
-  FontWeight? fontWeight,
-  TextStyle? txtStyle,
-  TextStyle? labelInputStyle,
-  TextStyle? hintInputStyle,
-  TextStyle? styleInput,
-  TextStyle? prefixInputStyle,
-  Color? txtColor,
-  Color? txtInputColor,
-  String? currencySymbol,
-  String? currencyLocale,
-  int? currencyDecimal,
-  bool isCurrencyCompact = false,
-  InputDecoration? inputDecoration,
-  Map<String, String>? httpHeader,
-  Map<String, String>? httpHeaderAddOns,
-  InputBorder? txtInputEnabledBorder,
-  InputBorder? txtInputFocusedBorder,
-  InputBorder? txtInputErrorBorder,
-  InputBorder? txtInputBorder,
-  Color? txtInputBorderColor,
-  double? txtInputLabelPadding,
-  double? btnHeight,
-  double? btnRadius,
-  Color? btnBgColor,
-  Color? btnBorderColor,
-}) {
+Future<void> pSetSettings(
+    {
+      required Color primaryColor,
+    required Color secondaryColor,
+    String baseUrlLive = '',
+    String baseUrlTest = '',
+      bool useDefaultURl = true,
+    bool isLive = true,
+    String defaultImage = 'assets/default.png',
+    bool defImageIsAsset = true,
+    httpCallsDefaultResponse = true,
+    double defaultFontSize = 14.0,
+    double defaultRadius = 8.0,
+    double defaultBtnHeight = 50,
+    bool? txtInputHasBorder,
+    bool txtInputHasLabel = false,
+    bool txtInputHasLabelOnTop = false,
+    bool txtInputHasLabelWithStar = true,
+    bool defaultImageClick = true,
+    EdgeInsetsGeometry? txtInoutDefaultContentPadding,
+    bool httpCallsWithStream = false,
+    bool httpResponseUtf8Convert = false,
+    String? internetIssueMessage,
+    localization,
+    FontWeight? fontWeight,
+    TextStyle? txtStyle,
+    TextStyle? labelInputStyle,
+    TextStyle? hintInputStyle,
+    TextStyle? styleInput,
+    TextStyle? prefixInputStyle,
+    Color? txtColor,
+    Color? txtInputColor,
+    String? currencySymbol,
+    String? currencyLocale,
+    int? currencyDecimal,
+    bool isCurrencyCompact = false,
+    InputDecoration? inputDecoration,
+    Map<String, String>? httpHeader,
+    Map<String, String>? httpHeaderAddOns,
+    InputBorder? txtInputEnabledBorder,
+    InputBorder? txtInputFocusedBorder,
+    InputBorder? txtInputErrorBorder,
+    InputBorder? txtInputBorder,
+    Color? txtInputBorderColor,
+    double? txtInputLabelPadding,
+    double? btnHeight,
+    double? btnRadius,
+    Color? btnBgColor,
+    Color? btnBorderColor,
+    }
+) async {
+  await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
@@ -348,6 +353,9 @@ pSetSettings({
   Static.btnRadius = btnRadius;
   Static.btnBgColor = btnBgColor;
   Static.btnBgColor = btnBorderColor;
+  HttpCalls.useDefaultURl = useDefaultURl;
+
+
 }
 
 String pRemoveHtmlIfNeeded(String text) {

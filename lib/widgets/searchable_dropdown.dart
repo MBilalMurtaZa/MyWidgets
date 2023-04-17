@@ -6,7 +6,8 @@ import 'search_bar.dart';
 
 class SearchableDropdown extends StatelessWidget {
   final List<SearchListModel> list;
-  const SearchableDropdown({Key? key, required this.list}) : super(key: key);
+  final PreferredSizeWidget? appBar;
+  const SearchableDropdown({Key? key, required this.list, this.appBar}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class SearchableDropdown extends StatelessWidget {
         return GestureDetector(
           onTap: pFocusOut,
           child: Scaffold(
-            appBar: AppBar(
+            appBar: appBar??AppBar(
               title: const Text("Search"),
             ),
             body: Column(
@@ -24,6 +25,7 @@ class SearchableDropdown extends StatelessWidget {
                 SearchBar(
                   controller: controller.searchTxt,
                   onChange: controller.onSearch,
+
                 ),
                 const MyDivider(),
                 Expanded(
@@ -84,5 +86,5 @@ class SearchListModel {
   dynamic id;
   Widget? widget;
 
-  SearchListModel(this.name, this.id, this.widget);
+  SearchListModel({this.name, this.id, this.widget});
 }

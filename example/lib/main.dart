@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:my_widgets/my_widgets.dart';
+import 'package:my_widgets/utils/dates.dart';
 import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/btn.dart';
@@ -15,8 +16,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Pref.getPref();
 
+
   String stgBaseURL = 'https://xvz/api/'; // optional
-  pSetSettings(
+  await pSetSettings(
     primaryColor: Clr.colorPrimary,
     secondaryColor: Colors.white,
     defaultImage: 'assets/images/avatar.png',
@@ -33,10 +35,10 @@ Future<void> main() async {
     txtInoutDefaultContentPadding: const EdgeInsets.symmetric(horizontal: 10),
     fontWeight: FontWeight.w600,
     defaultFontSize: Siz.body17,
-    localization: 'en',
-    txtInputEnabledBorder: OutlineInputBorder(
+    localization: 'ar',
+    txtInputEnabledBorder: const OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(16)),
-      borderSide: const BorderSide(
+      borderSide: BorderSide(
           width: 1,
           color: Colors.red,
           style:  BorderStyle.solid
@@ -64,15 +66,18 @@ class _MyAppState extends State<MyApp> {
   var inputEditingController = TextEditingController();
 
   @override
-  void initState() {
-    
+   initState()  {
     super.initState();
 
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -83,6 +88,12 @@ class _MyAppState extends State<MyApp> {
           child: Form(
             child: ListView(
               children: [
+
+                // Use Txt to show text with easy format options
+
+                Txt(Dates.pDateToString(DateTime.now())),
+
+                // Txt(Dates.pDateToString(DateTime.now(), localization: 'en')),
 
                 // Use Txt to show text with easy format options
                 const Txt('I am Plane '),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import '../utils/utils.dart';
@@ -273,7 +274,7 @@ class TxtFormInput extends StatelessWidget {
                         : (validator ??
                             (value) {
                               if (value == null || value.isEmpty) {
-                                return errorMessage ?? 'Please Enter $hintText';
+                                return errorMessage ?? '${'Please Enter'.tr} $hintText';
                               }
                               if (validationLength != null) {
                                 if (value.length < validationLength!) {

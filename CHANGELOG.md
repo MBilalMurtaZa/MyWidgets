@@ -1,3 +1,13 @@
+## 0.4.7
+* change search params type 
+## 0.4.6
+* Add request Type (eg post) in multipart request
+## 0.4.5
+* upload multiple files 
+## 0.4.4
+* handle new responses 
+## 0.4.3
+* base url are optional now
 ## 0.4.1
 * handle btn colors
 ## 0.4.0
