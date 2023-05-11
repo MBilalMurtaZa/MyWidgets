@@ -38,6 +38,7 @@ class TxtFormInput extends StatelessWidget {
   final Color? fillColor, borderColor;
   final TextStyle? labelStyle, hintStyle, style, prefixStyle;
   final BorderSide? borderSide;
+  final bool? appDirectionLeftToRight;
 
   const TxtFormInput({
     Key? key,
@@ -94,6 +95,7 @@ class TxtFormInput extends StatelessWidget {
     this.prefixStyle,
     this.hasCounter = false,
     this.borderSide,
+    this.appDirectionLeftToRight,
   }) : super(key: key);
 
   @override
@@ -274,7 +276,7 @@ class TxtFormInput extends StatelessWidget {
                         : (validator ??
                             (value) {
                               if (value == null || value.isEmpty) {
-                                return errorMessage ?? '${'Please Enter'.tr} $hintText';
+                                return errorMessage ?? ((appDirectionLeftToRight??Static.appDirectionLeftToRight??true)?'${'Please Enter'.tr} $hintText': '$hintText ${'Please Enter'.tr}');
                               }
                               if (validationLength != null) {
                                 if (value.length < validationLength!) {

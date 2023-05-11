@@ -94,5 +94,6 @@ class Static {
   static double? btnRadius;
   static Color? btnBgColor;
   static Color? btnBorderColor;
+  static bool? appDirectionLeftToRight;
   Static._();
 }

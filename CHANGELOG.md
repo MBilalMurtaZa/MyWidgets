@@ -1,3 +1,5 @@
+## 0.4.8
+* add app directions
 ## 0.4.7
 * change search params type 
 ## 0.4.6
