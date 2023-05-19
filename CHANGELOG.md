@@ -1,3 +1,9 @@
+## 0.5.0
+* now you can add fonts family in pSetSettings
+## 0.4.9
+* update dependencies
+* update flutter version from 3.0.7 to 3.10.0
+* rename SearchBar to SearchBarTxtInput
 ## 0.4.8
 * add app directions
 ## 0.4.7

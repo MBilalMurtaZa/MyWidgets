@@ -120,12 +120,13 @@ class TxtFormInput extends StatelessWidget {
                           if (showLabelStat ?? Static.txtInputHasLabelWithStar)
                             TextSpan(
                               text: isOptional ? '' : ' *',
-                              style: const TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.red, fontFamily: Static.fontFamily,),
                             ),
                         ],
                         style: labelStyle ??
                             Style.labelInputStyle ??
                             TextStyle(
+                                fontFamily: Static.fontFamily,
                                 color: hintTextColor,
                                 fontSize: hintTextSize ?? textSize),
                       )))
@@ -152,8 +153,10 @@ class TxtFormInput extends StatelessWidget {
                     style: style ??
                         Style.styleInput ??
                         TextStyle(
-                            fontSize: textSize,
-                            color: textColor ?? Clr.colorTxt),
+                          fontSize: textSize,
+                          color: textColor ?? Clr.colorTxt,
+                          fontFamily: Static.fontFamily,
+                        ),
                     obscureText: isPassword,
                     keyboardType: keyboardType,
                     onChanged: onChanged ??
@@ -183,12 +186,12 @@ class TxtFormInput extends StatelessWidget {
                                       TextSpan(
                                         text: isOptional ? '' : ' *',
                                         style:
-                                            const TextStyle(color: Colors.red),
+                                             TextStyle(color: Colors.red, fontFamily: Static.fontFamily,),
                                       ),
                                   ],
                                   style: labelStyle ??
                                       Style.labelInputStyle ??
-                                      TextStyle(color: hintTextColor),
+                                      TextStyle(color: hintTextColor, fontFamily: Static.fontFamily,),
                                 )))
                               : null,
 
@@ -251,7 +254,7 @@ class TxtFormInput extends StatelessWidget {
                               Style.hintInputStyle ??
                               TextStyle(
                                   fontSize: hintTextSize ?? textSize,
-                                  color: hintTextColor),
+                                  color: hintTextColor, fontFamily: Static.fontFamily,),
                           labelStyle: labelStyle ?? Style.labelInputStyle,
                           suffixIcon: postFix,
                           prefixIcon: preFix,
@@ -265,6 +268,7 @@ class TxtFormInput extends StatelessWidget {
                           prefixStyle: prefixStyle ??
                               Style.styleInput ??
                               TextStyle(
+                                fontFamily: Static.fontFamily,
                                 color: prefixTextColor ??
                                     textColor ??
                                     Clr.colorTxt,

@@ -80,6 +80,7 @@ class Static {
   static FontWeight? fontWeight;
   static double? defaultFontSize;
   static String? currencySymbol;
+  static String? fontFamily;
   static String? currencyLocale;
   static bool isCurrencyCompact = false;
   static int? currencyDecimal;
@@ -95,5 +96,6 @@ class Static {
   static Color? btnBgColor;
   static Color? btnBorderColor;
   static bool? appDirectionLeftToRight;
+
   Static._();
 }

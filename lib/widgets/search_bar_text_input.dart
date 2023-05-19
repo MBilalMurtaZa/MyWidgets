@@ -3,13 +3,13 @@ import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBarInput extends StatelessWidget {
   final dynamic controller;
   final ValueChanged<String>? onChange;
   final String? hintText;
   final VoidCallback? onSearchPressed;
 
-  const SearchBar(
+  const SearchBarInput(
       {Key? key,
       this.controller,
       this.onChange,

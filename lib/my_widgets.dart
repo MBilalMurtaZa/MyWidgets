@@ -303,7 +303,8 @@ Future<void> pSetSettings(
       double? btnRadius,
       Color? btnBgColor,
       Color? btnBorderColor,
-      bool? appDirectionLeftToRight
+      bool? appDirectionLeftToRight,
+      String? fontFamily,
     }
 ) async {
   await Dates.initializeDateFormat();
@@ -356,6 +357,7 @@ Future<void> pSetSettings(
   Static.btnBgColor = btnBorderColor;
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
   HttpCalls.useDefaultURl = useDefaultURl;
+  Static.fontFamily = fontFamily;
 
 
 

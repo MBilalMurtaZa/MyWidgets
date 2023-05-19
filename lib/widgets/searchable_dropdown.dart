@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/my_widgets.dart';
 import 'package:my_widgets/widgets/dividers.dart';
-import 'search_bar.dart';
+import 'search_bar_text_input.dart';
 
 class SearchableDropdown extends StatelessWidget {
   final List<SearchListModel> list;
@@ -18,11 +18,11 @@ class SearchableDropdown extends StatelessWidget {
           onTap: pFocusOut,
           child: Scaffold(
             appBar: appBar??AppBar(
-              title: const Text("Search"),
+              title: const Text("Search", ),
             ),
             body: Column(
               children: [
-                SearchBar(
+                SearchBarInput(
                   controller: controller.searchTxt,
                   onChange: controller.onSearch,
 
