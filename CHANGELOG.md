@@ -1,3 +1,13 @@
+## 0.5.5
+* Now user can chose same(ios/android) loader for both android/iOS 
+## 0.5.4
+* Dynamic Token key in every call 
+## 0.5.3
+* Update License
+## 0.5.2
+* Update All Dependencies
+## 0.5.1
+* google places auto complete in easy way 
 ## 0.5.0
 * now you can add fonts family in pSetSettings
 ## 0.4.9

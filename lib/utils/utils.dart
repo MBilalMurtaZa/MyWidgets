@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class Clr {
@@ -96,6 +98,7 @@ class Static {
   static Color? btnBgColor;
   static Color? btnBorderColor;
   static bool? appDirectionLeftToRight;
+  static bool? defaultLoadingProIsIOS;
 
   Static._();
 }

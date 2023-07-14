@@ -55,7 +55,9 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
-      String? changeLocalization}) async {
+      String? changeLocalization,
+      String tokenKey = 'Bearer',
+      }) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint);
@@ -73,7 +75,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
 
     if (headerAddOns != null) {
@@ -137,7 +139,8 @@ class HttpCalls {
       bool? utf8Convert,
       isTypeJson = true,
       Map<String, String>? customHeader,
-      String? changeLocalization}) async {
+      String? changeLocalization,
+        String tokenKey = 'Bearer',}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
@@ -156,7 +159,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -217,9 +220,11 @@ class HttpCalls {
       bool? defaultResponse,
       bool? withStream,
       bool? utf8Convert,
+        String? paramAsBody,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
-      String? changeLocalization}) async {
+      String? changeLocalization,
+        String tokenKey = 'Bearer',}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
@@ -240,7 +245,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -249,7 +254,7 @@ class HttpCalls {
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
-        request.body = json.encode(params);
+        request.body = paramAsBody??json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
@@ -277,7 +282,7 @@ class HttpCalls {
         var result = await http
             .patch(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: utf8.encode(json.encode(params)))
+                body: paramAsBody??utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < 400) {
           response =
@@ -304,7 +309,8 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
-      String? changeLocalization}) async {
+      String? changeLocalization,
+        String tokenKey = 'Bearer',}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
@@ -325,7 +331,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -385,7 +391,8 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
-      String? changeLocalization}) async {
+      String? changeLocalization,
+        String tokenKey = 'Bearer',}) async {
     dynamic response;
 
     if (kDebugMode) {
@@ -407,7 +414,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -456,6 +463,7 @@ class HttpCalls {
         bool isTypeJson = true,
         String? changeLocalization,
         String requestType = 'POST',
+        String tokenKey = 'Bearer',
       }) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     dynamic response;
@@ -474,7 +482,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -516,6 +524,7 @@ class HttpCalls {
         bool isTypeJson = true,
         String? changeLocalization,
     String requestType = 'POST',
+    String tokenKey = 'Bearer',
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint);
     dynamic response;
@@ -534,7 +543,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -585,7 +594,8 @@ class HttpCalls {
       required String token,
       required String userName,
       Map<String, String>? customHeader,
-      bool? defaultResponse}) async {
+      bool? defaultResponse,
+        String tokenKey = 'Bearer',}) async {
     dynamic response;
     Uri url = HttpCalls.getRequestURL('file-upload');
     if (kDebugMode) {
@@ -594,7 +604,7 @@ class HttpCalls {
     var header = {'Accept': 'application/json'};
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = 'Bearer $token';
+      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);

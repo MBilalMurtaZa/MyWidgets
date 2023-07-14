@@ -7,11 +7,13 @@ class LoadingPro extends StatelessWidget {
   final double? size;
   final bool isLinear;
   final Color? valueColor, backgroundColor;
+  final bool? platFormIsIOS;
   const LoadingPro(
       {this.size,
         this.isLinear = false,
         this.valueColor,
         this.backgroundColor,
+        this.platFormIsIOS,
         Key? key})
       : super(key: key);
   @override
@@ -25,25 +27,29 @@ class LoadingPro extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(5),
       child: Center(
-        child: isLinear
-            ? LinearProgressIndicator(
+        child:
+        isLinear
+            ?
+        LinearProgressIndicator(
           backgroundColor: backgroundColor,
-          valueColor: AlwaysStoppedAnimation<Color>(
-              valueColor ?? Clr.colorPrimary),
+          valueColor: AlwaysStoppedAnimation<Color>(valueColor ?? Clr.colorPrimary),
         )
-            : Platform.isAndroid
-            ? CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-              valueColor ?? Clr.colorPrimary),
-        )
-            : CircleAvatar(
+            :
+        (platFormIsIOS??Static.defaultLoadingProIsIOS??Platform.isIOS)
+            ?
+        CircleAvatar(
           backgroundColor: backgroundColor ?? Clr.colorWhite,
           child: CupertinoActivityIndicator(
             color: valueColor ?? Clr.colorPrimary,
           ),
-        ),
+        )
+            :
+        CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(
+              valueColor ?? Clr.colorPrimary),
+        )
 
-//      child: LinearProgressIndicator(),
+
       ),
     );
   }

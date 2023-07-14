@@ -14,6 +14,7 @@ import 'utils/utils.dart';
 enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
 
 enum URLType { call, sms, web, email }
+enum LoadingProPlatForm {android, iOS}
 
 var pTimeout = 20;
 
