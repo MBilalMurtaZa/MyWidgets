@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import '../models/response_model.dart';
 import '../my_widgets.dart';
+import '../utils/utils.dart';
 
 // bool trustSelfSigned = true;
 // HttpClient httpClient = new HttpClient()
@@ -19,9 +20,9 @@ class HttpCalls {
   static bool httpCallsWithStream = false;
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
-  static String internetIssue =
-      'Seems like internet issue please check your device internet';
+  static String internetIssue = 'Seems like internet issue please check your device internet';
   static String? localization;
+  
 
   static Map<String, String>? httpHeader;
   static Map<String, String>? headerAddOns;
@@ -90,7 +91,7 @@ class HttpCalls {
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
             response = HttpCalls.getDataObject(
                 Response(utf8.decoder.convert(result.bodyBytes),
@@ -115,7 +116,7 @@ class HttpCalls {
               headers: customHeader ?? httpHeader ?? header,
             )
             .timeout(Duration(seconds: pTimeout));
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
@@ -174,7 +175,7 @@ class HttpCalls {
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
             response = HttpCalls.getDataObject(
                 Response(utf8.decoder.convert(result.bodyBytes),
@@ -198,7 +199,7 @@ class HttpCalls {
                 headers: customHeader ?? httpHeader ?? header,
                 body: utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
@@ -259,7 +260,7 @@ class HttpCalls {
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
         var result = await Response.fromStream(streamedResponse);
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
             response = HttpCalls.getDataObject(
                 Response(utf8.decoder.convert(result.bodyBytes),
@@ -284,7 +285,7 @@ class HttpCalls {
                 headers: customHeader ?? httpHeader ?? header,
                 body: paramAsBody??utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
@@ -365,7 +366,7 @@ class HttpCalls {
                 headers: customHeader ?? httpHeader ?? header,
                 body: utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
-        if (result.statusCode < 400) {
+        if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           if (kDebugMode) {
@@ -428,7 +429,7 @@ class HttpCalls {
       var streamedResponse =
           await request.send().timeout(Duration(seconds: pTimeout));
       var result = await Response.fromStream(streamedResponse);
-      if (result.statusCode < 400) {
+      if (result.statusCode < Static.stopDecodingFromErrorCode) {
         if (utf8Convert ?? httpResponseUtf8Convert) {
           response = HttpCalls.getDataObject(
               Response(utf8.decoder.convert(result.bodyBytes),

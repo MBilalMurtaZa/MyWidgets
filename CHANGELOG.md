@@ -1,3 +1,9 @@
+## 0.5.8
+* Now user can chose default toast length using defaultToastLength property in pSetSettings
+## 0.5.7
+* Now user can chose same(ios/android) loader for both android/iOS using defaultLoadingProIsIOS property in pSetSettings
+## 0.5.6
+* user can set error debugging code using stopDecodingFromErrorCode property in pSetSettings 
 ## 0.5.5
 * Now user can chose same(ios/android) loader for both android/iOS 
 ## 0.5.4

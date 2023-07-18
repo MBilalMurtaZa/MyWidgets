@@ -76,18 +76,12 @@ BoxDecoration pBoxDecoration({
       gradient: gradient);
 }
 
-pShowToast(
-    {required String message,
-    Color colorText = Colors.white,
-    Color? backgroundColor,
-    bool isError = false,
-    ToastGravity? toastGravity,
-    Toast toastLength = Toast.LENGTH_SHORT}) {
+pShowToast({required String message, Color colorText = Colors.white, Color? backgroundColor, Color? errorBackgroundColor, bool isError = false, ToastGravity? toastGravity, Toast? toastLength}) {
   Fluttertoast.showToast(
     msg: message,
-    toastLength: toastLength,
+    toastLength: toastLength??Static.toastLength,
     gravity: toastGravity ?? ToastGravity.TOP,
-    backgroundColor: backgroundColor ?? Clr.colorPrimary,
+    backgroundColor: isError?((errorBackgroundColor ?? Colors.red)):(backgroundColor ?? Clr.colorPrimary),
     textColor: colorText,
     fontSize: 16.0,
   );
@@ -306,6 +300,9 @@ Future<void> pSetSettings(
       Color? btnBorderColor,
       bool? appDirectionLeftToRight,
       String? fontFamily,
+      int stopDecodingFromErrorCode = 400,
+      bool? defaultLoadingProIsIOS,
+      Toast defaultToastLength = Toast.LENGTH_SHORT,
     }
 ) async {
   await Dates.initializeDateFormat();
@@ -359,6 +356,9 @@ Future<void> pSetSettings(
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
   HttpCalls.useDefaultURl = useDefaultURl;
   Static.fontFamily = fontFamily;
+  Static.stopDecodingFromErrorCode = stopDecodingFromErrorCode;
+  Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
+  Static.toastLength = defaultToastLength;
 
 
 
