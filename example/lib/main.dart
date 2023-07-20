@@ -7,6 +7,7 @@ import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
+import 'package:my_widgets/widgets/google_map_places_auto_complete.dart';
 import 'package:my_widgets/widgets/input.dart';
 import 'package:my_widgets/widgets/txt.dart';
 
@@ -141,8 +142,9 @@ class _MyAppState extends State<MyApp> {
                   hintText: 'I am with border,radius, label and with hint',
                   hasBorder: true,
                   radius: 20,
-                  labelText: 'I am label',
+                  labelText: 'I am label and google auto complete',
                   hasLabelOnTop: false,
+                  onChanged: onChange,
                 ),
                 TxtFormInput(
                   borderColor: Clr.colorCyan,
@@ -167,5 +169,14 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
     );
+  }
+
+  void onChange(String value) {
+    const String googleMapsApiKey = 'Mapkey';
+    String other = [
+      'components=country:PK',
+      'new=lahore'
+    ].join('&');
+    GoogleMapPlacesAutoComplete.getPlaces(value, googleMapsApiKey, otherOptions: other);
   }
 }

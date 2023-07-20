@@ -1,3 +1,9 @@
+## 0.6.1
+* add http in www urls for launch url;
+## 0.6.0
+* fix masking issues in txtinput
+## 0.5.9
+* now user can add more options in google auto complete
 ## 0.5.8
 * Now user can chose default toast length using defaultToastLength property in pSetSettings
 ## 0.5.7

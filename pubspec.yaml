@@ -1,6 +1,6 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed.
-version: 0.5.8
+version: 0.6.1
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
@@ -14,7 +14,6 @@ dependencies:
   http: ^1.1.0
   shared_preferences: ^2.2.0
   cached_network_image: ^3.2.3
-  mask_text_input_formatter: ^2.4.0
   fluttertoast: ^8.2.2
   get: ^4.6.5
   url_launcher: ^6.1.12

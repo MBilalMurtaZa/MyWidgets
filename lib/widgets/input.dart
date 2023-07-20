@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import '../utils/utils.dart';
 
@@ -13,7 +13,7 @@ class TxtFormInput extends StatelessWidget {
   final double borderWidth;
   final BorderRadius? borderRadius;
   final Color? textColor, hintTextColor, prefixTextColor;
-  final List<MaskTextInputFormatter>? inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
   final TextAlign textAlign;
   final TextCapitalization textCapitalization;
   final ValueChanged<String>? onChanged;

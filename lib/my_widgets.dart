@@ -207,6 +207,17 @@ Future<void> pLaunchURL(String action,
         break;
       case URLType.web:
         url = action;
+
+          if(action.toLowerCase().startsWith('http')){
+            url = action;
+          }else{
+            if(action.toLowerCase().startsWith('www.')){
+              url = 'http://${action.substring(4)}';
+            }else{
+              error = 'Could not open $action';
+            }
+          }
+
         error = 'Could not open $action';
         break;
       case URLType.email:
