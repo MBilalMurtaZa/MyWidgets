@@ -6,7 +6,9 @@ import 'package:my_widgets/widgets/input.dart';
 class SearchBarInput extends StatelessWidget {
   final dynamic controller;
   final ValueChanged<String>? onChange;
-  final String? hintText;
+  final String hintText;
+  final String labelText;
+  final bool showLabel;
   final VoidCallback? onSearchPressed;
 
   const SearchBarInput(
@@ -14,7 +16,10 @@ class SearchBarInput extends StatelessWidget {
       this.controller,
       this.onChange,
       this.hintText = 'Search',
-      this.onSearchPressed})
+      this.onSearchPressed,
+        this.labelText = 'Search',
+        this.showLabel = true,
+      })
       : super(key: key);
 
   @override
@@ -31,6 +36,8 @@ class SearchBarInput extends StatelessWidget {
               keyboardType: TextInputType.text,
               onChanged: onChange,
               hintText: hintText,
+              labelText: labelText,
+              hasLabel: showLabel,
               hintTextSize: 18,
               onEditingComplete: onSearchPressed ?? () {},
               isOptional: true,

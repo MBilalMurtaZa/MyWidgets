@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +9,7 @@ class Clr {
   static const Color colorTransparent = Color(0x00000000);
   static const Color colorGreyLight = Color(0xFFF1F5F9);
   static const Color colorWhite = Colors.white;
+  static const Color colorGreen = Colors.green;
   static const Color colorBlack = Colors.black;
   static Color colorTxt = Colors.black;
   static Color colorTxtInput = Colors.black;
@@ -100,6 +100,7 @@ class Static {
   static Color? btnBorderColor;
   static bool? appDirectionLeftToRight;
   static bool? defaultLoadingProIsIOS;
+  static bool? useDefaultURl;
   static int stopDecodingFromErrorCode = 400;
   static Toast toastLength = Toast.LENGTH_SHORT;
 

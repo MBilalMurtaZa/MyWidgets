@@ -6,25 +6,34 @@ class Dialogs {
   static Future showNativeDialog({
     BuildContext? context,
     String title = 'Info',
-    Widget? body,
+    Material? body,
     String message = 'Action cannot be undo.',
     String okBtn = 'OK',
     String? cancelBtn,
+    Color? okButtonTextColor,
+    Color? cancelButtonTextColor,
+    TextStyle? okButtonTextStyle,
+    TextStyle? cancelButtonTextStyle,
+    Widget? okButton,
+    Widget? cancelButton,
+    List<Widget>? buttonList,
   }) async {
     return showPlatformDialog(
       context: context ?? Get.context!,
       androidBarrierDismissible: true,
+
       builder: (context) => BasicDialogAlert(
         title: Text(title),
-        content: body ?? Text(message),
-        actions: <Widget>[
-          BasicDialogAction(
-            title: Text(okBtn),
+        content: body??Text(message),
+        actions: buttonList??<Widget>[
+          okButton??BasicDialogAction(
+            title: Text(okBtn, style: okButtonTextStyle??TextStyle(color: okButtonTextColor),),
             onPressed: () => Get.back(result: cancelBtn == null ? false : true),
           ),
-          if (cancelBtn != null)
-            BasicDialogAction(
-              title: Text(cancelBtn),
+
+          if (cancelBtn != null || cancelButton != null)
+            cancelButton??BasicDialogAction(
+              title: Text(cancelBtn??'', style: cancelButtonTextStyle??TextStyle(color: cancelButtonTextColor),),
               onPressed: () => Get.back(result: false),
             ),
         ],

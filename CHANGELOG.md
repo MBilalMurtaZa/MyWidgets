@@ -1,7 +1,16 @@
+## 0.6.5
+* Add multiselect in searchable dropdown 
+* add few more options in searchable dropdown
+## 0.6.4
+* Update Dialogs
+## 0.6.3
+* base path is optional now in http_calls  
+## 0.6.2
+* add http in www urls for launch url;
 ## 0.6.1
 * add http in www urls for launch url;
 ## 0.6.0
-* fix masking issues in txtinput
+* fix masking issues in txt input
 ## 0.5.9
 * now user can add more options in google auto complete
 ## 0.5.8

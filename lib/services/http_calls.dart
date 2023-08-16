@@ -20,23 +20,21 @@ class HttpCalls {
   static bool httpCallsWithStream = false;
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
-  static String internetIssue = 'Seems like internet issue please check your device internet';
+  static String internetIssue =
+      'Seems like internet issue please check your device internet';
   static String? localization;
-  
 
   static Map<String, String>? httpHeader;
   static Map<String, String>? headerAddOns;
-  static bool useDefaultURl = true;
 
   HttpCalls._();
 
-  static Uri getRequestURL(String postFix) {
-    if(useDefaultURl){
+  static Uri getRequestURL(String postFix, {bool? useDefaultURl}) {
+    if (useDefaultURl ?? Static.useDefaultURl ?? true) {
       return Uri.parse(sServerURL + postFix);
-    }else {
+    } else {
       return Uri.parse(postFix);
     }
-
   }
 
   static dynamic getDataObject(Response result, {bool? defaultResponse}) async {
@@ -58,17 +56,17 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      }) async {
+      bool? useDefaultURl}) async {
     dynamic response;
 
-    Uri url = HttpCalls.getRequestURL(endPoint);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     debugPrint(url.toString());
 
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
 
     if (isTypeJson) {
@@ -141,19 +139,20 @@ class HttpCalls {
       isTypeJson = true,
       Map<String, String>? customHeader,
       String? changeLocalization,
-        String tokenKey = 'Bearer',}) async {
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
 
-    Uri url = HttpCalls.getRequestURL(endPoint);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     if (kDebugMode) {
       print(url);
     }
     final Map<String, String> header = {};
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
     if (isTypeJson) {
       header[HttpHeaders.contentTypeHeader] = 'application/json';
@@ -221,15 +220,16 @@ class HttpCalls {
       bool? defaultResponse,
       bool? withStream,
       bool? utf8Convert,
-        String? paramAsBody,
+      String? paramAsBody,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
       String? changeLocalization,
-        String tokenKey = 'Bearer',}) async {
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
-    Uri url = HttpCalls.getRequestURL(endPoint);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     if (kDebugMode) {
       print(url);
     }
@@ -238,8 +238,8 @@ class HttpCalls {
       'content-type': 'application/json'
     };
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
     if (isTypeJson) {
       header[HttpHeaders.contentTypeHeader] = 'application/json';
@@ -255,7 +255,7 @@ class HttpCalls {
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
-        request.body = paramAsBody??json.encode(params);
+        request.body = paramAsBody ?? json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: pTimeout));
@@ -283,7 +283,7 @@ class HttpCalls {
         var result = await http
             .patch(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: paramAsBody??utf8.encode(json.encode(params)))
+                body: paramAsBody ?? utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: pTimeout));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
@@ -311,20 +311,21 @@ class HttpCalls {
       bool isTypeJson = true,
       Map<String, String>? customHeader,
       String? changeLocalization,
-        String tokenKey = 'Bearer',}) async {
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
     dynamic response;
 
     debugPrint(jsonEncode(params));
 
-    Uri url = HttpCalls.getRequestURL(endPoint);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     if (kDebugMode) {
       print(url);
     }
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
 
     if (isTypeJson) {
@@ -393,21 +394,22 @@ class HttpCalls {
       bool isTypeJson = true,
       Map<String, String>? customHeader,
       String? changeLocalization,
-        String tokenKey = 'Bearer',}) async {
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
     dynamic response;
 
     if (kDebugMode) {
       debugPrint(jsonEncode(params));
     }
-    Uri url = HttpCalls.getRequestURL(endPoint);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     if (kDebugMode) {
       print(url);
     }
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
 
     if (isTypeJson) {
@@ -455,18 +457,18 @@ class HttpCalls {
   @Deprecated('Please use uploadFiles instead of uploadFile')
   static Future<dynamic> uploadFile(String endPoint, String filename,
       {String fileKey = 'image',
-        bool isUserAvatar = false,
-        bool hasAuth = true,
-        Map<String, String>? params,
-        required String token,
-        bool? defaultResponse,
-        Map<String, String>? customHeader,
-        bool isTypeJson = true,
-        String? changeLocalization,
-        String requestType = 'POST',
-        String tokenKey = 'Bearer',
-      }) async {
-    Uri url = HttpCalls.getRequestURL(endPoint);
+      bool isUserAvatar = false,
+      bool hasAuth = true,
+      Map<String, String>? params,
+      required String token,
+      bool? defaultResponse,
+      Map<String, String>? customHeader,
+      bool isTypeJson = true,
+      String? changeLocalization,
+      String requestType = 'POST',
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
     if (kDebugMode) {
       print(url);
@@ -474,8 +476,8 @@ class HttpCalls {
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
 
     if (isTypeJson) {
@@ -515,19 +517,20 @@ class HttpCalls {
     return response;
   }
 
-  static Future<dynamic> uploadFiles(String endPoint, Map<String, String> fileParams, {
-        bool isUserAvatar = false,
-        bool hasAuth = true,
-        Map<String, String>? dataParams,
-        required String token,
-        bool? defaultResponse,
-        Map<String, String>? customHeader,
-        bool isTypeJson = true,
-        String? changeLocalization,
-    String requestType = 'POST',
-    String tokenKey = 'Bearer',
-  }) async {
-    Uri url = HttpCalls.getRequestURL(endPoint);
+  static Future<dynamic> uploadFiles(
+      String endPoint, Map<String, String> fileParams,
+      {bool isUserAvatar = false,
+      bool hasAuth = true,
+      Map<String, String>? dataParams,
+      required String token,
+      bool? defaultResponse,
+      Map<String, String>? customHeader,
+      bool isTypeJson = true,
+      String? changeLocalization,
+      String requestType = 'POST',
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
     if (kDebugMode) {
       print(url);
@@ -535,8 +538,8 @@ class HttpCalls {
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization??changeLocalization??'';
-      header['Accept-Language'] = localization??changeLocalization??'';
+      header['X-localization'] = localization ?? changeLocalization ?? '';
+      header['Accept-Language'] = localization ?? changeLocalization ?? '';
     }
 
     if (isTypeJson) {
@@ -552,7 +555,7 @@ class HttpCalls {
 
     debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
 
-    if(dataParams != null){
+    if (dataParams != null) {
       debugPrint(jsonEncode(dataParams));
     }
 
@@ -564,8 +567,10 @@ class HttpCalls {
         url,
       );
 
-      Future.forEach(fileParams.entries, (file) async =>
-          request.files.add(await MultipartFile.fromPath(file.key, file.value)),
+      Future.forEach(
+        fileParams.entries,
+        (file) async => request.files
+            .add(await MultipartFile.fromPath(file.key, file.value)),
       );
       request.headers.addAll(customHeader ?? httpHeader ?? header);
       if (dataParams != null) {
@@ -586,7 +591,6 @@ class HttpCalls {
     return response;
   }
 
-
   @Deprecated('Please use uploadFile function to upload multipart')
   static Future<dynamic> uploadImage(String filename, String fileType,
       {bool isUserAvatar = false,
@@ -596,9 +600,11 @@ class HttpCalls {
       required String userName,
       Map<String, String>? customHeader,
       bool? defaultResponse,
-        String tokenKey = 'Bearer',}) async {
+      String tokenKey = 'Bearer',
+      bool? useDefaultURl}) async {
     dynamic response;
-    Uri url = HttpCalls.getRequestURL('file-upload');
+    Uri url =
+        HttpCalls.getRequestURL('file-upload', useDefaultURl: useDefaultURl);
     if (kDebugMode) {
       print(url.toString());
     }

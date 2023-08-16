@@ -9,7 +9,9 @@ import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/google_map_places_auto_complete.dart';
 import 'package:my_widgets/widgets/input.dart';
+import 'package:my_widgets/widgets/searchable_dropdown.dart';
 import 'package:my_widgets/widgets/txt.dart';
+import 'package:get/get.dart';
 
 
 Future<void> main() async {
@@ -65,21 +67,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   var inputEditingController = TextEditingController();
+  List<SearchListModel> listDropdown = [
+    SearchListModel(name: 'One', id: 1),
+    SearchListModel(name: 'Two', id: 2),
+    SearchListModel(name: 'Three', id: 3),
+    SearchListModel(name: 'Four', id: 4),
+  ];
 
-  @override
-   initState()  {
-    super.initState();
-
-  }
-
-
+  var searchAbleDropDownTap = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
 
 
-    return MaterialApp(
+    return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Example My Widgets'),
@@ -161,7 +163,14 @@ class _MyAppState extends State<MyApp> {
 
                 const MyDivider(),
                 Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorCyan,),
-                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorBlack,)
+                const MyDivider(),
+                Btn(text: 'I am button',onPressed: (){},bgColor: Clr.colorBlack,),
+                const MyDivider(),
+                TxtFormInput(
+                  onTap: onSearchAbleDropDownTap,
+                  hintText: 'Tap here to search from dropdown',
+                  controller: searchAbleDropDownTap,
+                )
 
               ],
             ),
@@ -178,5 +187,9 @@ class _MyAppState extends State<MyApp> {
       'new=lahore'
     ].join('&');
     GoogleMapPlacesAutoComplete.getPlaces(value, googleMapsApiKey, otherOptions: other);
+  }
+
+  void onSearchAbleDropDownTap() {
+    pSetRout(page: ()=> SearchableDropdown(list: listDropdown, multiSelect: true,showBottomButton: false,refreshList: true,));
   }
 }

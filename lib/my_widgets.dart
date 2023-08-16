@@ -131,7 +131,7 @@ Future<dynamic> pSetRout(
     Duration? duration,
     Curve? curve,
     Transition? transition}) async {
-  pFocusOut();
+  pFocusOut(context: context);
   switch (routeType) {
     case RouteType.push:
       // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
@@ -239,6 +239,14 @@ Future<void> pLaunchURL(String action,
           webViewConfiguration:
               webViewConfiguration ?? const WebViewConfiguration());
     } else {
+      if(urlType == URLType.web){
+        String customSearch = 'https://www.google.com/search?q=$url';
+        await launchUrl(Uri.parse(customSearch),
+            mode: mode ?? LaunchMode.platformDefault,
+            webOnlyWindowName: webOnlyWindowName,
+            webViewConfiguration:
+            webViewConfiguration ?? const WebViewConfiguration());
+      }
       pShowToast(message: error);
     }
   }
@@ -266,7 +274,7 @@ Future<void> pSetSettings(
       required Color secondaryColor,
       String baseUrlLive = '',
       String baseUrlTest = '',
-      bool useDefaultURl = true,
+      bool? useDefaultURl,
       bool isLive = true,
       String defaultImage = 'assets/default.png',
       bool defImageIsAsset = true,
@@ -365,7 +373,7 @@ Future<void> pSetSettings(
   Static.btnBgColor = btnBgColor;
   Static.btnBgColor = btnBorderColor;
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
-  HttpCalls.useDefaultURl = useDefaultURl;
+  Static.useDefaultURl = useDefaultURl;
   Static.fontFamily = fontFamily;
   Static.stopDecodingFromErrorCode = stopDecodingFromErrorCode;
   Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
