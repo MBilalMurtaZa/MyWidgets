@@ -116,6 +116,7 @@ class _MyAppState extends State<MyApp> {
                   hasBorder: true,
                   radius: 20,
                   hasLabel: false,
+                  cursorColor: Clr.colorGreen,
 
                 ),
                 TxtFormInput(

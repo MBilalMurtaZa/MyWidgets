@@ -1,3 +1,13 @@
+## 0.7.1
+* fix some minor issues 
+## 0.7.0
+* update flutter version 3.16.0
+## 0.6.8
+* Add tap event on snack Bar
+## 0.6.7
+* enhancement in input form field
+## 0.6.6
+* enhancement in input form field
 ## 0.6.5
 * Add multiselect in searchable dropdown 
 * add few more options in searchable dropdown

@@ -41,15 +41,11 @@ BoxDecoration pBoxDecoration({
   BoxShape shape = BoxShape.rectangle,
 }) {
   return BoxDecoration(
-      borderRadius: borderRadius ??
-          BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
-      border: border ??
-          (hasBorder
-              ? Border.all(
+      borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+      border: border ?? (hasBorder ? Border.all(
                   color: borderColor ?? Clr.colorTransparent,
                   width: borderWidth,
-                  style: borderStyle)
-              : null),
+                  style: borderStyle) : null),
       color: color,
       shape: shape,
       image: decorationImage ??
@@ -190,7 +186,10 @@ Future<void> pLaunchURL(String action,
     LaunchMode? mode,
     String? webOnlyWindowName,
     WebViewConfiguration? webViewConfiguration,
-    String? emailBody}) async {
+    String? emailBody,
+      bool setUrlCorrection = false,
+      bool openInGoogleIfError = true
+    }) async {
   if (action == Str.na) {
     pShowToast(message: "Invalid Content");
   } else {
@@ -208,6 +207,7 @@ Future<void> pLaunchURL(String action,
       case URLType.web:
         url = action;
 
+        if(setUrlCorrection){
           if(action.toLowerCase().startsWith('http')){
             url = action;
           }else{
@@ -217,6 +217,8 @@ Future<void> pLaunchURL(String action,
               error = 'Could not open $action';
             }
           }
+        }
+
 
         error = 'Could not open $action';
         break;
@@ -233,24 +235,28 @@ Future<void> pLaunchURL(String action,
 
     debugPrint(url);
     if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url),
-          mode: mode ?? LaunchMode.platformDefault,
-          webOnlyWindowName: webOnlyWindowName,
-          webViewConfiguration:
-              webViewConfiguration ?? const WebViewConfiguration());
+      await launchUrlBody(url, mode, webOnlyWindowName, webViewConfiguration);
     } else {
-      if(urlType == URLType.web){
-        String customSearch = 'https://www.google.com/search?q=$url';
-        await launchUrl(Uri.parse(customSearch),
-            mode: mode ?? LaunchMode.platformDefault,
-            webOnlyWindowName: webOnlyWindowName,
-            webViewConfiguration:
-            webViewConfiguration ?? const WebViewConfiguration());
+      if(openInGoogleIfError){
+        if(urlType == URLType.web){
+          String customSearch = 'https://www.google.com/search?q=$url';
+          await launchUrlBody(customSearch, mode, webOnlyWindowName, webViewConfiguration);
+        }
+      }else{
+        pShowToast(message: error);
       }
-      pShowToast(message: error);
     }
   }
 }
+
+Future<bool> launchUrlBody(String url, LaunchMode? mode, String? webOnlyWindowName, WebViewConfiguration? webViewConfiguration) async {
+  return await launchUrl(Uri.parse(url),
+      mode: mode ?? LaunchMode.platformDefault,
+      webOnlyWindowName: webOnlyWindowName,
+      webViewConfiguration:
+      webViewConfiguration ?? const WebViewConfiguration());
+}
+
 
 pSnackBar(
     {String title = 'Info',
@@ -258,14 +264,16 @@ pSnackBar(
     Color colorText = Clr.colorWhite,
     Color? backgroundColor,
     bool isError = false,
-    SnackPosition snackPosition = SnackPosition.TOP}) {
+    SnackPosition snackPosition = SnackPosition.TOP, Function(GetSnackBar snackBar)? onTap}) {
   Get.snackbar(isError ? 'Error' : title, message ?? '',
       colorText: isError ? Colors.white : colorText,
       backgroundColor:
           isError ? Colors.red : backgroundColor ?? Clr.colorPrimary,
       borderColor: Colors.white,
       snackPosition: snackPosition,
-      borderWidth: 2.0);
+      borderWidth: 2.0,
+    onTap: onTap
+  );
 }
 
 Future<void> pSetSettings(
@@ -371,7 +379,7 @@ Future<void> pSetSettings(
   Static.btnHeight = btnHeight;
   Static.btnRadius = btnRadius;
   Static.btnBgColor = btnBgColor;
-  Static.btnBgColor = btnBorderColor;
+  Static.btnBorderColor = btnBorderColor;
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
   Static.useDefaultURl = useDefaultURl;
   Static.fontFamily = fontFamily;

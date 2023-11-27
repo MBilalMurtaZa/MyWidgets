@@ -13,12 +13,12 @@ class FullPhotoView extends StatelessWidget {
   final List<String> images;
 
   const FullPhotoView({
-    Key? key,
+    super.key,
     this.isAsset = false,
     this.isSingleImage = true,
     this.titleText = 'Media Preview',
     this.images = const [],
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

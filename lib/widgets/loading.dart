@@ -14,8 +14,7 @@ class LoadingPro extends StatelessWidget {
         this.valueColor,
         this.backgroundColor,
         this.platFormIsIOS,
-        Key? key})
-      : super(key: key);
+        super.key});
   @override
   Widget build(BuildContext context) {
     return Container(

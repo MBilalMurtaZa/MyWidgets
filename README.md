@@ -81,3 +81,13 @@ for iOS side please add below queries in info.plist
 
 # to uninstall package 
 # adb uninstall "com.domain.yourapp"
+
+
+to find SHA1 and SHA-256
+just navigate to android folder in terminal
+then hit below command 
+
+```
+./gradlew signingReport
+```
+

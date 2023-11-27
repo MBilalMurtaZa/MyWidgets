@@ -26,12 +26,11 @@ class SearchableDropdown extends StatelessWidget {
   final bool refreshList;
 
   const SearchableDropdown(
-      {Key? key,
+      {super.key,
       required this.list,
       this.appBar,
       this.multiSelect = false,
-      this.selectIcon, this.selectedIconColor, this.appBarText = 'Search',  this.searchBarHintText = 'Search',  this.searchBarLabelText =  'Search',  this.showSearchBarLabel = true, this.confirmIcon, this.showBottomButton = false, this.confirmButtonText = 'Select', this.bottomButtonColor, this.bottomButtonWidth, this.bottomButtonHasBorder, this.bottomButtonBorderColor, this.refreshList = false})
-      : super(key: key);
+      this.selectIcon, this.selectedIconColor, this.appBarText = 'Search',  this.searchBarHintText = 'Search',  this.searchBarLabelText =  'Search',  this.showSearchBarLabel = true, this.confirmIcon, this.showBottomButton = false, this.confirmButtonText = 'Select', this.bottomButtonColor, this.bottomButtonWidth, this.bottomButtonHasBorder, this.bottomButtonBorderColor, this.refreshList = false});
 
   @override
   Widget build(BuildContext context) {

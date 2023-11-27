@@ -12,15 +12,14 @@ class SearchBarInput extends StatelessWidget {
   final VoidCallback? onSearchPressed;
 
   const SearchBarInput(
-      {Key? key,
+      {super.key,
       this.controller,
       this.onChange,
       this.hintText = 'Search',
       this.onSearchPressed,
         this.labelText = 'Search',
         this.showLabel = true,
-      })
-      : super(key: key);
+      });
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,7 @@ class TxtFormInput extends StatelessWidget {
       isOptional,
       removeAllBorders,
       autofocus,
-      hasCounter;
+      hasCounter, showCursor;
   final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -35,13 +35,14 @@ class TxtFormInput extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final GlobalKey<FormState>? formKey;
   final EdgeInsetsGeometry? contentPadding;
-  final Color? fillColor, borderColor;
+  final Color? fillColor, borderColor, cursorColor;
   final TextStyle? labelStyle, hintStyle, style, prefixStyle;
   final BorderSide? borderSide;
   final bool? appDirectionLeftToRight;
+  final bool? ignoringWithOnTap;
 
   const TxtFormInput({
-    Key? key,
+    super.key,
     this.controller,
     this.errorMessage,
     this.errorLengthMessage,
@@ -96,7 +97,10 @@ class TxtFormInput extends StatelessWidget {
     this.hasCounter = false,
     this.borderSide,
     this.appDirectionLeftToRight,
-  }) : super(key: key);
+    this.showCursor = true,
+    this.ignoringWithOnTap,
+    this.cursorColor
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +111,7 @@ class TxtFormInput extends StatelessWidget {
     return Stack(
       children: [
         IgnorePointer(
-          ignoring: onTap == null ? false : true,
+          ignoring: onTap == null ? false : ignoringWithOnTap??true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,6 +148,7 @@ class TxtFormInput extends StatelessWidget {
                   ),
                   child: TextFormField(
                     controller: controller,
+                    showCursor: showCursor,
                     maxLines: isPassword ? 1 : maxLines,
                     minLines: minLines,
                     maxLength: maxLength,
@@ -158,6 +163,7 @@ class TxtFormInput extends StatelessWidget {
                           fontFamily: Static.fontFamily,
                         ),
                     obscureText: isPassword,
+                    cursorColor: cursorColor,
                     keyboardType: keyboardType,
                     onChanged: onChanged ??
                         (formKey != null

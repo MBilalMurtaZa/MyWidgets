@@ -41,8 +41,8 @@ class Txt extends StatelessWidget {
     this.removeHTML = false,
     this.onTap,
     this.lineHeight,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

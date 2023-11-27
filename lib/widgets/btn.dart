@@ -26,7 +26,7 @@ class Btn extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
 
   const Btn({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.textColor,
@@ -56,7 +56,7 @@ class Btn extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +138,8 @@ class Btn extends StatelessWidget {
                       : null)),
       onPressed: onPressed,
       child: child,
+
+
     );
   }
 

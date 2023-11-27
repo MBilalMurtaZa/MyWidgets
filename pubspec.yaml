@@ -1,22 +1,22 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed.
-version: 0.6.5
+version: 0.7.1
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
-  sdk: '>=2.19.0 <4.0.0'
-  flutter: ">=2.5.0"
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.3.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
   http: ^1.1.0
-  shared_preferences: ^2.2.0
-  cached_network_image: ^3.2.3
-  fluttertoast: ^8.2.2
-  get: ^4.6.5
-  url_launcher: ^6.1.12
+  shared_preferences: ^2.2.2
+  cached_network_image: ^3.3.0
+  fluttertoast: ^8.2.4
+  get: ^4.6.6
+  url_launcher: ^6.2.1
   intl: ^0.18.1
   photo_view: ^0.14.0
   flutter_dialogs: ^3.0.0
@@ -27,8 +27,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.2
-  lint: ^2.1.2
+  flutter_lints: ^3.0.1
+  lint: ^2.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

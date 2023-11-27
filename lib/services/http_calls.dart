@@ -517,9 +517,13 @@ class HttpCalls {
     return response;
   }
 
+
+
   static Future<dynamic> uploadFiles(
       String endPoint, Map<String, String> fileParams,
-      {bool isUserAvatar = false,
+      {
+        List<File>? files,
+        bool isUserAvatar = false,
       bool hasAuth = true,
       Map<String, String>? dataParams,
       required String token,
@@ -567,11 +571,33 @@ class HttpCalls {
         url,
       );
 
-      Future.forEach(
-        fileParams.entries,
-        (file) async => request.files
-            .add(await MultipartFile.fromPath(file.key, file.value)),
-      );
+
+      if(files != null){
+        for (int i = 0; i < files.length; i++) {
+
+          request.files.add(
+            http.MultipartFile(
+              'file',
+                http.ByteStream(ByteStream(files[i].openRead())),
+              await files[i].length(),
+              filename: files[i].path),
+          );
+        }
+      }else{
+        await Future.forEach(fileParams.entries,
+              (file) async {
+            if (kDebugMode) {
+              print(file.key);
+              print(file.value);
+            }
+            request.files.add(await MultipartFile.fromPath(file.key, file.value),);
+          },
+        );
+      }
+
+
+
+
       request.headers.addAll(customHeader ?? httpHeader ?? header);
       if (dataParams != null) {
         request.fields.addAll(dataParams);
@@ -582,9 +608,9 @@ class HttpCalls {
       if (kDebugMode) {
         debugPrint(result.body.toString());
       }
-      response =
-          HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
+
       response = errorHandler(e.toString(), response, defaultResponse);
     }
 
