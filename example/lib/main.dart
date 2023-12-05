@@ -92,6 +92,17 @@ class _MyAppState extends State<MyApp> {
             child: ListView(
               children: [
 
+
+                Container(
+                  decoration: pBoxDecoration(
+                    color: Clr.colorGreen,
+                    shape: BoxShape.circle
+                  ),
+                  height: 100,
+                  width: 100,
+
+                ),
+
                 // Use Txt to show text with easy format options
 
                 Txt(Dates.pDateToString(DateTime.now())),
@@ -117,6 +128,9 @@ class _MyAppState extends State<MyApp> {
                   radius: 20,
                   hasLabel: false,
                   cursorColor: Clr.colorGreen,
+                  fillColor: Clr.colorGreen,
+                  borderColor: Clr.colorCyan,
+
 
                 ),
                 TxtFormInput(

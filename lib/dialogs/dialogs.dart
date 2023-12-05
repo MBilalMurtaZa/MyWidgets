@@ -21,22 +21,32 @@ class Dialogs {
     return showPlatformDialog(
       context: context ?? Get.context!,
       androidBarrierDismissible: true,
-
       builder: (context) => BasicDialogAlert(
         title: Text(title),
-        content: body??Text(message),
-        actions: buttonList??<Widget>[
-          okButton??BasicDialogAction(
-            title: Text(okBtn, style: okButtonTextStyle??TextStyle(color: okButtonTextColor),),
-            onPressed: () => Get.back(result: cancelBtn == null ? false : true),
-          ),
-
-          if (cancelBtn != null || cancelButton != null)
-            cancelButton??BasicDialogAction(
-              title: Text(cancelBtn??'', style: cancelButtonTextStyle??TextStyle(color: cancelButtonTextColor),),
-              onPressed: () => Get.back(result: false),
-            ),
-        ],
+        content: body ?? Text(message),
+        actions: buttonList ??
+            <Widget>[
+              okButton ??
+                  BasicDialogAction(
+                    title: Text(
+                      okBtn,
+                      style: okButtonTextStyle ??
+                          TextStyle(color: okButtonTextColor),
+                    ),
+                    onPressed: () =>
+                        Get.back(result: cancelBtn == null ? false : true),
+                  ),
+              if (cancelBtn != null || cancelButton != null)
+                cancelButton ??
+                    BasicDialogAction(
+                      title: Text(
+                        cancelBtn ?? '',
+                        style: cancelButtonTextStyle ??
+                            TextStyle(color: cancelButtonTextColor),
+                      ),
+                      onPressed: () => Get.back(result: false),
+                    ),
+            ],
       ),
     );
   }

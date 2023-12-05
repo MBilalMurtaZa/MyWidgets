@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,7 @@ import '../utils/utils.dart';
 
 class HttpCalls {
   static bool isLive = true;
+  static bool? showAPILogs;
   static String live = "";
   static String testing = "";
   static String sServerURL = isLive ? live : testing;
@@ -56,11 +58,12 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+      bool? useDefaultURl,
+      bool? showLogs}) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    debugPrint(url.toString());
+    showLog(url.toString(), showLog: showLogs);
 
     final Map<String, String> header = {};
 
@@ -81,7 +84,7 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
@@ -96,13 +99,12 @@ class HttpCalls {
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
 
-            debugPrint(utf8.decoder.convert(result.bodyBytes).toString());
+            showLog(utf8.decoder.convert(result.bodyBytes).toString(),
+                showLog: showLogs);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              debugPrint(result.body.toString());
-            }
+            showLog(result.body.toString(), showLog: showLogs);
           }
         } else {
           throw Exception(result.statusCode);
@@ -118,7 +120,7 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          debugPrint(result.body.toString());
+          showLog(result.body.toString(), showLog: showLogs);
         } else {
           throw Exception(result.statusCode);
         }
@@ -140,15 +142,15 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+      bool? useDefaultURl,
+      bool? showLogs}) async {
     dynamic response;
 
-    debugPrint(jsonEncode(params));
+    showLog(params, showLog: showLogs);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    if (kDebugMode) {
-      print(url);
-    }
+    showLog(url, showLog: showLogs);
+
     final Map<String, String> header = {};
     if ((localization ?? changeLocalization) != null) {
       header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -165,7 +167,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
+
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
@@ -181,13 +184,11 @@ class HttpCalls {
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
 
-            debugPrint(utf8.decoder.convert(result.bodyBytes));
+            showLog(utf8.decoder.convert(result.bodyBytes), showLog: showLogs);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              debugPrint(result.body.toString());
-            }
+            showLog(result.body.toString(), showLog: showLogs);
           }
         } else {
           throw Exception(result.statusCode);
@@ -202,7 +203,7 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          debugPrint(result.body.toString());
+          showLog(result.body.toString(), showLog: showLogs);
         } else {
           throw Exception(result.statusCode);
         }
@@ -210,6 +211,8 @@ class HttpCalls {
     } catch (e) {
       response = errorHandler(e.toString(), response, defaultResponse);
     }
+
+    showLog((response));
     return response;
   }
 
@@ -225,14 +228,14 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+      bool? useDefaultURl,
+      bool? showLogs}) async {
     dynamic response;
 
-    debugPrint(jsonEncode(params));
+    showLog((params), showLog: showLogs);
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    if (kDebugMode) {
-      print(url);
-    }
+      showLog(url, showLog: showLogs);
+
     final Map<String, String> header = {
       'X-localization': '',
       'content-type': 'application/json'
@@ -251,7 +254,7 @@ class HttpCalls {
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
     }
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
@@ -266,15 +269,11 @@ class HttpCalls {
                 Response(utf8.decoder.convert(result.bodyBytes),
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              print(utf8.decoder.convert(result.bodyBytes));
-            }
+            showLog(utf8.decoder.convert(result.bodyBytes), showLog: showLogs);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            if (kDebugMode) {
-              debugPrint(result.body.toString());
-            }
+            showLog(result.body.toString(), showLog: showLogs);
           }
         } else {
           throw Exception(result.statusCode);
@@ -288,9 +287,8 @@ class HttpCalls {
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            debugPrint(result.body.toString());
-          }
+            showLog(result.body.toString(), showLog: showLogs);
+
         } else {
           throw Exception(result.statusCode);
         }
@@ -312,15 +310,14 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+      bool? useDefaultURl,
+      bool? showLogs}) async {
     dynamic response;
 
-    debugPrint(jsonEncode(params));
+    showLog((params), showLog: showLogs);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    if (kDebugMode) {
-      print(url);
-    }
+      showLog(url, showLog: showLogs);
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -338,7 +335,7 @@ class HttpCalls {
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
     }
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PUT', url);
@@ -352,14 +349,13 @@ class HttpCalls {
               Response(utf8.decoder.convert(result.bodyBytes),
                   streamedResponse.statusCode),
               defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            print(utf8.decoder.convert(result.bodyBytes));
-          }
+            showLog(utf8.decoder.convert(result.bodyBytes));
+
         } else {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          debugPrint(result.body.toString());
+          showLog(result.body.toString(), showLog: showLogs);
         }
       } else {
         var result = await http
@@ -370,10 +366,8 @@ class HttpCalls {
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            debugPrint(jsonEncode(params));
-            debugPrint(result.body.toString());
-          }
+          showLog((params), showLog: showLogs);
+          showLog(result.body.toString(), showLog: showLogs);
         } else {
           throw Exception(result.statusCode);
         }
@@ -395,16 +389,15 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+      bool? useDefaultURl,
+      bool? showLogs}) async {
     dynamic response;
 
-    if (kDebugMode) {
-      debugPrint(jsonEncode(params));
-    }
+    showLog((params), showLog: showLogs);
+
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    if (kDebugMode) {
-      print(url);
-    }
+      showLog(url, showLog: showLogs);
+
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -423,7 +416,7 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       var request = http.Request('DELETE', url);
       request.body = json.encode(params);
@@ -437,15 +430,11 @@ class HttpCalls {
               Response(utf8.decoder.convert(result.bodyBytes),
                   streamedResponse.statusCode),
               defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            print(utf8.decoder.convert(result.bodyBytes));
-          }
+          showLog(utf8.decoder.convert(result.bodyBytes), showLog: showLogs);
         } else {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          if (kDebugMode) {
-            debugPrint(result.body.toString());
-          }
+          showLog(result.body.toString(), showLog: showLogs);
         }
       }
     } catch (e) {
@@ -455,24 +444,26 @@ class HttpCalls {
   }
 
   @Deprecated('Please use uploadFiles instead of uploadFile')
-  static Future<dynamic> uploadFile(String endPoint, String filename,
-      {String fileKey = 'image',
-      bool isUserAvatar = false,
-      bool hasAuth = true,
-      Map<String, String>? params,
-      required String token,
-      bool? defaultResponse,
-      Map<String, String>? customHeader,
-      bool isTypeJson = true,
-      String? changeLocalization,
-      String requestType = 'POST',
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+  static Future<dynamic> uploadFile(
+    String endPoint,
+    String filename, {
+    String fileKey = 'image',
+    bool isUserAvatar = false,
+    bool hasAuth = true,
+    Map<String, String>? params,
+    required String token,
+    bool? defaultResponse,
+    Map<String, String>? customHeader,
+    bool isTypeJson = true,
+    String? changeLocalization,
+    String requestType = 'POST',
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+  }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-    if (kDebugMode) {
-      print(url);
-    }
+      showLog(url, showLog: showLogs);
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -491,7 +482,7 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       var request = MultipartRequest(
         requestType,
@@ -505,9 +496,7 @@ class HttpCalls {
 
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      if (kDebugMode) {
-        debugPrint(result.body.toString());
-      }
+      showLog(result.body.toString(), showLog: showLogs);
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
@@ -517,28 +506,27 @@ class HttpCalls {
     return response;
   }
 
-
-
   static Future<dynamic> uploadFiles(
-      String endPoint, Map<String, String> fileParams,
-      {
-        List<File>? files,
-        bool isUserAvatar = false,
-      bool hasAuth = true,
-      Map<String, String>? dataParams,
-      required String token,
-      bool? defaultResponse,
-      Map<String, String>? customHeader,
-      bool isTypeJson = true,
-      String? changeLocalization,
-      String requestType = 'POST',
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+    String endPoint,
+    Map<String, String> fileParams, {
+    List<File>? files,
+    bool isUserAvatar = false,
+    bool hasAuth = true,
+    Map<String, String>? dataParams,
+    required String token,
+    bool? defaultResponse,
+    Map<String, String>? customHeader,
+    bool isTypeJson = true,
+    String? changeLocalization,
+    String requestType = 'POST',
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+  }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-    if (kDebugMode) {
-      print(url);
-    }
+      showLog(url, showLog: showLogs);
+
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -557,13 +545,11 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
 
-    if (dataParams != null) {
-      debugPrint(jsonEncode(dataParams));
-    }
+    showLog((dataParams), showLog: showLogs);
 
-    debugPrint(jsonEncode(fileParams));
+    showLog((fileParams), showLog: showLogs);
 
     try {
       var request = MultipartRequest(
@@ -571,32 +557,28 @@ class HttpCalls {
         url,
       );
 
-
-      if(files != null){
+      if (files != null) {
         for (int i = 0; i < files.length; i++) {
-
           request.files.add(
             http.MultipartFile(
-              'file',
+                'file',
                 http.ByteStream(ByteStream(files[i].openRead())),
-              await files[i].length(),
-              filename: files[i].path),
+                await files[i].length(),
+                filename: files[i].path),
           );
         }
-      }else{
-        await Future.forEach(fileParams.entries,
-              (file) async {
-            if (kDebugMode) {
-              print(file.key);
-              print(file.value);
-            }
-            request.files.add(await MultipartFile.fromPath(file.key, file.value),);
+      } else {
+        await Future.forEach(
+          fileParams.entries,
+          (file) async {
+            showLog(file.key);
+            showLog(file.value);
+            request.files.add(
+              await MultipartFile.fromPath(file.key, file.value),
+            );
           },
         );
       }
-
-
-
 
       request.headers.addAll(customHeader ?? httpHeader ?? header);
       if (dataParams != null) {
@@ -605,12 +587,11 @@ class HttpCalls {
 
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      if (kDebugMode) {
-        debugPrint(result.body.toString());
-      }
-      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-    } catch (e) {
+      showLog(result.body.toString(), showLog: showLogs);
 
+      response =
+          HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+    } catch (e) {
       response = errorHandler(e.toString(), response, defaultResponse);
     }
 
@@ -618,22 +599,24 @@ class HttpCalls {
   }
 
   @Deprecated('Please use uploadFile function to upload multipart')
-  static Future<dynamic> uploadImage(String filename, String fileType,
-      {bool isUserAvatar = false,
-      bool hasAuth = true,
-      String thumbnail = '',
-      required String token,
-      required String userName,
-      Map<String, String>? customHeader,
-      bool? defaultResponse,
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl}) async {
+  static Future<dynamic> uploadImage(
+    String filename,
+    String fileType, {
+    bool isUserAvatar = false,
+    bool hasAuth = true,
+    String thumbnail = '',
+    required String token,
+    required String userName,
+    Map<String, String>? customHeader,
+    bool? defaultResponse,
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+  }) async {
     dynamic response;
     Uri url =
         HttpCalls.getRequestURL('file-upload', useDefaultURl: useDefaultURl);
-    if (kDebugMode) {
-      print(url.toString());
-    }
+      showLog(url.toString());
     var header = {'Accept': 'application/json'};
 
     if (hasAuth) {
@@ -643,7 +626,7 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    debugPrint(jsonEncode(customHeader ?? httpHeader ?? header));
+    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs);
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -656,21 +639,11 @@ class HttpCalls {
       }
       request.fields['fileType'] = fileType;
       request.fields['userName'] = userName;
-      if (kDebugMode) {
-        print('upload detail');
-        print(request.fields['fileType'].toString());
-        print(request.fields['userName'].toString());
-        print(request.files.first.toString());
-        print(request.files.first.toString());
-      }
 
       if (hasAuth) request.headers.addAll(customHeader ?? httpHeader ?? header);
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      if (kDebugMode) {
-        print("result.body");
-        debugPrint(result.body.toString());
-      }
+      showLog(result.body.toString(), showLog: showLogs);
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
@@ -680,10 +653,8 @@ class HttpCalls {
   }
 
   static errorHandler(String error, response, bool? defaultResponse) {
-    if (kDebugMode) {
-      print("Exception $error 003");
-      pShowToast(message: error);
-    }
+    showLog("Exception $error 003");
+    pShowToast(message: error);
     if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
       return response = ViewResponse(
           status: false,
@@ -697,6 +668,16 @@ class HttpCalls {
         'Message': error.contains('SocketException') ? internetIssue : error,
       };
       return userMap;
+    }
+  }
+
+  static void showLog(response, {bool? showLog}) {
+    try {
+      if (HttpCalls.showAPILogs ?? showLog ?? kDebugMode) {
+        log(jsonEncode(response), time: DateTime.timestamp());
+      }
+    } catch (e) {
+      log('getting exception showing log', time: DateTime.timestamp());
     }
   }
 }

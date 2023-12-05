@@ -1,17 +1,17 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed.
-version: 0.7.1
+version: 0.8.1
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
-  flutter: '>=3.3.0'
+  sdk: '>=3.2.2 <4.0.0'
+  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  http: ^1.1.0
+  http: ^1.1.2
   shared_preferences: ^2.2.2
   cached_network_image: ^3.3.0
   fluttertoast: ^8.2.4

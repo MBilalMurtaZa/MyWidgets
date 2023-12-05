@@ -1,3 +1,9 @@
+## 0.8.1
+* update flutter 3.16.2
+## 0.8.0
+* setup things for flutter web
+* add showLog option in pSetSetting
+* add showLog option in each http Call 
 ## 0.7.1
 * fix some minor issues 
 ## 0.7.0

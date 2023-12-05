@@ -38,16 +38,16 @@ BoxDecoration pBoxDecoration({
   Offset shadowOffset = const Offset(0.0, 0.0),
   Gradient? gradient,
   BorderStyle borderStyle = BorderStyle.solid,
-  BoxShape shape = BoxShape.rectangle,
+  BoxShape? shape
 }) {
   return BoxDecoration(
-      borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)),
+      borderRadius: shape == null?borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)):null,
       border: border ?? (hasBorder ? Border.all(
                   color: borderColor ?? Clr.colorTransparent,
                   width: borderWidth,
                   style: borderStyle) : null),
       color: color,
-      shape: shape,
+      shape: shape?? BoxShape.rectangle,
       image: decorationImage ??
           (image != null
               ? isAsset
@@ -298,8 +298,9 @@ Future<void> pSetSettings(
       EdgeInsetsGeometry? txtInoutDefaultContentPadding,
       bool httpCallsWithStream = false,
       bool httpResponseUtf8Convert = false,
+      bool? showAPILogs,
       String? internetIssueMessage,
-      localization,
+      String? localization,
       FontWeight? fontWeight,
       TextStyle? txtStyle,
       TextStyle? labelInputStyle,
@@ -336,6 +337,7 @@ Future<void> pSetSettings(
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
   HttpCalls.live = baseUrlLive;
+  HttpCalls.showAPILogs = showAPILogs;
   HttpCalls.testing = baseUrlTest;
   HttpCalls.isLive = isLive;
   GetImage.defaultImage = defaultImage;
