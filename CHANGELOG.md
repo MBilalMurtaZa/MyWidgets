@@ -1,3 +1,5 @@
+## 0.8.2
+* update example project
 ## 0.8.1
 * update flutter 3.16.2
 ## 0.8.0

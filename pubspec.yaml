@@ -1,6 +1,6 @@
 name: my_widgets
 description: my_widgets help you a lot to speedup your application development speed.
-version: 0.8.1
+version: 0.8.2
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
