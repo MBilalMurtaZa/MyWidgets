@@ -1,3 +1,9 @@
+## 0.8.5
+* fix minor issues
+## 0.8.4
+* add Two dimensional grid view with custom width and height 
+## 0.8.3
+* fix documentation issues
 ## 0.8.2
 * update example project
 ## 0.8.1
