@@ -33,8 +33,10 @@ class HttpCalls {
 
   static Uri getRequestURL(String postFix, {bool? useDefaultURl}) {
     if (useDefaultURl ?? Static.useDefaultURl ?? true) {
+      debugPrint(Uri.parse(sServerURL + postFix).toString());
       return Uri.parse(sServerURL + postFix);
     } else {
+      debugPrint(Uri.parse(postFix).toString());
       return Uri.parse(postFix);
     }
   }
@@ -84,7 +86,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
@@ -99,11 +102,13 @@ class HttpCalls {
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
 
-            showLog(utf8.decoder.convert(result.bodyBytes).toString(), enableJsonEncode: false,  showLog: showLogs, logName: endPoint);
+            showLog(utf8.decoder.convert(result.bodyBytes).toString(),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            showLog(result.body.toString(), enableJsonEncode: false,  showLog: showLogs, logName: endPoint);
+            showLog(result.body.toString(),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
           throw Exception(result.statusCode);
@@ -119,7 +124,8 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           throw Exception(result.statusCode);
         }
@@ -148,7 +154,6 @@ class HttpCalls {
     showLog(params, showLog: showLogs, logName: endPoint);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-   showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
 
     final Map<String, String> header = {};
     if ((localization ?? changeLocalization) != null) {
@@ -166,7 +171,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
 
     try {
       if (withStream ?? httpCallsWithStream) {
@@ -183,11 +189,13 @@ class HttpCalls {
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
 
-            showLog(utf8.decoder.convert(result.bodyBytes), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+            showLog(utf8.decoder.convert(result.bodyBytes),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+            showLog(result.body.toString(),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
           throw Exception(result.statusCode);
@@ -202,7 +210,8 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           throw Exception(result.statusCode);
         }
@@ -232,7 +241,6 @@ class HttpCalls {
 
     showLog((params), showLog: showLogs, logName: endPoint);
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
 
     final Map<String, String> header = {
       'X-localization': '',
@@ -252,7 +260,8 @@ class HttpCalls {
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
     }
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
@@ -267,11 +276,13 @@ class HttpCalls {
                 Response(utf8.decoder.convert(result.bodyBytes),
                     streamedResponse.statusCode),
                 defaultResponse: defaultResponse);
-            showLog(utf8.decoder.convert(result.bodyBytes), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+            showLog(utf8.decoder.convert(result.bodyBytes),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           } else {
             response = HttpCalls.getDataObject(result,
                 defaultResponse: defaultResponse);
-            showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+            showLog(result.body.toString(),
+                enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
           throw Exception(result.statusCode);
@@ -285,8 +296,8 @@ class HttpCalls {
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-            showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
-
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           throw Exception(result.statusCode);
         }
@@ -315,7 +326,7 @@ class HttpCalls {
     showLog((params), showLog: showLogs, logName: endPoint);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
+
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -333,7 +344,8 @@ class HttpCalls {
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
     }
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PUT', url);
@@ -347,13 +359,14 @@ class HttpCalls {
               Response(utf8.decoder.convert(result.bodyBytes),
                   streamedResponse.statusCode),
               defaultResponse: defaultResponse);
-            showLog(utf8.decoder.convert(result.bodyBytes), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
-
+          showLog(utf8.decoder.convert(result.bodyBytes),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
 
-          showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         }
       } else {
         var result = await http
@@ -365,7 +378,8 @@ class HttpCalls {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
           showLog((params), showLog: showLogs, logName: endPoint);
-          showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           throw Exception(result.statusCode);
         }
@@ -394,7 +408,6 @@ class HttpCalls {
     showLog((params), showLog: showLogs, logName: endPoint);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
 
     final Map<String, String> header = {};
 
@@ -414,7 +427,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       var request = http.Request('DELETE', url);
       request.body = json.encode(params);
@@ -428,11 +442,13 @@ class HttpCalls {
               Response(utf8.decoder.convert(result.bodyBytes),
                   streamedResponse.statusCode),
               defaultResponse: defaultResponse);
-          showLog(utf8.decoder.convert(result.bodyBytes), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(utf8.decoder.convert(result.bodyBytes),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
-          showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+          showLog(result.body.toString(),
+              enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         }
       }
     } catch (e) {
@@ -461,7 +477,7 @@ class HttpCalls {
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
+
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -480,7 +496,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       var request = MultipartRequest(
         requestType,
@@ -494,7 +511,8 @@ class HttpCalls {
 
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+      showLog(result.body.toString(),
+          enableJsonEncode: false, showLog: showLogs, logName: endPoint);
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
@@ -523,7 +541,6 @@ class HttpCalls {
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
 
     final Map<String, String> header = {};
 
@@ -543,7 +560,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
 
     showLog((dataParams), showLog: showLogs, logName: endPoint);
 
@@ -569,7 +587,7 @@ class HttpCalls {
         await Future.forEach(
           fileParams.entries,
           (file) async {
-            showLog(file.key,showLog: showLogs, logName: endPoint);
+            showLog(file.key, showLog: showLogs, logName: endPoint);
             showLog(file.value, showLog: showLogs, logName: endPoint);
             request.files.add(
               await MultipartFile.fromPath(file.key, file.value),
@@ -585,7 +603,8 @@ class HttpCalls {
 
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+      showLog(result.body.toString(),
+          enableJsonEncode: false, showLog: showLogs, logName: endPoint);
 
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -600,7 +619,7 @@ class HttpCalls {
   static Future<dynamic> uploadImage(
     String filename,
     String fileType, {
-      String endPoint = 'file-upload',
+    String endPoint = 'file-upload',
     bool isUserAvatar = false,
     bool hasAuth = true,
     String thumbnail = '',
@@ -614,7 +633,6 @@ class HttpCalls {
   }) async {
     dynamic response;
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-     showLog(url.toString(), showPrint: true, showLog: showLogs, logName: endPoint);
     var header = {'Accept': 'application/json'};
 
     if (hasAuth) {
@@ -624,7 +642,8 @@ class HttpCalls {
       header.addAll(headerAddOns!);
     }
 
-    showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+    showLog((customHeader ?? httpHeader ?? header),
+        showLog: showLogs, logName: endPoint);
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -641,7 +660,8 @@ class HttpCalls {
       if (hasAuth) request.headers.addAll(customHeader ?? httpHeader ?? header);
       var streamedResponse = await request.send();
       var result = await Response.fromStream(streamedResponse);
-      showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+      showLog(result.body.toString(),
+          enableJsonEncode: false, showLog: showLogs, logName: endPoint);
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
@@ -651,7 +671,7 @@ class HttpCalls {
   }
 
   static errorHandler(String error, response, bool? defaultResponse) {
-    showLog("Exception $error 003",logName: 'errorHandler');
+    showLog("Exception $error 003", logName: 'errorHandler');
     pShowToast(message: error);
     if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
       return response = ViewResponse(
@@ -669,11 +689,17 @@ class HttpCalls {
     }
   }
 
-  static void showLog(data, {bool? showLog, bool enableJsonEncode = true, bool showPrint = false, required String logName}) {
+  static void showLog(data,
+      {bool? showLog,
+      bool enableJsonEncode = true,
+      bool showPrint = false,
+      required String logName}) {
     try {
       if (HttpCalls.showAPILogs ?? showLog ?? kDebugMode) {
-
-        showPrint?debugPrint(data):log(enableJsonEncode?jsonEncode(data):data, time: DateTime.timestamp(), name: 'HttpCalls=> $logName');
+        showPrint
+            ? debugPrint(data)
+            : log(enableJsonEncode ? jsonEncode(data) : data,
+                time: DateTime.timestamp(), name: 'HttpCalls=> $logName');
       }
     } catch (e) {
       log('getting exception showing log', time: DateTime.timestamp());

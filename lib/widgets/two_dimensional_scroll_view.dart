@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
-import 'package:my_widgets/widgets/txt.dart';
-
 class TwoDimensionalGridView extends TwoDimensionalScrollView {
   const TwoDimensionalGridView({
     super.key,
@@ -28,10 +26,10 @@ class TwoDimensionalGridView extends TwoDimensionalScrollView {
 
   @override
   Widget buildViewport(
-      BuildContext context,
-      ViewportOffset verticalOffset,
-      ViewportOffset horizontalOffset,
-      ) {
+    BuildContext context,
+    ViewportOffset verticalOffset,
+    ViewportOffset horizontalOffset,
+  ) {
     return TwoDimensionalGridViewport(
       horizontalOffset: horizontalOffset,
       horizontalAxisDirection: horizontalDetails.direction,
@@ -84,9 +82,9 @@ class TwoDimensionalGridViewport extends TwoDimensionalViewport {
 
   @override
   void updateRenderObject(
-      BuildContext context,
-      RenderTwoDimensionalGridViewport renderObject,
-      ) {
+    BuildContext context,
+    RenderTwoDimensionalGridViewport renderObject,
+  ) {
     renderObject
       ..horizontalOffset = horizontalOffset
       ..horizontalAxisDirection = horizontalAxisDirection
@@ -124,7 +122,7 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
     final double viewportWidth = viewportDimension.width + cacheExtent;
     final double viewportHeight = viewportDimension.height + cacheExtent;
     final TwoDimensionalChildBuilderDelegate builderDelegate =
-    delegate as TwoDimensionalChildBuilderDelegate;
+        delegate as TwoDimensionalChildBuilderDelegate;
 
     final int maxRowIndex = builderDelegate.maxYIndex!;
     final int maxColumnIndex = builderDelegate.maxXIndex!;
@@ -145,7 +143,7 @@ class RenderTwoDimensionalGridViewport extends RenderTwoDimensionalViewport {
       double yLayoutOffset = (leadingRow * height) - verticalOffset.pixels;
       for (int row = leadingRow; row <= trailingRow; row++) {
         final ChildVicinity vicinity =
-        ChildVicinity(xIndex: column, yIndex: row);
+            ChildVicinity(xIndex: column, yIndex: row);
         final RenderBox child = buildOrObtainChildFor(vicinity)!;
         child.layout(constraints.tighten(width: width, height: height));
 

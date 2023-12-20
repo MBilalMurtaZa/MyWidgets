@@ -1,3 +1,7 @@
+## 0.8.7
+* fix minor issues
+* ## 0.8.6
+* fix minor issues
 ## 0.8.5
 * fix minor issues
 ## 0.8.4

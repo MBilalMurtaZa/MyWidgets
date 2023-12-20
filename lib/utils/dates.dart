@@ -23,38 +23,44 @@ class Dates {
   static const String pGetMonthDayAndTime = 'MMM dd, hh:mm a';
   static const String pGetMonthDayAndTimeForDifference = 'dd-MM-yyyy, hh:mm a';
 
-
   static Future<void> initializeDateFormat({String? localization}) async {
-    await initializeDateFormatting(localization??HttpCalls.localization??'en', null);
+    await initializeDateFormatting(
+        localization ?? HttpCalls.localization ?? 'en', null);
   }
 
   static DateFormat pDateFormatter({String? localization}) {
-    var formatter = DateFormat(Dates.pGetDate, localization??HttpCalls.localization??'en');
+    var formatter = DateFormat(
+        Dates.pGetDate, localization ?? HttpCalls.localization ?? 'en');
     return formatter;
   }
 
   static DateFormat pDateTimeFormatter({String? localization}) {
-    return DateFormat(pGetDateTime, localization??HttpCalls.localization??'en');
+    return DateFormat(
+        pGetDateTime, localization ?? HttpCalls.localization ?? 'en');
   }
 
-  static String pDateToString(DateTime? dateTime, {String? defaultValue, String? localization}) {
+  static String pDateToString(DateTime? dateTime,
+      {String? defaultValue, String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = pDateFormatter(localization: localization).format(dateTime);
+      String formatted =
+          pDateFormatter(localization: localization).format(dateTime);
       return formatted;
     } catch (e) {
       return '00-00-0000';
     }
   }
 
-  static String pDateTimeToString(DateTime? dateTime, {String? defaultValue,String? localization}) {
+  static String pDateTimeToString(DateTime? dateTime,
+      {String? defaultValue, String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = pDateTimeFormatter(localization: localization).format(dateTime);
+      String formatted =
+          pDateTimeFormatter(localization: localization).format(dateTime);
       return formatted;
     } catch (e) {
       if (kDebugMode) {
@@ -65,12 +71,14 @@ class Dates {
   }
 
   static String pGetDateTimeCustomFormat(DateTime? dateTime, String format,
-      {String? defaultValue,String? localization}) {
+      {String? defaultValue, String? localization}) {
     try {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = DateFormat(format,  localization??HttpCalls.localization??'en').format(dateTime);
+      String formatted =
+          DateFormat(format, localization ?? HttpCalls.localization ?? 'en')
+              .format(dateTime);
       return formatted;
     } catch (e) {
       return '00-00-0000';

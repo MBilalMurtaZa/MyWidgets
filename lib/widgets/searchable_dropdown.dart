@@ -30,7 +30,20 @@ class SearchableDropdown extends StatelessWidget {
       required this.list,
       this.appBar,
       this.multiSelect = false,
-      this.selectIcon, this.selectedIconColor, this.appBarText = 'Search',  this.searchBarHintText = 'Search',  this.searchBarLabelText =  'Search',  this.showSearchBarLabel = true, this.confirmIcon, this.showBottomButton = false, this.confirmButtonText = 'Select', this.bottomButtonColor, this.bottomButtonWidth, this.bottomButtonHasBorder, this.bottomButtonBorderColor, this.refreshList = false});
+      this.selectIcon,
+      this.selectedIconColor,
+      this.appBarText = 'Search',
+      this.searchBarHintText = 'Search',
+      this.searchBarLabelText = 'Search',
+      this.showSearchBarLabel = true,
+      this.confirmIcon,
+      this.showBottomButton = false,
+      this.confirmButtonText = 'Select',
+      this.bottomButtonColor,
+      this.bottomButtonWidth,
+      this.bottomButtonHasBorder,
+      this.bottomButtonBorderColor,
+      this.refreshList = false});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +59,10 @@ class SearchableDropdown extends StatelessWidget {
                     appBarText,
                   ),
                   actions: [
-                    if(multiSelect)
-                      IconButton(onPressed: controller.onSavePressed, icon: confirmIcon??const Icon(Icons.check))
+                    if (multiSelect)
+                      IconButton(
+                          onPressed: controller.onSavePressed,
+                          icon: confirmIcon ?? const Icon(Icons.check))
                   ],
                 ),
             body: Column(
@@ -76,7 +91,8 @@ class SearchableDropdown extends StatelessWidget {
                                               Icon(
                                                 Icons.check,
                                                 color: item.isSelected()
-                                                    ? selectedIconColor??Clr.colorGreen
+                                                    ? selectedIconColor ??
+                                                        Clr.colorGreen
                                                     : Clr.colorWhite,
                                               )
                                           : null,
@@ -91,8 +107,14 @@ class SearchableDropdown extends StatelessWidget {
                     ),
                   ),
                 ),
-                if(showBottomButton && multiSelect)...[
-                  Btn(text: confirmButtonText, onPressed: controller.onSavePressed,width: bottomButtonWidth??Get.width * 0.8,bgColor: bottomButtonColor,hasBorder: bottomButtonHasBorder??false,borderColor: bottomButtonColor),
+                if (showBottomButton && multiSelect) ...[
+                  Btn(
+                      text: confirmButtonText,
+                      onPressed: controller.onSavePressed,
+                      width: bottomButtonWidth ?? Get.width * 0.8,
+                      bgColor: bottomButtonColor,
+                      hasBorder: bottomButtonHasBorder ?? false,
+                      borderColor: bottomButtonColor),
                   const SafeArea(child: MyDivider()),
                 ],
               ],
@@ -111,15 +133,16 @@ class SearchableController extends GetxController {
   final bool multiSelect;
   final bool refreshList;
 
-
   SearchableController(this.list, this.multiSelect, this.refreshList);
 
   var filteredList = <SearchListModel>[].obs;
 
   @override
   void onInit() {
-    if(refreshList){
-      for (var element in list) {element.isSelected(false);}
+    if (refreshList) {
+      for (var element in list) {
+        element.isSelected(false);
+      }
     }
     filteredList.assignAll(list);
 

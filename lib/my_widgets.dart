@@ -14,40 +14,46 @@ import 'utils/utils.dart';
 enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
 
 enum URLType { call, sms, web, email }
-enum LoadingProPlatForm {android, iOS}
+
+enum LoadingProPlatForm { android, iOS }
 
 var pTimeout = 20;
 
 class MyWidgets {}
 
-BoxDecoration pBoxDecoration({
-  Color? color,
-  BorderRadius? borderRadius,
-  double? radius,
-  double borderWidth = 1,
-  String? image,
-  bool isAsset = true,
-  BoxFit? fit,
-  DecorationImage? decorationImage,
-  BoxBorder? border,
-  bool hasBorder = false,
-  Color? borderColor,
-  List<BoxShadow>? boxShadow,
-  Color shadowColor = Clr.colorWhite,
-  double shadowRadius = 0,
-  Offset shadowOffset = const Offset(0.0, 0.0),
-  Gradient? gradient,
-  BorderStyle borderStyle = BorderStyle.solid,
-  BoxShape? shape
-}) {
+BoxDecoration pBoxDecoration(
+    {Color? color,
+    BorderRadius? borderRadius,
+    double? radius,
+    double borderWidth = 1,
+    String? image,
+    bool isAsset = true,
+    BoxFit? fit,
+    DecorationImage? decorationImage,
+    BoxBorder? border,
+    bool hasBorder = false,
+    Color? borderColor,
+    List<BoxShadow>? boxShadow,
+    Color shadowColor = Clr.colorWhite,
+    double shadowRadius = 0,
+    Offset shadowOffset = const Offset(0.0, 0.0),
+    Gradient? gradient,
+    BorderStyle borderStyle = BorderStyle.solid,
+    BoxShape? shape}) {
   return BoxDecoration(
-      borderRadius: shape == null?borderRadius ?? BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius)):null,
-      border: border ?? (hasBorder ? Border.all(
+      borderRadius: shape == null
+          ? borderRadius ??
+              BorderRadius.all(Radius.circular(radius ?? Siz.defaultRadius))
+          : null,
+      border: border ??
+          (hasBorder
+              ? Border.all(
                   color: borderColor ?? Clr.colorTransparent,
                   width: borderWidth,
-                  style: borderStyle) : null),
+                  style: borderStyle)
+              : null),
       color: color,
-      shape: shape?? BoxShape.rectangle,
+      shape: shape ?? BoxShape.rectangle,
       image: decorationImage ??
           (image != null
               ? isAsset
@@ -72,12 +78,21 @@ BoxDecoration pBoxDecoration({
       gradient: gradient);
 }
 
-pShowToast({required String message, Color colorText = Colors.white, Color? backgroundColor, Color? errorBackgroundColor, bool isError = false, ToastGravity? toastGravity, Toast? toastLength}) {
+pShowToast(
+    {required String message,
+    Color colorText = Colors.white,
+    Color? backgroundColor,
+    Color? errorBackgroundColor,
+    bool isError = false,
+    ToastGravity? toastGravity,
+    Toast? toastLength}) {
   Fluttertoast.showToast(
     msg: message,
-    toastLength: toastLength??Static.toastLength,
+    toastLength: toastLength ?? Static.toastLength,
     gravity: toastGravity ?? ToastGravity.TOP,
-    backgroundColor: isError?((errorBackgroundColor ?? Colors.red)):(backgroundColor ?? Clr.colorPrimary),
+    backgroundColor: isError
+        ? ((errorBackgroundColor ?? Colors.red))
+        : (backgroundColor ?? Clr.colorPrimary),
     textColor: colorText,
     fontSize: 16.0,
   );
@@ -187,9 +202,8 @@ Future<void> pLaunchURL(String action,
     String? webOnlyWindowName,
     WebViewConfiguration? webViewConfiguration,
     String? emailBody,
-      bool setUrlCorrection = false,
-      bool openInGoogleIfError = true
-    }) async {
+    bool setUrlCorrection = false,
+    bool openInGoogleIfError = true}) async {
   if (action == Str.na) {
     pShowToast(message: "Invalid Content");
   } else {
@@ -207,18 +221,17 @@ Future<void> pLaunchURL(String action,
       case URLType.web:
         url = action;
 
-        if(setUrlCorrection){
-          if(action.toLowerCase().startsWith('http')){
+        if (setUrlCorrection) {
+          if (action.toLowerCase().startsWith('http')) {
             url = action;
-          }else{
-            if(action.toLowerCase().startsWith('www.')){
+          } else {
+            if (action.toLowerCase().startsWith('www.')) {
               url = 'http://${action.substring(4)}';
-            }else{
+            } else {
               error = 'Could not open $action';
             }
           }
         }
-
 
         error = 'Could not open $action';
         break;
@@ -237,26 +250,30 @@ Future<void> pLaunchURL(String action,
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrlBody(url, mode, webOnlyWindowName, webViewConfiguration);
     } else {
-      if(openInGoogleIfError){
-        if(urlType == URLType.web){
+      if (openInGoogleIfError) {
+        if (urlType == URLType.web) {
           String customSearch = 'https://www.google.com/search?q=$url';
-          await launchUrlBody(customSearch, mode, webOnlyWindowName, webViewConfiguration);
+          await launchUrlBody(
+              customSearch, mode, webOnlyWindowName, webViewConfiguration);
         }
-      }else{
+      } else {
         pShowToast(message: error);
       }
     }
   }
 }
 
-Future<bool> launchUrlBody(String url, LaunchMode? mode, String? webOnlyWindowName, WebViewConfiguration? webViewConfiguration) async {
+Future<bool> launchUrlBody(
+    String url,
+    LaunchMode? mode,
+    String? webOnlyWindowName,
+    WebViewConfiguration? webViewConfiguration) async {
   return await launchUrl(Uri.parse(url),
       mode: mode ?? LaunchMode.platformDefault,
       webOnlyWindowName: webOnlyWindowName,
       webViewConfiguration:
-      webViewConfiguration ?? const WebViewConfiguration());
+          webViewConfiguration ?? const WebViewConfiguration());
 }
-
 
 pSnackBar(
     {String title = 'Info',
@@ -264,7 +281,8 @@ pSnackBar(
     Color colorText = Clr.colorWhite,
     Color? backgroundColor,
     bool isError = false,
-    SnackPosition snackPosition = SnackPosition.TOP, Function(GetSnackBar snackBar)? onTap}) {
+    SnackPosition snackPosition = SnackPosition.TOP,
+    Function(GetSnackBar snackBar)? onTap}) {
   Get.snackbar(isError ? 'Error' : title, message ?? '',
       colorText: isError ? Colors.white : colorText,
       backgroundColor:
@@ -272,67 +290,64 @@ pSnackBar(
       borderColor: Colors.white,
       snackPosition: snackPosition,
       borderWidth: 2.0,
-    onTap: onTap
-  );
+      onTap: onTap);
 }
 
-Future<void> pSetSettings(
-    {
-      required Color primaryColor,
-      required Color secondaryColor,
-      String baseUrlLive = '',
-      String baseUrlTest = '',
-      bool? useDefaultURl,
-      bool isLive = true,
-      String defaultImage = 'assets/default.png',
-      bool defImageIsAsset = true,
-      httpCallsDefaultResponse = true,
-      double defaultFontSize = 14.0,
-      double defaultRadius = 8.0,
-      double defaultBtnHeight = 50,
-      bool? txtInputHasBorder,
-      bool txtInputHasLabel = false,
-      bool txtInputHasLabelOnTop = false,
-      bool txtInputHasLabelWithStar = true,
-      bool defaultImageClick = true,
-      EdgeInsetsGeometry? txtInoutDefaultContentPadding,
-      bool httpCallsWithStream = false,
-      bool httpResponseUtf8Convert = false,
-      bool? showAPILogs,
-      String? internetIssueMessage,
-      String? localization,
-      FontWeight? fontWeight,
-      TextStyle? txtStyle,
-      TextStyle? labelInputStyle,
-      TextStyle? hintInputStyle,
-      TextStyle? styleInput,
-      TextStyle? prefixInputStyle,
-      Color? txtColor,
-      Color? txtInputColor,
-      String? currencySymbol,
-      String? currencyLocale,
-      int? currencyDecimal,
-      bool isCurrencyCompact = false,
-      InputDecoration? inputDecoration,
-      Map<String, String>? httpHeader,
-      Map<String, String>? httpHeaderAddOns,
-      InputBorder? txtInputEnabledBorder,
-      InputBorder? txtInputFocusedBorder,
-      InputBorder? txtInputErrorBorder,
-      InputBorder? txtInputBorder,
-      Color? txtInputBorderColor,
-      double? txtInputLabelPadding,
-      double? btnHeight,
-      double? btnRadius,
-      Color? btnBgColor,
-      Color? btnBorderColor,
-      bool? appDirectionLeftToRight,
-      String? fontFamily,
-      int stopDecodingFromErrorCode = 400,
-      bool? defaultLoadingProIsIOS,
-      Toast defaultToastLength = Toast.LENGTH_SHORT,
-    }
-) async {
+Future<void> pSetSettings({
+  required Color primaryColor,
+  required Color secondaryColor,
+  String baseUrlLive = '',
+  String baseUrlTest = '',
+  bool? useDefaultURl,
+  bool isLive = true,
+  String defaultImage = 'assets/default.png',
+  bool defImageIsAsset = true,
+  httpCallsDefaultResponse = true,
+  double defaultFontSize = 14.0,
+  double defaultRadius = 8.0,
+  double defaultBtnHeight = 50,
+  bool? txtInputHasBorder,
+  bool txtInputHasLabel = false,
+  bool txtInputHasLabelOnTop = false,
+  bool txtInputHasLabelWithStar = true,
+  bool defaultImageClick = true,
+  EdgeInsetsGeometry? txtInoutDefaultContentPadding,
+  bool httpCallsWithStream = false,
+  bool httpResponseUtf8Convert = false,
+  bool? showAPILogs,
+  String? internetIssueMessage,
+  String? localization,
+  FontWeight? fontWeight,
+  TextStyle? txtStyle,
+  TextStyle? labelInputStyle,
+  TextStyle? hintInputStyle,
+  TextStyle? styleInput,
+  TextStyle? prefixInputStyle,
+  Color? txtColor,
+  Color? txtInputColor,
+  String? currencySymbol,
+  String? currencyLocale,
+  int? currencyDecimal,
+  bool isCurrencyCompact = false,
+  InputDecoration? inputDecoration,
+  Map<String, String>? httpHeader,
+  Map<String, String>? httpHeaderAddOns,
+  InputBorder? txtInputEnabledBorder,
+  InputBorder? txtInputFocusedBorder,
+  InputBorder? txtInputErrorBorder,
+  InputBorder? txtInputBorder,
+  Color? txtInputBorderColor,
+  double? txtInputLabelPadding,
+  double? btnHeight,
+  double? btnRadius,
+  Color? btnBgColor,
+  Color? btnBorderColor,
+  bool? appDirectionLeftToRight,
+  String? fontFamily,
+  int stopDecodingFromErrorCode = 400,
+  bool? defaultLoadingProIsIOS,
+  Toast defaultToastLength = Toast.LENGTH_SHORT,
+}) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -388,9 +403,6 @@ Future<void> pSetSettings(
   Static.stopDecodingFromErrorCode = stopDecodingFromErrorCode;
   Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
   Static.toastLength = defaultToastLength;
-
-
-
 }
 
 String pRemoveHtmlIfNeeded(String text) {

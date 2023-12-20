@@ -9,7 +9,7 @@ class MyVerticalDivider extends StatelessWidget {
   const MyVerticalDivider(
       {this.width = Siz.standardPadding,
       this.color = Clr.colorTransparent,
-        this.thickness,
+      this.thickness,
       super.key});
 
   @override
@@ -30,7 +30,7 @@ class MyDivider extends StatelessWidget {
   const MyDivider(
       {this.height = Siz.standardPadding,
       this.color = Clr.colorTransparent,
-        this.thickness,
+      this.thickness,
       super.key});
 
   @override

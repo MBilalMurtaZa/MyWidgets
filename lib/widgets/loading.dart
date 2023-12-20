@@ -10,11 +10,11 @@ class LoadingPro extends StatelessWidget {
   final bool? platFormIsIOS;
   const LoadingPro(
       {this.size,
-        this.isLinear = false,
-        this.valueColor,
-        this.backgroundColor,
-        this.platFormIsIOS,
-        super.key});
+      this.isLinear = false,
+      this.valueColor,
+      this.backgroundColor,
+      this.platFormIsIOS,
+      super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,30 +26,25 @@ class LoadingPro extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(5),
       child: Center(
-        child:
-        isLinear
-            ?
-        LinearProgressIndicator(
-          backgroundColor: backgroundColor,
-          valueColor: AlwaysStoppedAnimation<Color>(valueColor ?? Clr.colorPrimary),
-        )
-            :
-        (platFormIsIOS??Static.defaultLoadingProIsIOS??Platform.isIOS)
-            ?
-        CircleAvatar(
-          backgroundColor: backgroundColor ?? Clr.colorWhite,
-          child: CupertinoActivityIndicator(
-            color: valueColor ?? Clr.colorPrimary,
-          ),
-        )
-            :
-        CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(
-              valueColor ?? Clr.colorPrimary),
-        )
-
-
-      ),
+          child: isLinear
+              ? LinearProgressIndicator(
+                  backgroundColor: backgroundColor,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      valueColor ?? Clr.colorPrimary),
+                )
+              : (platFormIsIOS ??
+                      Static.defaultLoadingProIsIOS ??
+                      Platform.isIOS)
+                  ? CircleAvatar(
+                      backgroundColor: backgroundColor ?? Clr.colorWhite,
+                      child: CupertinoActivityIndicator(
+                        color: valueColor ?? Clr.colorPrimary,
+                      ),
+                    )
+                  : CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          valueColor ?? Clr.colorPrimary),
+                    )),
     );
   }
 }

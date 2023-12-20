@@ -24,7 +24,8 @@ class TxtFormInput extends StatelessWidget {
       isOptional,
       removeAllBorders,
       autofocus,
-      hasCounter, showCursor;
+      hasCounter,
+      showCursor;
   final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -41,66 +42,65 @@ class TxtFormInput extends StatelessWidget {
   final bool? appDirectionLeftToRight;
   final bool? ignoringWithOnTap;
 
-  const TxtFormInput({
-    super.key,
-    this.controller,
-    this.errorMessage,
-    this.errorLengthMessage,
-    this.maxLines,
-    this.minLines,
-    this.maxLength,
-    this.inputFormatters,
-    this.textAlign = TextAlign.start,
-    this.textCapitalization = TextCapitalization.sentences,
-    this.textSize,
-    this.hintTextSize,
-    this.textColor,
-    this.onChanged,
-    this.onTap,
-    this.isPassword = false,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction,
-    this.onEditingComplete,
-    this.focusNode,
-    this.hintText = '',
-    this.hintTextColor,
-    this.enabled = true,
-    this.hasLabel,
-    this.hasBorder,
-    this.hasLabelOnTop,
-    this.showLabelStat,
-    this.postFix,
-    this.preFix,
-    this.decoration,
-    this.validator,
-    this.formKey,
-    this.isOptional = false,
-    this.validationLength,
-    this.labelText,
-    this.labelPadding,
-    this.radius,
-    this.borderRadius,
-    this.contentPadding,
-    this.fillColor,
-    this.borderColor,
-    this.borderWidth = 2,
-    this.autofocus = false,
-    this.removeAllBorders = false,
-    this.prefixText,
-    this.prefixTextSize,
-    this.prefixTextColor,
-    this.height,
-    this.labelStyle,
-    this.hintStyle,
-    this.style,
-    this.prefixStyle,
-    this.hasCounter = false,
-    this.borderSide,
-    this.appDirectionLeftToRight,
-    this.showCursor = true,
-    this.ignoringWithOnTap,
-    this.cursorColor
-  });
+  const TxtFormInput(
+      {super.key,
+      this.controller,
+      this.errorMessage,
+      this.errorLengthMessage,
+      this.maxLines,
+      this.minLines,
+      this.maxLength,
+      this.inputFormatters,
+      this.textAlign = TextAlign.start,
+      this.textCapitalization = TextCapitalization.sentences,
+      this.textSize,
+      this.hintTextSize,
+      this.textColor,
+      this.onChanged,
+      this.onTap,
+      this.isPassword = false,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction,
+      this.onEditingComplete,
+      this.focusNode,
+      this.hintText = '',
+      this.hintTextColor,
+      this.enabled = true,
+      this.hasLabel,
+      this.hasBorder,
+      this.hasLabelOnTop,
+      this.showLabelStat,
+      this.postFix,
+      this.preFix,
+      this.decoration,
+      this.validator,
+      this.formKey,
+      this.isOptional = false,
+      this.validationLength,
+      this.labelText,
+      this.labelPadding,
+      this.radius,
+      this.borderRadius,
+      this.contentPadding,
+      this.fillColor,
+      this.borderColor,
+      this.borderWidth = 2,
+      this.autofocus = false,
+      this.removeAllBorders = false,
+      this.prefixText,
+      this.prefixTextSize,
+      this.prefixTextColor,
+      this.height,
+      this.labelStyle,
+      this.hintStyle,
+      this.style,
+      this.prefixStyle,
+      this.hasCounter = false,
+      this.borderSide,
+      this.appDirectionLeftToRight,
+      this.showCursor = true,
+      this.ignoringWithOnTap,
+      this.cursorColor});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class TxtFormInput extends StatelessWidget {
     return Stack(
       children: [
         IgnorePointer(
-          ignoring: onTap == null ? false : ignoringWithOnTap??true,
+          ignoring: onTap == null ? false : ignoringWithOnTap ?? true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +124,10 @@ class TxtFormInput extends StatelessWidget {
                           if (showLabelStat ?? Static.txtInputHasLabelWithStar)
                             TextSpan(
                               text: isOptional ? '' : ' *',
-                              style: TextStyle(color: Colors.red, fontFamily: Static.fontFamily,),
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: Static.fontFamily,
+                              ),
                             ),
                         ],
                         style: labelStyle ??
@@ -136,7 +139,7 @@ class TxtFormInput extends StatelessWidget {
                       )))
                     : Container(),
                 MyDivider(
-                  height: labelPadding??Static.labelPadding??1,
+                  height: labelPadding ?? Static.labelPadding ?? 1,
                 ),
               ],
               SizedBox(
@@ -191,51 +194,56 @@ class TxtFormInput extends StatelessWidget {
                                         Static.txtInputHasLabelWithStar)
                                       TextSpan(
                                         text: isOptional ? '' : ' *',
-                                        style:
-                                             TextStyle(color: Colors.red, fontFamily: Static.fontFamily,),
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontFamily: Static.fontFamily,
+                                        ),
                                       ),
                                   ],
                                   style: labelStyle ??
                                       Style.labelInputStyle ??
-                                      TextStyle(color: hintTextColor, fontFamily: Static.fontFamily,),
+                                      TextStyle(
+                                        color: hintTextColor,
+                                        fontFamily: Static.fontFamily,
+                                      ),
                                 )))
                               : null,
 
                           errorBorder: Static.errorBorder,
-                          enabledBorder: hasBorder ??
-                                  Static.txtInputHasBorder ??
-                                  false
-                              ? Static.enabledBorder ??
-                                  OutlineInputBorder(
-                                    borderRadius: borderRadius ??
-                                        BorderRadius.all(Radius.circular(
-                                            radius ?? Siz.defaultRadius)),
-                                    borderSide: BorderSide(
-                                        width: borderWidth,
-                                        color:
-                                            borderColor ?? Static.borderColor ?? Clr.colorGreyLight,
-                                        style: removeAllBorders
-                                            ? BorderStyle.none
-                                            : BorderStyle.solid),
-                                  )
-                              : null,
-                          focusedBorder: hasBorder ??
-                                  Static.txtInputHasBorder ??
-                                  false
-                              ? Static.focusedBorder ??
-                                  OutlineInputBorder(
-                                    borderRadius: borderRadius ??
-                                        BorderRadius.all(Radius.circular(
-                                            radius ?? Siz.defaultRadius)),
-                                    borderSide: BorderSide(
-                                        width: borderWidth,
-                                        color:
-                                            borderColor ?? Static.borderColor ?? Clr.colorGreyLight,
-                                        style: removeAllBorders
-                                            ? BorderStyle.none
-                                            : BorderStyle.solid),
-                                  )
-                              : null,
+                          enabledBorder:
+                              hasBorder ?? Static.txtInputHasBorder ?? false
+                                  ? Static.enabledBorder ??
+                                      OutlineInputBorder(
+                                        borderRadius: borderRadius ??
+                                            BorderRadius.all(Radius.circular(
+                                                radius ?? Siz.defaultRadius)),
+                                        borderSide: BorderSide(
+                                            width: borderWidth,
+                                            color: borderColor ??
+                                                Static.borderColor ??
+                                                Clr.colorGreyLight,
+                                            style: removeAllBorders
+                                                ? BorderStyle.none
+                                                : BorderStyle.solid),
+                                      )
+                                  : null,
+                          focusedBorder:
+                              hasBorder ?? Static.txtInputHasBorder ?? false
+                                  ? Static.focusedBorder ??
+                                      OutlineInputBorder(
+                                        borderRadius: borderRadius ??
+                                            BorderRadius.all(Radius.circular(
+                                                radius ?? Siz.defaultRadius)),
+                                        borderSide: BorderSide(
+                                            width: borderWidth,
+                                            color: borderColor ??
+                                                Static.borderColor ??
+                                                Clr.colorGreyLight,
+                                            style: removeAllBorders
+                                                ? BorderStyle.none
+                                                : BorderStyle.solid),
+                                      )
+                                  : null,
                           border: hasBorder ?? Static.txtInputHasBorder ?? false
                               ? Static.border ??
                                   OutlineInputBorder(
@@ -247,7 +255,9 @@ class TxtFormInput extends StatelessWidget {
                                         : borderSide ??
                                             BorderSide(
                                                 width: borderWidth,
-                                                color: borderColor?? Static.borderColor  ?? Clr.colorGreyLight,
+                                                color: borderColor ??
+                                                    Static.borderColor ??
+                                                    Clr.colorGreyLight,
                                                 style: removeAllBorders
                                                     ? BorderStyle.none
                                                     : BorderStyle.solid),
@@ -259,8 +269,10 @@ class TxtFormInput extends StatelessWidget {
                           hintStyle: hintStyle ??
                               Style.hintInputStyle ??
                               TextStyle(
-                                  fontSize: hintTextSize ?? textSize,
-                                  color: hintTextColor, fontFamily: Static.fontFamily,),
+                                fontSize: hintTextSize ?? textSize,
+                                color: hintTextColor,
+                                fontFamily: Static.fontFamily,
+                              ),
                           labelStyle: labelStyle ?? Style.labelInputStyle,
                           suffixIcon: postFix,
                           prefixIcon: preFix,
@@ -286,7 +298,12 @@ class TxtFormInput extends StatelessWidget {
                         : (validator ??
                             (value) {
                               if (value == null || value.isEmpty) {
-                                return errorMessage ?? ((appDirectionLeftToRight??Static.appDirectionLeftToRight??true)?'${'Please Enter'.tr} $hintText': '$hintText ${'Please Enter'.tr}');
+                                return errorMessage ??
+                                    ((appDirectionLeftToRight ??
+                                            Static.appDirectionLeftToRight ??
+                                            true)
+                                        ? '${'Please Enter'.tr} $hintText'
+                                        : '$hintText ${'Please Enter'.tr}');
                               }
                               if (validationLength != null) {
                                 if (value.length < validationLength!) {
@@ -307,7 +324,9 @@ class TxtFormInput extends StatelessWidget {
             onTap: onTap,
             child: Container(
               color: Clr.colorTransparent,
-              height: (hasLabelOnTop ?? false) ? 70+(labelPadding??Static.labelPadding??1) : 48,
+              height: (hasLabelOnTop ?? false)
+                  ? 70 + (labelPadding ?? Static.labelPadding ?? 1)
+                  : 48,
               width: double.infinity,
             ),
           )
