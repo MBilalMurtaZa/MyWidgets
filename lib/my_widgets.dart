@@ -17,7 +17,7 @@ enum URLType { call, sms, web, email }
 
 enum LoadingProPlatForm { android, iOS }
 
-var pTimeout = 20;
+
 
 class MyWidgets {}
 
@@ -347,6 +347,7 @@ Future<void> pSetSettings({
   int stopDecodingFromErrorCode = 400,
   bool? defaultLoadingProIsIOS,
   Toast defaultToastLength = Toast.LENGTH_SHORT,
+  int httpCallTimeoutInSec = 20,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -403,6 +404,7 @@ Future<void> pSetSettings({
   Static.stopDecodingFromErrorCode = stopDecodingFromErrorCode;
   Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
   Static.toastLength = defaultToastLength;
+  HttpCalls.httpCallTimeoutInSec = httpCallTimeoutInSec;
 }
 
 String pRemoveHtmlIfNeeded(String text) {

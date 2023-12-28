@@ -1,3 +1,5 @@
+## 0.8.8
+* add callTimeoutInSec property in each httpCalls for individual and httpCallTimeoutInSec in pSetSetting to set project wise  
 ## 0.8.7
 * fix minor issues
 * ## 0.8.6
