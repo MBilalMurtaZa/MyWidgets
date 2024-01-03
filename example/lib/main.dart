@@ -13,13 +13,15 @@ import 'package:my_widgets/widgets/searchable_dropdown.dart';
 import 'package:my_widgets/widgets/txt.dart';
 import 'package:get/get.dart';
 
+import 'main_web.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Pref.getPref();
 
   String stgBaseURL = 'https://xvz/api/'; // optional
   await pSetSettings(
-      primaryColor: Clr.colorPrimary,
+      primaryColor: Colors.blueAccent,
       secondaryColor: Colors.white,
       defaultImage: 'assets/images/avatar.png',
       defImageIsAsset: true,
@@ -36,14 +38,7 @@ Future<void> main() async {
       fontWeight: FontWeight.w600,
       defaultFontSize: Siz.body17,
       localization: 'ar',
-      txtInputEnabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        borderSide:
-            BorderSide(width: 1, color: Colors.red, style: BorderStyle.solid),
-      ),
-      txtInputBorderColor: Colors.amberAccent,
-      txtInputLabelPadding: 10,
-      btnBgColor: Colors.red);
+  );
   runApp(const MyApp());
 }
 
@@ -170,13 +165,21 @@ class _MyAppState extends State<MyApp> {
                 const MyDivider(),
                 Btn(
                   text: 'I am button',
-                  onPressed: () {},
+                  onPressed: (fn) {},
                   bgColor: Clr.colorCyan,
                 ),
                 const MyDivider(),
                 Btn(
                   text: 'I am button',
-                  onPressed: () {},
+                  onPressed: (fn) {},
+                  bgColor: Clr.colorBlack,
+                ),
+
+                Btn(
+                  text: 'Check Web View',
+                  onPressed: (fn) {
+                    pSetRout(page: ()=> const MainWeb());
+                  },
                   bgColor: Clr.colorBlack,
                 ),
                 const MyDivider(),

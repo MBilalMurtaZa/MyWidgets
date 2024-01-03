@@ -13,7 +13,7 @@ dependencies:
 
   http: ^1.1.2
   shared_preferences: ^2.2.2
-  cached_network_image: ^3.3.0
+  cached_network_image: ^3.3.1
   fluttertoast: ^8.2.4
   get: ^4.6.6
   url_launcher: ^6.2.2
@@ -28,7 +28,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
-  lint: ^2.2.0
+  lint: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

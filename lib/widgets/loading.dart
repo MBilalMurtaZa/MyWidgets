@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../utils/utils.dart';
 
 class LoadingPro extends StatelessWidget {
@@ -32,9 +33,7 @@ class LoadingPro extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(
                       valueColor ?? Clr.colorPrimary),
                 )
-              : (platFormIsIOS ??
-                      Static.defaultLoadingProIsIOS ??
-                      Platform.isIOS)
+              : (platFormIsIOS ?? Static.defaultLoadingProIsIOS ?? GetPlatform.isIOS)
                   ? CircleAvatar(
                       backgroundColor: backgroundColor ?? Clr.colorWhite,
                       child: CupertinoActivityIndicator(
