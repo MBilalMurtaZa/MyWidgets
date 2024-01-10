@@ -19,13 +19,13 @@ class TxtFormInput extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final GestureTapCallback? onTap;
   final double? labelPadding;
-  final bool isPassword,
-      enabled,
-      isOptional,
-      removeAllBorders,
-      autofocus,
-      hasCounter,
-      showCursor;
+  final bool isPassword;
+  final bool enabled;
+  final bool isOptional;
+  final bool removeAllBorders;
+  final bool autofocus;
+  final bool hasCounter;
+  final bool showCursor;
   final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
@@ -21,7 +20,7 @@ class _MainWebState extends State<MainWeb> {
       children: [
         Scaffold(
           body: Center(
-            child: Container(
+            child: SizedBox(
               width: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,12 +65,7 @@ class _MainWebState extends State<MainWeb> {
                     children: [
                       Btn(
                         text: 'Click me for dialog',
-                        onPressed: (fn) async {
-                          fn(true);
-                          // await Dialogs.showNativeDialog(title: 'Info',message: 'You clicked at left button');
-                          await Future.delayed(3.seconds);
-                          fn(false);
-                        },
+                        onPressedCallBack: (fn)=>onPressed(fn),
                         borderWidth: 0.3,
                         hasBorder: true,
                         borderColor: Colors.blueAccent,
@@ -86,18 +80,10 @@ class _MainWebState extends State<MainWeb> {
                       Btn(
                         text: 'Click me for alert',
                         postFix: const Icon(Icons.add,),
-                        onPressed: (fn) async {
-                          fn(true);
-                          await ShowSnackBar().createHighlightOverlay(
-                            text: 'Hello I am alert',
-                            context: context,
-                            textColor: Colors.white,
-                            hasCloseIcon: true,
-                          );
-                          fn(false);
-                        },
+                        onPressedCallBack: (fn)=> onAlertTap(fn),
                         bgColor: Colors.blueAccent,
                         textColor: Colors.white,
+                        makeInverse: true,
                         radius: 6,
                       ),
                     ],
@@ -127,5 +113,25 @@ class _MainWebState extends State<MainWeb> {
     },
 
     );
+  }
+
+  onPressed(Function(bool p1) fn) async {
+    fn(true);
+    await Future.delayed(5.seconds);
+    fn(false);
+  }
+
+  onAlertTap(Function(bool p1) fn) async {
+    fn(true);
+    await Future.delayed(5.seconds);
+    fn(false);
+
+    await ShowSnackBar.createHighlightOverlay(
+      text: 'Hello I am alert',
+      context: context,
+      textColor: Colors.white,
+      hasCloseIcon: true,
+    );
+
   }
 }

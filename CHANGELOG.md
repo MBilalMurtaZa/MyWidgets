@@ -1,3 +1,20 @@
+## 0.9.6
+* Add Dialog for web and custom body with animation
+* ## 0.9.5
+* add onHover
+* fix btn default values
+## 0.9.4
+* add autoClose optional in snackbar 
+## 0.9.3
+* add onPressedCallBack in Btn
+## 0.9.2
+* remove nullable function
+## 0.9.1
+* add nullable function 
+* ## 0.9.0
+* add hovers color for web   
+* add in builtin loading in buttons 
+* add hover effects 
 ## 0.8.8
 * add callTimeoutInSec property in each httpCalls for individual and httpCallTimeoutInSec in pSetSetting to set project wise  
 ## 0.8.7

@@ -6,23 +6,26 @@ import '../utils/utils.dart';
 
 class Btn extends StatefulWidget {
   final String? text;
-  final Function(Function(bool))? onPressed;
+
+  final Function()? onPressed;
+  final Function(Function(bool))? onPressedCallBack;
+
   final Function(bool, Function(bool))? onHover;
-  final Color? textColor,
-      bgColor,
-      foregroundColor,
-      shadowColor,
-      onSurface,
-      borderColor,
-  loadingColor;
+  final Color? textColor;
+  final Color? bgColor;
+  final Color? foregroundColor;
+  final Color? shadowColor;
+  final Color? onSurface;
+  final Color? borderColor;
+  final Color? loadingColor;
   final bool hasBorder, isLoose, hasBold, isTextOnly, makeInverse;
-  final double? radius,
-      textSize,
-      verticalPadding,
-      elevation,
-      borderWidth,
-      width,
-      height;
+  final double? radius;
+  final double? textSize;
+  final double? verticalPadding;
+  final double? elevation;
+  final double? borderWidth;
+  final double? width;
+  final double? height;
   final Widget? preFix;
   final Widget? postFix;
   final TextStyle? textStyle;
@@ -69,7 +72,8 @@ class Btn extends StatefulWidget {
       this.height,
       this.makeInverse = false,
         this.loadingWidget,
-        this.loadingColor
+        this.loadingColor,
+        this.onPressedCallBack
       });
 
   @override
@@ -79,18 +83,21 @@ class Btn extends StatefulWidget {
 class _BtnState extends State<Btn> {
   Color? textColor;
   Color? bgColor;
+  Color? borderColor;
   Color? loadingColor;
   Color? foregroundColor;
   bool isLoading = false;
 
   Function(bool, Function(bool))? onHover;
+  Function(Function(bool))? onPressedCallBack;
 
   @override
   void initState() {
-    textColor = widget.textColor;
-    bgColor = widget.bgColor;
+    textColor = (widget.textColor??Static.btnTextColor);
+    bgColor = (widget.bgColor??Static.btnBgColor);
+    borderColor = (widget.borderColor??Static.btnBorderColor);
     onHover = widget.onHover;
-    loadingColor = widget.loadingColor??widget.textColor;
+    loadingColor = widget.loadingColor??(widget.textColor??Static.btnTextColor);
     foregroundColor = widget.foregroundColor;
     super.initState();
   }
@@ -177,12 +184,10 @@ class _BtnState extends State<Btn> {
                       ? BorderSide(
                           color: widget.isTextOnly
                               ? Clr.colorTransparent
-                              : widget.borderColor ??
-                                  Static.btnBorderColor ??
-                                  Clr.colorPrimary,
+                              : widget.borderColor ?? Static.btnBorderColor ?? Clr.colorPrimary,
                           width: widget.borderWidth!)
                       : null)),
-      onPressed: widget.onPressed != null?()=> widget.onPressed!(onLoadingChange):null,
+      onPressed: widget.onPressed??(widget.onPressedCallBack != null?()=>widget.onPressedCallBack!(onLoadingChange):null),
       onHover: onHover != null?(val)=> onHover!(val, onHoverLocal) : onHoverLocal,
       child: Stack(
         alignment: Alignment.center,
@@ -198,23 +203,23 @@ class _BtnState extends State<Btn> {
     if (widget.makeInverse) {
       setState(() {
         if (val) {
-          textColor = widget.bgColor;
-          bgColor = widget.textColor;
+          textColor = (widget.bgColor??Static.btnBgColor);
+          bgColor = (widget.textColor??Static.btnTextColor);
           if(isLoading){
             textColor = loadingColor;
           }
         } else {
-          textColor = widget.textColor;
-          bgColor = widget.bgColor;
+          textColor = (widget.textColor??Static.btnTextColor);
+          bgColor = (widget.bgColor??Static.btnBgColor);
           if(isLoading){
             textColor = loadingColor;
           }
         }
 
-        if(loadingColor == widget.bgColor){
-          loadingColor = widget.textColor;
+        if(loadingColor == (widget.bgColor??Static.btnBgColor)){
+          loadingColor = (widget.textColor??Static.btnTextColor);
         }else{
-          loadingColor = widget.bgColor;
+          loadingColor = (widget.bgColor??Static.btnBgColor);
         }
 
 
@@ -225,11 +230,11 @@ class _BtnState extends State<Btn> {
     setState(() {
       isLoading = start;
       if(start){
-        textColor = widget.bgColor;
-        foregroundColor = widget.bgColor;
-        loadingColor = widget.textColor;
+        textColor = (widget.bgColor??Static.btnBgColor);
+        foregroundColor = (widget.bgColor??Static.btnBgColor);
+        loadingColor = (widget.textColor??Static.btnTextColor);
       }else{
-        textColor = widget.textColor;
+        textColor = (widget.textColor??Static.btnTextColor);
         foregroundColor = widget.foregroundColor;
         loadingColor = widget.loadingColor;
       }

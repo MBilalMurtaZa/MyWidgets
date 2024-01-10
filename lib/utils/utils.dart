@@ -96,12 +96,18 @@ class Static {
   static double? btnHeight;
   static double? btnRadius;
   static Color? btnBgColor;
+  static Color? btnTextColor;
   static Color? btnBorderColor;
   static bool? appDirectionLeftToRight;
   static bool? defaultLoadingProIsIOS;
   static bool? useDefaultURl;
   static int stopDecodingFromErrorCode = 400;
   static Toast toastLength = Toast.LENGTH_SHORT;
+  static Matrix4? onHoverDefaultMatrix4;
+  static double? onHoverDefaultScale;
+  static Duration? onHoverDefaultAnimatedDuration;
+  static Color? webDialogBgColor;
+  static Duration? dialogAnimationDuration;
 
   Static._();
 }

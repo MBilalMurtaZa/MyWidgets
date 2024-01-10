@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/my_widgets.dart';
 import 'package:my_widgets/utils/dates.dart';
 import 'package:my_widgets/utils/pref.dart';
@@ -164,20 +165,22 @@ class _MyAppState extends State<MyApp> {
 
                 const MyDivider(),
                 Btn(
-                  text: 'I am button',
-                  onPressed: (fn) {},
+                  text: 'Show Dialog',
+                  onPressed: () {
+                    Dialogs.showCustomDialog(body: const MainWeb());
+                  },
                   bgColor: Clr.colorCyan,
                 ),
                 const MyDivider(),
                 Btn(
                   text: 'I am button',
-                  onPressed: (fn) {},
+                  onPressed: () {},
                   bgColor: Clr.colorBlack,
                 ),
 
                 Btn(
                   text: 'Check Web View',
-                  onPressed: (fn) {
+                  onPressed: () {
                     pSetRout(page: ()=> const MainWeb());
                   },
                   bgColor: Clr.colorBlack,

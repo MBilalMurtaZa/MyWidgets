@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:get/get.dart';
+import 'package:my_widgets/dialogs/dialog_for_page.dart';
 
 class Dialogs {
   static Future showNativeDialog({
@@ -21,6 +22,7 @@ class Dialogs {
     return showPlatformDialog(
       context: context ?? Get.context!,
       androidBarrierDismissible: true,
+      useRootNavigator: true,
       builder: (context) => BasicDialogAlert(
         title: Text(title),
         content: body ?? Text(message),
@@ -50,4 +52,16 @@ class Dialogs {
       ),
     );
   }
+
+
+  static showCustomDialog({BuildContext? context ,dismissOnTap = false, required Widget body, Widget? closeBtn, Duration? animationTime}) async {
+    return showDialog(
+      barrierDismissible: dismissOnTap,
+      context: context??Get.context!,
+      builder: (BuildContext context) {
+        return ShowCustomDialog(body, closeBtn: closeBtn, animationTime: animationTime??200.milliseconds,);
+      },
+    );
+  }
+
 }

@@ -341,6 +341,7 @@ Future<void> pSetSettings({
   double? btnHeight,
   double? btnRadius,
   Color? btnBgColor,
+  Color? btnTextColor,
   Color? btnBorderColor,
   bool? appDirectionLeftToRight,
   String? fontFamily,
@@ -348,6 +349,11 @@ Future<void> pSetSettings({
   bool? defaultLoadingProIsIOS,
   Toast defaultToastLength = Toast.LENGTH_SHORT,
   int httpCallTimeoutInSec = 20,
+  Matrix4? onHoverDefaultMatrix4,
+  double? onHoverDefaultScale,
+  Duration? onHoverDefaultAnimatedDuration,
+  Color? webDialogBgColor,
+  Duration? dialogAnimationDuration,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -397,6 +403,7 @@ Future<void> pSetSettings({
   Static.btnHeight = btnHeight;
   Static.btnRadius = btnRadius;
   Static.btnBgColor = btnBgColor;
+  Static.btnTextColor = btnTextColor;
   Static.btnBorderColor = btnBorderColor;
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
   Static.useDefaultURl = useDefaultURl;
@@ -405,6 +412,11 @@ Future<void> pSetSettings({
   Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
   Static.toastLength = defaultToastLength;
   HttpCalls.httpCallTimeoutInSec = httpCallTimeoutInSec;
+  Static.onHoverDefaultMatrix4 = onHoverDefaultMatrix4;
+  Static.onHoverDefaultScale = onHoverDefaultScale;
+  Static.onHoverDefaultAnimatedDuration = onHoverDefaultAnimatedDuration;
+  Static.webDialogBgColor = webDialogBgColor;
+  Static.dialogAnimationDuration = dialogAnimationDuration;
 }
 
 String pRemoveHtmlIfNeeded(String text) {
