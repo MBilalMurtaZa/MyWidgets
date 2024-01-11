@@ -108,6 +108,8 @@ class Static {
   static Duration? onHoverDefaultAnimatedDuration;
   static Color? webDialogBgColor;
   static Duration? dialogAnimationDuration;
+  static String? defaultDateFormat;
+  static String? defaultDateTimeFormat;
 
   Static._();
 }

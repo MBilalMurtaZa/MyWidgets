@@ -354,6 +354,8 @@ Future<void> pSetSettings({
   Duration? onHoverDefaultAnimatedDuration,
   Color? webDialogBgColor,
   Duration? dialogAnimationDuration,
+  String? defaultDateFormat,
+  String? defaultDateTimeFormat,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -417,6 +419,8 @@ Future<void> pSetSettings({
   Static.onHoverDefaultAnimatedDuration = onHoverDefaultAnimatedDuration;
   Static.webDialogBgColor = webDialogBgColor;
   Static.dialogAnimationDuration = dialogAnimationDuration;
+  Static.defaultDateFormat = defaultDateFormat;
+  Static.defaultDateTimeFormat = defaultDateTimeFormat;
 }
 
 String pRemoveHtmlIfNeeded(String text) {
