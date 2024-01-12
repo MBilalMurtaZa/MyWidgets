@@ -61,6 +61,8 @@ class _MyAppState extends State<MyApp> {
 
   var searchAbleDropDownTap = TextEditingController();
 
+  var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -109,15 +111,19 @@ class _MyAppState extends State<MyApp> {
 
                 const MyDivider(),
                 const MyDivider(),
-                TxtFormInput(
-                  controller: inputEditingController,
-                  hintText: 'I am with border,radius and with hint',
-                  hasBorder: true,
-                  radius: 20,
-                  hasLabel: false,
-                  cursorColor: Clr.colorGreen,
-                  fillColor: Clr.colorGreen,
-                  borderColor: Clr.colorCyan,
+                Form(
+                  key: formKey,
+                  child: TxtFormInput(
+                    controller: inputEditingController,
+                    hintText: 'I am with border,radius and with hint  44',
+                    hasBorder: true,
+                    radius: 20,
+                    height: 40,
+                    hasLabel: false,
+                    cursorColor: Clr.colorGreen,
+                    fillColor: Clr.colorGreen,
+                    borderColor: Clr.colorCyan,
+                  ),
                 ),
                 TxtFormInput(
                   controller: inputEditingController,
@@ -132,6 +138,7 @@ class _MyAppState extends State<MyApp> {
                   hintText: 'I am with border,radius, label and with hint',
                   hasBorder: true,
                   radius: 20,
+                  height: 45,
                   labelText: 'I am label',
                   hasLabelOnTop: false,
                   hasLabel: true,
@@ -140,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                 const MyDivider(),
                 TxtFormInput(
                   controller: inputEditingController,
-                  hintText: 'I am with border,radius, label and with hint',
+                  hintText: 'radius, label and with hint',
                   hasBorder: true,
                   radius: 20,
                   labelText: 'I am label and google auto complete',
@@ -156,6 +163,7 @@ class _MyAppState extends State<MyApp> {
                   preFix: IconButton(
                     icon: const Icon(Icons.remove),
                     onPressed: () {
+                      formKey.currentState!.validate();
                       debugPrint('I am clickable');
                     },
                   ),

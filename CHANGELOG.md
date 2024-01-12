@@ -1,3 +1,5 @@
+## 0.9.9
+* miner fixes like snackbar border error height in textfield
 ## 0.9.8
 * add web dialogs more properties 
 ## 0.9.7

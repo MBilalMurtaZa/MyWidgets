@@ -280,6 +280,7 @@ pSnackBar(
     required String? message,
     Color colorText = Clr.colorWhite,
     Color? backgroundColor,
+    Color? borderColor,
     bool isError = false,
     SnackPosition snackPosition = SnackPosition.TOP,
     Function(GetSnackBar snackBar)? onTap}) {
@@ -287,7 +288,7 @@ pSnackBar(
       colorText: isError ? Colors.white : colorText,
       backgroundColor:
           isError ? Colors.red : backgroundColor ?? Clr.colorPrimary,
-      borderColor: Colors.white,
+      borderColor: borderColor,
       snackPosition: snackPosition,
       borderWidth: 2.0,
       onTap: onTap);
