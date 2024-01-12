@@ -356,6 +356,8 @@ Future<void> pSetSettings({
   Duration? dialogAnimationDuration,
   String? defaultDateFormat,
   String? defaultDateTimeFormat,
+  EdgeInsets? webDialogPadding,
+  EdgeInsets? webDialogMargin,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -421,6 +423,8 @@ Future<void> pSetSettings({
   Static.dialogAnimationDuration = dialogAnimationDuration;
   Static.defaultDateFormat = defaultDateFormat;
   Static.defaultDateTimeFormat = defaultDateTimeFormat;
+  Static.webDialogPadding = webDialogPadding;
+  Static.webDialogMargin = webDialogMargin;
 }
 
 String pRemoveHtmlIfNeeded(String text) {

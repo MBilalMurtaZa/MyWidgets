@@ -110,6 +110,8 @@ class Static {
   static Duration? dialogAnimationDuration;
   static String? defaultDateFormat;
   static String? defaultDateTimeFormat;
+  static EdgeInsets? webDialogPadding;
+  static EdgeInsets? webDialogMargin;
 
   Static._();
 }

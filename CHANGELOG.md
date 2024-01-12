@@ -1,3 +1,5 @@
+## 0.9.8
+* add web dialogs more properties 
 ## 0.9.7
 * add default date and time format in pSetSetting
 ## 0.9.6

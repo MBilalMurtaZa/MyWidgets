@@ -10,8 +10,10 @@ class ShowCustomDialog extends StatefulWidget {
   final double? height;
   final double? width;
   final Color? bgColor;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
 
-  const ShowCustomDialog(this.body, {super.key, this.closeBtn, this.animationTime, this.height, this.width, this.bgColor});
+  const ShowCustomDialog(this.body, {super.key, this.closeBtn, this.animationTime, this.height, this.width, this.bgColor, this.padding, this.margin});
 
   @override
   State<StatefulWidget> createState() => ShowCustomDialogState();
@@ -56,7 +58,8 @@ class ShowCustomDialogState extends State<ShowCustomDialog>
           child: Container(
             height: widget.height??Get.height * 0.9,
             width: widget.width??Get.width * 0.8,
-            // padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            padding: widget.padding??Static.webDialogPadding??const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            margin: widget.margin??Static.webDialogMargin??const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             decoration: pBoxDecoration(
               radius: 8.0,
               color: widget.bgColor??Static.webDialogBgColor??Clr.colorWhite,
