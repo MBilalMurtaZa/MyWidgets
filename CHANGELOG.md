@@ -1,3 +1,8 @@
+## 0.9.15
+* add option to upload binary image 
+* add defaultResponseWithoutJsonDecode option in post api
+## 0.9.14
+* improve onHover widget 
 ## 0.9.13
 * add params as body 
 ## 0.9.12

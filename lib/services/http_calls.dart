@@ -51,18 +51,21 @@ class HttpCalls {
     return userMap;
   }
 
-  static Future<dynamic> callGetApi(String endPoint,
-      {bool hasAuth = true,
-      required String token,
-      bool? defaultResponse,
-      bool? withStream,
-      bool? utf8Convert,
-      bool isTypeJson = true,
-      Map<String, String>? customHeader,
-      String? changeLocalization,
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec,}) async {
+  static Future<dynamic> callGetApi(
+    String endPoint, {
+    bool hasAuth = true,
+    required String token,
+    bool? defaultResponse,
+    bool? withStream,
+    bool? utf8Convert,
+    bool isTypeJson = true,
+    Map<String, String>? customHeader,
+    String? changeLocalization,
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+    int? callTimeoutInSec,
+  }) async {
     dynamic response;
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
@@ -93,8 +96,8 @@ class HttpCalls {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
-        var streamedResponse =
-            await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+        var streamedResponse = await request.send().timeout(
+            Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         var result = await Response.fromStream(streamedResponse);
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
@@ -120,7 +123,8 @@ class HttpCalls {
               url,
               headers: customHeader ?? httpHeader ?? header,
             )
-            .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+            .timeout(
+                Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -138,22 +142,24 @@ class HttpCalls {
   }
 
   static Future<dynamic> callPostApi(
-      String endPoint, Map params,
-      {bool hasAuth = true,
-      bool hasEncoded = true,
-      required String token,
-      bool? defaultResponse,
-      bool? withStream,
-      bool? utf8Convert,
-      isTypeJson = true,
-      Map<String, String>? customHeader,
-        String? paramAsBody,
-      String? changeLocalization,
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec,
-
-      }) async {
+    String endPoint,
+    Map params, {
+    bool hasAuth = true,
+    bool hasEncoded = true,
+    required String token,
+    bool? defaultResponse,
+        bool defaultResponseWithoutJsonDecode = false,
+    bool? withStream,
+    bool? utf8Convert,
+    isTypeJson = true,
+    Map<String, String>? customHeader,
+    String? paramAsBody,
+    String? changeLocalization,
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+    int? callTimeoutInSec,
+  }) async {
     dynamic response;
 
     showLog(params, showLog: showLogs, logName: endPoint);
@@ -182,17 +188,19 @@ class HttpCalls {
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
-        request.body = paramAsBody??json.encode(params);
+        request.body = paramAsBody ?? json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
-        var streamedResponse =
-            await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+        var streamedResponse = await request.send().timeout(
+            Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         var result = await Response.fromStream(streamedResponse);
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
-            response = HttpCalls.getDataObject(
-                Response(utf8.decoder.convert(result.bodyBytes),
-                    streamedResponse.statusCode),
-                defaultResponse: defaultResponse);
+            if(defaultResponseWithoutJsonDecode){
+              response = result;
+            }else{
+              response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            }
+
 
             showLog(utf8.decoder.convert(result.bodyBytes),
                 enableJsonEncode: false, showLog: showLogs, logName: endPoint);
@@ -209,8 +217,9 @@ class HttpCalls {
         var result = await http
             .post(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: paramAsBody??utf8.encode(json.encode(params)))
-            .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+                body: paramAsBody ?? utf8.encode(json.encode(params)))
+            .timeout(
+                Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -228,20 +237,24 @@ class HttpCalls {
     return response;
   }
 
-  static Future<dynamic> callPatchApi(String endPoint, Map params,
-      {bool hasAuth = true,
-      bool hasEncoded = true,
-      required String token,
-      bool? defaultResponse,
-      bool? withStream,
-      bool? utf8Convert,
-      String? paramAsBody,
-      bool isTypeJson = true,
-      Map<String, String>? customHeader,
-      String? changeLocalization,
-      String tokenKey = 'Bearer',
-      bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec,}) async {
+  static Future<dynamic> callPatchApi(
+    String endPoint,
+    Map params, {
+    bool hasAuth = true,
+    bool hasEncoded = true,
+    required String token,
+    bool? defaultResponse,
+    bool? withStream,
+    bool? utf8Convert,
+    String? paramAsBody,
+    bool isTypeJson = true,
+    Map<String, String>? customHeader,
+    String? changeLocalization,
+    String tokenKey = 'Bearer',
+    bool? useDefaultURl,
+    bool? showLogs,
+    int? callTimeoutInSec,
+  }) async {
     dynamic response;
 
     showLog((params), showLog: showLogs, logName: endPoint);
@@ -272,8 +285,8 @@ class HttpCalls {
         var request = http.Request('PATCH', url);
         request.body = paramAsBody ?? json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
-        var streamedResponse =
-            await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+        var streamedResponse = await request.send().timeout(
+            Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         var result = await Response.fromStream(streamedResponse);
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
@@ -297,7 +310,8 @@ class HttpCalls {
             .patch(url,
                 headers: customHeader ?? httpHeader ?? header,
                 body: paramAsBody ?? utf8.encode(json.encode(params)))
-            .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+            .timeout(
+                Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -321,15 +335,19 @@ class HttpCalls {
       bool? withStream,
       bool? utf8Convert,
       bool isTypeJson = true,
-        String? paramAsBody,
+      String? paramAsBody,
+        Uint8List? paramAsBodyBinary,
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec}) async {
+      bool? showLogs,
+
+      int? callTimeoutInSec}) async {
     dynamic response;
 
     showLog((params), showLog: showLogs, logName: endPoint);
+
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
@@ -353,12 +371,19 @@ class HttpCalls {
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
     try {
+      if(paramAsBodyBinary != null){
+        var response = await http.put(Uri.parse(endPoint), body: paramAsBodyBinary);
+        return response;
+      }
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PUT', url);
-        request.body = json.encode(params);
+        if(paramAsBodyBinary != null){
+          request.bodyBytes = paramAsBodyBinary;
+      }
+      request.body = json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
-        var streamedResponse =
-            await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+        var streamedResponse = await request.send().timeout(
+            Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         var result = await Response.fromStream(streamedResponse);
         if (utf8Convert ?? httpResponseUtf8Convert) {
           response = HttpCalls.getDataObject(
@@ -378,8 +403,9 @@ class HttpCalls {
         var result = await http
             .put(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: paramAsBody??utf8.encode(json.encode(params)))
-            .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+                body: paramAsBody ?? utf8.encode(json.encode(params)))
+            .timeout(
+                Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
               HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
@@ -405,11 +431,12 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
-        String? paramAsBody,
+      String? paramAsBody,
       String? changeLocalization,
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec}) async {
+      bool? showLogs,
+      int? callTimeoutInSec}) async {
     dynamic response;
 
     showLog((params), showLog: showLogs, logName: endPoint);
@@ -438,10 +465,11 @@ class HttpCalls {
         showLog: showLogs, logName: endPoint);
     try {
       var request = http.Request('DELETE', url);
-      request.body = paramAsBody??json.encode(params);
+      request.body = paramAsBody ?? json.encode(params);
       request.headers.addAll(customHeader ?? httpHeader ?? header);
-      var streamedResponse =
-          await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
+      var streamedResponse = await request
+          .send()
+          .timeout(Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
       var result = await Response.fromStream(streamedResponse);
       if (result.statusCode < Static.stopDecodingFromErrorCode) {
         if (utf8Convert ?? httpResponseUtf8Convert) {
@@ -480,7 +508,8 @@ class HttpCalls {
     String requestType = 'POST',
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
-    bool? showLogs, int? callTimeoutInSec,
+    bool? showLogs,
+    int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
@@ -544,7 +573,8 @@ class HttpCalls {
     String requestType = 'POST',
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
-    bool? showLogs, int? callTimeoutInSec,
+    bool? showLogs,
+    int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
@@ -636,7 +666,8 @@ class HttpCalls {
     bool? defaultResponse,
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
-    bool? showLogs, int? callTimeoutInSec,
+    bool? showLogs,
+    int? callTimeoutInSec,
   }) async {
     dynamic response;
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
