@@ -122,7 +122,6 @@ class _TxtFormInputState extends State<TxtFormInput> {
           Static.inputDecoration!.copyWith(hintText: widget.hintText ?? '');
     }
 
-    double? error;
     return Stack(
       children: [
         IgnorePointer(

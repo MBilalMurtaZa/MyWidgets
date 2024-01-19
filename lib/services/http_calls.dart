@@ -137,7 +137,8 @@ class HttpCalls {
     return response;
   }
 
-  static Future<dynamic> callPostApi(String endPoint, Map params,
+  static Future<dynamic> callPostApi(
+      String endPoint, Map params,
       {bool hasAuth = true,
       bool hasEncoded = true,
       required String token,
@@ -146,10 +147,13 @@ class HttpCalls {
       bool? utf8Convert,
       isTypeJson = true,
       Map<String, String>? customHeader,
+        String? paramAsBody,
       String? changeLocalization,
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec}) async {
+      bool? showLogs, int? callTimeoutInSec,
+
+      }) async {
     dynamic response;
 
     showLog(params, showLog: showLogs, logName: endPoint);
@@ -178,7 +182,7 @@ class HttpCalls {
     try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
-        request.body = json.encode(params);
+        request.body = paramAsBody??json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse =
             await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
@@ -205,7 +209,7 @@ class HttpCalls {
         var result = await http
             .post(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: utf8.encode(json.encode(params)))
+                body: paramAsBody??utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
@@ -237,7 +241,7 @@ class HttpCalls {
       String? changeLocalization,
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
-      bool? showLogs, int? callTimeoutInSec}) async {
+      bool? showLogs, int? callTimeoutInSec,}) async {
     dynamic response;
 
     showLog((params), showLog: showLogs, logName: endPoint);
@@ -317,6 +321,7 @@ class HttpCalls {
       bool? withStream,
       bool? utf8Convert,
       bool isTypeJson = true,
+        String? paramAsBody,
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer',
@@ -373,7 +378,7 @@ class HttpCalls {
         var result = await http
             .put(url,
                 headers: customHeader ?? httpHeader ?? header,
-                body: utf8.encode(json.encode(params)))
+                body: paramAsBody??utf8.encode(json.encode(params)))
             .timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           response =
@@ -400,6 +405,7 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       Map<String, String>? customHeader,
+        String? paramAsBody,
       String? changeLocalization,
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
@@ -432,7 +438,7 @@ class HttpCalls {
         showLog: showLogs, logName: endPoint);
     try {
       var request = http.Request('DELETE', url);
-      request.body = json.encode(params);
+      request.body = paramAsBody??json.encode(params);
       request.headers.addAll(customHeader ?? httpHeader ?? header);
       var streamedResponse =
           await request.send().timeout(Duration(seconds: callTimeoutInSec??httpCallTimeoutInSec));

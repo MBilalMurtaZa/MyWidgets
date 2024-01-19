@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
@@ -14,6 +15,8 @@ class MainWeb extends StatefulWidget {
 }
 
 class _MainWebState extends State<MainWeb> {
+
+  Color btnBG = Colors.green;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -26,6 +29,30 @@ class _MainWebState extends State<MainWeb> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      Btn(text: 'Help', bgColor: btnBG,onPressed: (){
+                        if(btnBG == Colors.green){
+                          btnBG = Colors.red;
+                        }else{
+                          btnBG = Colors.green;
+                        }
+                      },
+                      isLoose: false,),
+                      Btn(text: 'Help', bgColor: btnBG,onPressed: (){
+                        if(btnBG == Colors.green){
+                          btnBG = Colors.red;
+                        }else{
+                          btnBG = Colors.green;
+                        }
+                        setState(() {
+
+                        });
+                      },),
+                    ],
+                  ),
                   TxtFormInput(
                     hintText: 'Password',
                     hasLabelOnTop: false,
@@ -63,7 +90,7 @@ class _MainWebState extends State<MainWeb> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Btn(
+                      BtnSF(
                         text: 'Click me for dialog',
                         onPressedCallBack: (fn)=>onPressed(fn),
                         borderWidth: 0.3,
@@ -77,7 +104,7 @@ class _MainWebState extends State<MainWeb> {
                         makeInverse: true,
                       ),
                       const Spacer(),
-                      Btn(
+                      BtnSF(
                         text: 'Click me for alert',
                         postFix: const Icon(Icons.add,),
                         onPressedCallBack: (fn)=> onAlertTap(fn),

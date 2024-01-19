@@ -70,141 +70,146 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Example My Widgets'),
         ),
-        body: Container(
-          padding: const EdgeInsets.all(30),
-          child: Form(
-            child: ListView(
-              children: [
-                Container(
-                  decoration: pBoxDecoration(
-                      color: Clr.colorGreen, shape: BoxShape.circle),
-                  height: 100,
-                  width: 100,
-                ),
-
-                // Use Txt to show text with easy format options
-
-                Txt(Dates.pDateToString(DateTime.now())),
-
-                // Txt(Dates.pDateToString(DateTime.now(), localization: 'en')),
-
-                // Use Txt to show text with easy format options
-                const Txt('I am Plane '),
-
-                const Txt(
-                  'I am Colored ',
-                  textColor: Clr.colorCyan,
-                ),
-
-                const Txt(
-                  'I am bold and Colored',
-                  hasBold: true,
-                  textColor: Clr.colorCyan,
-                ),
-
-                const Txt(
-                  'I am bold, Colored and UnderLine',
-                  hasBold: true,
-                  textColor: Clr.colorCyan,
-                  hasUnderLine: true,
-                ),
-
-                const MyDivider(),
-                const MyDivider(),
-                Form(
-                  key: formKey,
-                  child: TxtFormInput(
-                    controller: inputEditingController,
-                    hintText: 'I am with border,radius and with hint  44',
-                    hasBorder: true,
-                    radius: 20,
-                    height: 40,
-                    hasLabel: false,
-                    cursorColor: Clr.colorGreen,
-                    fillColor: Clr.colorGreen,
-                    borderColor: Clr.colorCyan,
-                  ),
-                ),
-                TxtFormInput(
-                  controller: inputEditingController,
-                  hintText: 'I am with border,radius and with hint',
-                  hasBorder: false,
-                  radius: 20,
-                  hasLabel: false,
-                ),
-                const MyDivider(),
-                TxtFormInput(
-                  controller: inputEditingController,
-                  hintText: 'I am with border,radius, label and with hint',
-                  hasBorder: true,
-                  radius: 20,
-                  height: 45,
-                  labelText: 'I am label',
-                  hasLabelOnTop: false,
-                  hasLabel: true,
-                  onTap: () {},
-                ),
-                const MyDivider(),
-                TxtFormInput(
-                  controller: inputEditingController,
-                  hintText: 'radius, label and with hint',
-                  hasBorder: true,
-                  radius: 20,
-                  labelText: 'I am label and google auto complete',
-                  hasLabelOnTop: false,
-                  onChanged: onChange,
-                ),
-                TxtFormInput(
-                  borderColor: Clr.colorCyan,
-                  controller: inputEditingController,
-                  hasBorder: false,
-                  fillColor: Clr.colorCyan,
-                  removeAllBorders: true,
-                  preFix: IconButton(
-                    icon: const Icon(Icons.remove),
-                    onPressed: () {
-                      formKey.currentState!.validate();
-                      debugPrint('I am clickable');
-                    },
-                  ),
-                  postFix: const Icon(Icons.add),
-                  radius: 20,
-                ),
-
-                const MyDivider(),
-                Btn(
-                  text: 'Show Dialog',
-                  onPressed: () {
-                    Dialogs.showCustomDialog(body: const MainWeb());
-                  },
-                  bgColor: Clr.colorCyan,
-                ),
-                const MyDivider(),
-                Btn(
-                  text: 'I am button',
-                  onPressed: () {},
-                  bgColor: Clr.colorBlack,
-                ),
-
-                Btn(
-                  text: 'Check Web View',
-                  onPressed: () {
-                    pSetRout(page: ()=> const MainWeb());
-                  },
-                  bgColor: Clr.colorBlack,
-                ),
-                const MyDivider(),
-                TxtFormInput(
-                  onTap: onSearchAbleDropDownTap,
-                  hintText: 'Tap here to search from dropdown',
-                  controller: searchAbleDropDownTap,
-                )
-              ],
-            ),
-          ),
-        ),
+        
+        body: MainWeb(),//buildMainPage(),
       ),
     );
+  }
+
+  Container buildMainPage() {
+    return Container(
+        padding: const EdgeInsets.all(30),
+        child: Form(
+          child: ListView(
+            children: [
+              Container(
+                decoration: pBoxDecoration(
+                    color: Clr.colorGreen, shape: BoxShape.circle),
+                height: 100,
+                width: 100,
+              ),
+
+              // Use Txt to show text with easy format options
+
+              Txt(Dates.pDateToString(DateTime.now())),
+
+              // Txt(Dates.pDateToString(DateTime.now(), localization: 'en')),
+
+              // Use Txt to show text with easy format options
+              const Txt('I am Plane '),
+
+              const Txt(
+                'I am Colored ',
+                textColor: Clr.colorCyan,
+              ),
+
+              const Txt(
+                'I am bold and Colored',
+                hasBold: true,
+                textColor: Clr.colorCyan,
+              ),
+
+              const Txt(
+                'I am bold, Colored and UnderLine',
+                hasBold: true,
+                textColor: Clr.colorCyan,
+                hasUnderLine: true,
+              ),
+
+              const MyDivider(),
+              const MyDivider(),
+              Form(
+                key: formKey,
+                child: TxtFormInput(
+                  controller: inputEditingController,
+                  hintText: 'I am with border,radius and with hint  44',
+                  hasBorder: true,
+                  radius: 20,
+                  height: 40,
+                  hasLabel: false,
+                  cursorColor: Clr.colorGreen,
+                  fillColor: Clr.colorGreen,
+                  borderColor: Clr.colorCyan,
+                ),
+              ),
+              TxtFormInput(
+                controller: inputEditingController,
+                hintText: 'I am with border,radius and with hint',
+                hasBorder: false,
+                radius: 20,
+                hasLabel: false,
+              ),
+              const MyDivider(),
+              TxtFormInput(
+                controller: inputEditingController,
+                hintText: 'I am with border,radius, label and with hint',
+                hasBorder: true,
+                radius: 20,
+                height: 45,
+                labelText: 'I am label',
+                hasLabelOnTop: false,
+                hasLabel: true,
+                onTap: () {},
+              ),
+              const MyDivider(),
+              TxtFormInput(
+                controller: inputEditingController,
+                hintText: 'radius, label and with hint',
+                hasBorder: true,
+                radius: 20,
+                labelText: 'I am label and google auto complete',
+                hasLabelOnTop: false,
+                onChanged: onChange,
+              ),
+              TxtFormInput(
+                borderColor: Clr.colorCyan,
+                controller: inputEditingController,
+                hasBorder: false,
+                fillColor: Clr.colorCyan,
+                removeAllBorders: true,
+                preFix: IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: () {
+                    formKey.currentState!.validate();
+                    debugPrint('I am clickable');
+                  },
+                ),
+                postFix: const Icon(Icons.add),
+                radius: 20,
+              ),
+
+              const MyDivider(),
+              BtnSF(
+                text: 'Show Dialog',
+                onPressed: () {
+                  Dialogs.showCustomDialog(body: const MainWeb());
+                },
+                bgColor: Clr.colorCyan,
+              ),
+              const MyDivider(),
+              BtnSF(
+                text: 'I am button',
+                onPressed: () {},
+                bgColor: Clr.colorBlack,
+              ),
+
+              BtnSF(
+                text: 'Check Web View',
+                onPressed: () {
+                  pSetRout(page: ()=> const MainWeb());
+                },
+                bgColor: Clr.colorBlack,
+              ),
+              const MyDivider(),
+              TxtFormInput(
+                onTap: onSearchAbleDropDownTap,
+                hintText: 'Tap here to search from dropdown',
+                controller: searchAbleDropDownTap,
+              )
+            ],
+          ),
+        ),
+      );
   }
 
   void onChange(String value) {

@@ -108,7 +108,7 @@ class SearchableDropdown extends StatelessWidget {
                   ),
                 ),
                 if (showBottomButton && multiSelect) ...[
-                  Btn(
+                  BtnSF(
                       text: confirmButtonText,
                       onPressed:  controller.onSavePressed,
                       width: bottomButtonWidth ?? Get.width * 0.8,

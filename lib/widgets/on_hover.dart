@@ -9,7 +9,11 @@ class OnHover extends StatefulWidget {
   final double? hoverScale;
   final Duration? animatedDuration;
   final Function()? onTap;
-  const OnHover({super.key,  this.builder, this.child,  this.hoveredMatrix4, this.hoverScale,  this.animatedDuration, this.onTap});
+  final double? radius;
+  final Color? hoverColor;
+  final BoxDecoration? boxDecoration;
+  final MouseCursor? cursor;
+  const OnHover({super.key,  this.builder, this.child,  this.hoveredMatrix4, this.hoverScale,  this.animatedDuration, this.onTap, this.radius, this.hoverColor, this.boxDecoration, this.cursor});
 
   @override
   State<OnHover> createState() => _OnHoverState();
@@ -28,13 +32,16 @@ class _OnHoverState extends State<OnHover> {
     var transform = isHovered?hoveredTransform:Matrix4.identity();
     return InkWell(
       onTap: widget.onTap,
+      radius: widget.radius,
+      hoverColor: widget.hoverColor,
       child: MouseRegion(
         onEnter: (event) => onEntered(true),
         onExit: (event) => onEntered(false),
-        cursor: SystemMouseCursors.click,
+        cursor: widget.cursor??SystemMouseCursors.click,
         child: AnimatedContainer(
             duration: widget.animatedDuration??Static.onHoverDefaultAnimatedDuration??100.milliseconds,
             transform: transform,
+            decoration: widget.boxDecoration??const BoxDecoration(shape: BoxShape.circle,),
             child: widget.builder == null?widget.child:widget.builder!(isHovered),
         ),
       ),
