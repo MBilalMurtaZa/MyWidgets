@@ -13,7 +13,15 @@ class ShowCustomDialog extends StatefulWidget {
   final EdgeInsets? padding;
   final EdgeInsets? margin;
 
-  const ShowCustomDialog(this.body, {super.key, this.closeBtn, this.animationTime, this.height, this.width, this.bgColor, this.padding, this.margin});
+  const ShowCustomDialog(this.body,
+      {super.key,
+      this.closeBtn,
+      this.animationTime,
+      this.height,
+      this.width,
+      this.bgColor,
+      this.padding,
+      this.margin});
 
   @override
   State<StatefulWidget> createState() => ShowCustomDialogState();
@@ -31,8 +39,13 @@ class ShowCustomDialogState extends State<ShowCustomDialog>
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: widget.animationTime??Static.dialogAnimationDuration??0.milliseconds);
-    scaleAnimation = CurvedAnimation(parent: controller!, curve: Curves.elasticOut);
+    controller = AnimationController(
+        vsync: this,
+        duration: widget.animationTime ??
+            Static.dialogAnimationDuration ??
+            0.milliseconds);
+    scaleAnimation =
+        CurvedAnimation(parent: controller!, curve: Curves.elasticOut);
     controller?.addListener(() {
       setState(() {});
     });
@@ -56,13 +69,18 @@ class ShowCustomDialogState extends State<ShowCustomDialog>
         child: ScaleTransition(
           scale: scaleAnimation!,
           child: Container(
-            height: widget.height??Get.height * 0.9,
-            width: widget.width??Get.width * 0.8,
-            padding: widget.padding??Static.webDialogPadding??const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            margin: widget.margin??Static.webDialogMargin??const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            height: widget.height ?? Get.height * 0.9,
+            width: widget.width ?? Get.width * 0.8,
+            padding: widget.padding ??
+                Static.webDialogPadding ??
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            margin: widget.margin ??
+                Static.webDialogMargin ??
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             decoration: pBoxDecoration(
               radius: 8.0,
-              color: widget.bgColor??Static.webDialogBgColor??Clr.colorWhite,
+              color:
+                  widget.bgColor ?? Static.webDialogBgColor ?? Clr.colorWhite,
             ),
             clipBehavior: Clip.antiAlias,
             child: Column(
@@ -71,7 +89,10 @@ class ShowCustomDialogState extends State<ShowCustomDialog>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    widget.closeBtn??IconButton(onPressed: ()=> Get.back(result: false), icon: const Icon(Icons.close))
+                    widget.closeBtn ??
+                        IconButton(
+                            onPressed: () => Get.back(result: false),
+                            icon: const Icon(Icons.close))
                   ],
                 ),
                 Expanded(child: widget.body),
@@ -82,5 +103,4 @@ class ShowCustomDialogState extends State<ShowCustomDialog>
       ),
     );
   }
-
 }

@@ -53,15 +53,22 @@ class Dialogs {
     );
   }
 
-
-  static showCustomDialog({BuildContext? context ,dismissOnTap = false, required Widget body, Widget? closeBtn, Duration? animationTime}) async {
+  static showCustomDialog(
+      {BuildContext? context,
+      dismissOnTap = false,
+      required Widget body,
+      Widget? closeBtn,
+      Duration? animationTime}) async {
     return showDialog(
       barrierDismissible: dismissOnTap,
-      context: context??Get.context!,
+      context: context ?? Get.context!,
       builder: (BuildContext context) {
-        return ShowCustomDialog(body, closeBtn: closeBtn, animationTime: animationTime??200.milliseconds,);
+        return ShowCustomDialog(
+          body,
+          closeBtn: closeBtn,
+          animationTime: animationTime ?? 200.milliseconds,
+        );
       },
     );
   }
-
 }
