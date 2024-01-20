@@ -282,7 +282,7 @@ pSnackBar(
     Color? backgroundColor,
     Color? borderColor,
     bool isError = false,
-    SnackPosition snackPosition = SnackPosition.TOP,
+    SnackPosition snackPosition = SnackPosition.top,
     Function(GetSnackBar snackBar)? onTap}) {
   Get.snackbar(isError ? 'Error' : title, message ?? '',
       colorText: isError ? Colors.white : colorText,

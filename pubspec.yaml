@@ -15,7 +15,7 @@ dependencies:
   shared_preferences: ^2.2.2
   cached_network_image: ^3.3.1
   fluttertoast: ^8.2.4
-  get: ^4.6.6
+  get: ^5.0.0-release-candidate-5
   url_launcher: ^6.2.3
   intl: ^0.19.0
   photo_view: ^0.14.0

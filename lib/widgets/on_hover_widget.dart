@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:my_widgets/utils/utils.dart';
 
-class OnHover extends StatefulWidget {
+class OnHoverWidget extends StatefulWidget {
   final Widget Function(bool isHovered)? builder;
   final Widget? child;
   final Matrix4? hoveredMatrix4;
@@ -13,13 +13,13 @@ class OnHover extends StatefulWidget {
   final Color? hoverColor;
   final BoxDecoration? boxDecoration;
   final MouseCursor? cursor;
-  const OnHover({super.key,  this.builder, this.child,  this.hoveredMatrix4, this.hoverScale,  this.animatedDuration, this.onTap, this.radius, this.hoverColor, this.boxDecoration, this.cursor});
+  const OnHoverWidget({super.key,  this.builder, this.child,  this.hoveredMatrix4, this.hoverScale,  this.animatedDuration, this.onTap, this.radius, this.hoverColor, this.boxDecoration, this.cursor});
 
   @override
-  State<OnHover> createState() => _OnHoverState();
+  State<OnHoverWidget> createState() => _OnHoverWidgetState();
 }
 
-class _OnHoverState extends State<OnHover> {
+class _OnHoverWidgetState extends State<OnHoverWidget> {
   bool isHovered = false;
 
 
