@@ -113,5 +113,9 @@ class Static {
   static EdgeInsets? webDialogPadding;
   static EdgeInsets? webDialogMargin;
 
+  static bool isHintCapitalizeFirst = false;
+
+  static bool? usePreCheckFunctionInHttpCalls;
+
   Static._();
 }

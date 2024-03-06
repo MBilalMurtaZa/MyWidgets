@@ -30,10 +30,8 @@ class _OnHoverWidgetState extends State<OnHoverWidget> {
   Widget build(BuildContext context) {
     Matrix4 hoveredTransform = widget.hoveredMatrix4??Static.onHoverDefaultMatrix4??Matrix4.identity()..scale(widget.hoverScale??Static.onHoverDefaultScale??1.1);
     var transform = isHovered?hoveredTransform:Matrix4.identity();
-    return InkWell(
+    return GestureDetector(
       onTap: widget.onTap,
-      radius: widget.radius,
-      hoverColor: widget.hoverColor,
       child: MouseRegion(
         onEnter: (event) => onEntered(true),
         onExit: (event) => onEntered(false),

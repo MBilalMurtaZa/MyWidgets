@@ -33,3 +33,5 @@ class ViewResponse {
             json['STATUSCODE'] ??
             'No code received from Server ';
 }
+
+

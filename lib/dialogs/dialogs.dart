@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/dialogs/dialog_for_page.dart';
+import 'package:my_widgets/dialogs/overlay_loading.dart';
 
 class Dialogs {
   static Future showNativeDialog({
@@ -66,6 +67,21 @@ class Dialogs {
         return ShowCustomDialog(
           body,
           closeBtn: closeBtn,
+          animationTime: animationTime ?? 200.milliseconds,
+        );
+      },
+    );
+  }
+
+  static showOverlayLoadingDialog(
+      {BuildContext? context,
+      dismissOnTap = false,
+      Duration? animationTime}) async {
+    return showDialog(
+      barrierDismissible: dismissOnTap,
+      context: context ?? Get.context!,
+      builder: (BuildContext context) {
+        return OverlayLoadingDialog(
           animationTime: animationTime ?? 200.milliseconds,
         );
       },

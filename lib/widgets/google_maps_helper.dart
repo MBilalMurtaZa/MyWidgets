@@ -1,10 +1,13 @@
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'package:flutter/material.dart';
 
 import '../models/place_model.dart';
 import '../models/prediction_model.dart';
 
-class GoogleMapPlacesAutoComplete {
+class GoogleMapsHelper {
   static Future<List<Prediction>> getPlaces(String placeName, String mapsKey,
       {String? otherOptions}) async {
     /// referenceUrl = https://developers.google.com/maps/documentation/places/web-service/autocomplete#maps_http_places_autocomplete_amoeba-txt;
@@ -42,4 +45,18 @@ class GoogleMapPlacesAutoComplete {
     }
     return null;
   }
+
+
+
+  /// final bitmapDescriptor = BitmapDescriptor.fromBytes(await _getBytesFromUrl('https://example.com/your-marker-image.png'));
+  Future<Uint8List> getMapBytesFromUrl(String url) async {
+    final response = await http.get(Uri.parse(url));
+    final bytes = response.bodyBytes;
+    final imageCodec = await ui.instantiateImageCodec(bytes, targetWidth: 150); // Resize the image
+    final frame = await imageCodec.getNextFrame();
+    final data = await frame.image.toByteData(format: ui.ImageByteFormat.png);
+    return data!.buffer.asUint8List();
+  }
+
+ 
 }

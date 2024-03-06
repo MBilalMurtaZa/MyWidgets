@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import '../models/response_model.dart';
-import '../my_widgets.dart';
 import '../utils/utils.dart';
 
 // bool trustSelfSigned = true;
@@ -23,20 +22,35 @@ class HttpCalls {
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
   static late int httpCallTimeoutInSec;
+  static Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError;
   static String internetIssue =
       'Seems like internet issue please check your device internet';
   static String? localization;
 
   static Map<String, String>? httpHeader;
   static Map<String, String>? headerAddOns;
+  static Future<bool> Function()? preCheckFunction;
 
   HttpCalls._();
 
   static Uri getRequestURL(String postFix, {bool? useDefaultURl}) {
+
     if (useDefaultURl ?? Static.useDefaultURl ?? true) {
-      debugPrint(Uri.parse(sServerURL + postFix).toString());
-      return Uri.parse(sServerURL + postFix);
+
+      String fullURL = sServerURL + postFix;
+      if(fullURL.contains('://')){
+        List<String> list = fullURL.split('://');
+        list.last = list.last.replaceAll('//', '/');
+        fullURL =  list.join('://');
+      }
+      debugPrint(Uri.parse(fullURL).toString());
+      return Uri.parse(fullURL);
     } else {
+      if(postFix.contains('://')){
+        List<String> list = postFix.split('://');
+        list.last = list.last.replaceAll('//', '/');
+        postFix =  list.join('://');
+      }
       debugPrint(Uri.parse(postFix).toString());
       return Uri.parse(postFix);
     }
@@ -65,8 +79,12 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
+        bool? usePreCheckFn,
   }) async {
     dynamic response;
+
+    try {
+    await callPreCheckFn(usePreCheckFn);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     showLog(url, showLog: showLogs, logName: endPoint);
@@ -92,7 +110,7 @@ class HttpCalls {
 
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
-    try {
+
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
@@ -115,7 +133,7 @@ class HttpCalls {
                 enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       } else {
         var result = await http
@@ -132,11 +150,12 @@ class HttpCalls {
           showLog(result.body.toString(),
               enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       }
-    } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+    } on Exception catch (e) {
+
+      response = errorHandler(e, response, defaultResponse);
     }
     return response;
   }
@@ -159,9 +178,11 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
+        bool? usePreCheckFn,
   }) async {
     dynamic response;
-
+    try {
+    await callPreCheckFn(usePreCheckFn);
     showLog(params, showLog: showLogs, logName: endPoint);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
@@ -185,7 +206,7 @@ class HttpCalls {
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
 
-    try {
+
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
         request.body = paramAsBody ?? json.encode(params);
@@ -211,7 +232,7 @@ class HttpCalls {
                 enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       } else {
         var result = await http
@@ -227,11 +248,12 @@ class HttpCalls {
           showLog(result.body.toString(),
               enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       }
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      print(e);
+      response = errorHandler(e, response, defaultResponse);
     }
 
     return response;
@@ -254,9 +276,11 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
+        bool? usePreCheckFn,
   }) async {
     dynamic response;
-
+    try {
+    await callPreCheckFn(usePreCheckFn);
     showLog((params), showLog: showLogs, logName: endPoint);
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
@@ -280,7 +304,6 @@ class HttpCalls {
     }
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
-    try {
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
         request.body = paramAsBody ?? json.encode(params);
@@ -303,7 +326,7 @@ class HttpCalls {
                 enableJsonEncode: false, showLog: showLogs, logName: endPoint);
           }
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       } else {
         var result = await http
@@ -318,11 +341,11 @@ class HttpCalls {
           showLog(result.body.toString(),
               enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       }
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      response = errorHandler(e, response, defaultResponse);
     }
     return response;
   }
@@ -342,10 +365,12 @@ class HttpCalls {
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
       bool? showLogs,
+        bool? usePreCheckFn,
 
       int? callTimeoutInSec}) async {
     dynamic response;
 
+    await callPreCheckFn(usePreCheckFn);
     showLog((params), showLog: showLogs, logName: endPoint);
 
 
@@ -413,11 +438,11 @@ class HttpCalls {
           showLog(result.body.toString(),
               enableJsonEncode: false, showLog: showLogs, logName: endPoint);
         } else {
-          throw Exception(result.statusCode);
+          throw Exception(result);
         }
       }
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      response = errorHandler(e, response, defaultResponse);
     }
     return response;
   }
@@ -436,9 +461,11 @@ class HttpCalls {
       String tokenKey = 'Bearer',
       bool? useDefaultURl,
       bool? showLogs,
+        bool? usePreCheckFn,
       int? callTimeoutInSec}) async {
     dynamic response;
-
+    try {
+    await callPreCheckFn(usePreCheckFn);
     showLog((params), showLog: showLogs, logName: endPoint);
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
@@ -463,7 +490,7 @@ class HttpCalls {
 
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
-    try {
+
       var request = http.Request('DELETE', url);
       request.body = paramAsBody ?? json.encode(params);
       request.headers.addAll(customHeader ?? httpHeader ?? header);
@@ -487,9 +514,18 @@ class HttpCalls {
         }
       }
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      response = errorHandler(e, response, defaultResponse);
     }
     return response;
+  }
+
+  static Future<void> callPreCheckFn(bool? usePreCheckFn) async {
+    if(preCheckFunction != null && (usePreCheckFn??Static.usePreCheckFunctionInHttpCalls??false)){
+      bool result =  await preCheckFunction!();
+      if(!result){
+        throw Exception('pre-check fn error');
+      }
+    }
   }
 
   @Deprecated('Please use uploadFiles instead of uploadFile')
@@ -509,11 +545,13 @@ class HttpCalls {
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
     bool? showLogs,
+        bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-
+    try {
+    await callPreCheckFn(usePreCheckFn);
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -534,7 +572,6 @@ class HttpCalls {
 
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
-    try {
       var request = MultipartRequest(
         requestType,
         url,
@@ -552,7 +589,7 @@ class HttpCalls {
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      response = errorHandler(e, response, defaultResponse);
     }
 
     return response;
@@ -574,11 +611,13 @@ class HttpCalls {
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
     bool? showLogs,
+        bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
-
+    try {
+    await callPreCheckFn(usePreCheckFn);
     final Map<String, String> header = {};
 
     if ((localization ?? changeLocalization) != null) {
@@ -604,7 +643,6 @@ class HttpCalls {
 
     showLog((fileParams), showLog: showLogs, logName: endPoint);
 
-    try {
       var request = MultipartRequest(
         requestType,
         url,
@@ -646,7 +684,7 @@ class HttpCalls {
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+      response = errorHandler(e, response, defaultResponse);
     }
 
     return response;
@@ -667,9 +705,12 @@ class HttpCalls {
     String tokenKey = 'Bearer',
     bool? useDefaultURl,
     bool? showLogs,
+        bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     dynamic response;
+    try {
+    await callPreCheckFn(usePreCheckFn);
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     var header = {'Accept': 'application/json'};
 
@@ -682,7 +723,7 @@ class HttpCalls {
 
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
-    try {
+
       var request = http.MultipartRequest(
         'POST',
         url,
@@ -703,28 +744,82 @@ class HttpCalls {
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
-      response = errorHandler(e.toString(), response, defaultResponse);
+
+      response = errorHandler(e, response, defaultResponse);
     }
     return response;
   }
 
-  static errorHandler(String error, response, bool? defaultResponse) {
-    showLog("Exception $error 003", logName: 'errorHandler');
-    pShowToast(message: error);
-    if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
-      return response = ViewResponse(
+  static dynamic errorHandler(error, response, bool? defaultResponse) {
+
+    dynamic returnData;
+    if(error.message is http.Response){
+      Response r = error.message;
+      if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
+        returnData = ViewResponse(
           status: false,
-          message: error.contains('SocketException') ? internetIssue : error);
-    } else {
-      Map<String, dynamic> userMap = {
-        'status': false,
-        'Status': false,
-        'statusCode': 003,
-        'message': error.contains('SocketException') ? internetIssue : error,
-        'Message': error.contains('SocketException') ? internetIssue : error,
-      };
-      return userMap;
+          statusCode:r.statusCode,
+          message: 'Something went wrong please try again',
+          errorMessage: r.reasonPhrase??'Something went wrong please try again',
+
+        );
+      } else {
+        Map<String, dynamic> userMap = {
+          'status': false,
+          'Status': false,
+          'statusCode': r.statusCode,
+          'message': error.contains('SocketException') ? internetIssue : error,
+          'Message': error.contains('SocketException') ? internetIssue : error,
+
+        };
+        returnData = userMap;
+      }
     }
+    else if(error.message is String){
+      String r = error.message;
+      if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
+        returnData =  ViewResponse(
+          status: false,
+          statusCode: 101,
+          message: 'Something went wrong please try again',
+          errorMessage: 'Something went wrong please try again',
+        );
+      } else {
+        Map<String, dynamic> userMap = {
+          'status': false,
+          'Status': false,
+          'statusCode': 101,
+          'message': r.contains('SocketException') ? internetIssue : r,
+          'Message': r.contains('SocketException') ? internetIssue : r,
+        };
+        returnData =  userMap;
+      }
+    }
+    else{
+      if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
+        returnData =  ViewResponse(
+          status: false,
+          statusCode: 102,
+          message: 'Something went wrong please try again',
+          errorMessage: 'Something went wrong please try again',
+        );
+      } else {
+        Map<String, dynamic> userMap = {
+          'status': false,
+          'Status': false,
+          'statusCode': 102,
+          'message': "Unknown Error",
+          'Message': 'Unknown Error',
+        };
+        returnData =  userMap;
+      }
+    }
+
+    if(HttpCalls.onHttpCallError != null){
+      HttpCalls.onHttpCallError!(error, returnData, defaultResponse ?? HttpCalls.httpCallsDefaultResponse);
+    }
+
+    return returnData;
   }
 
   static void showLog(data,

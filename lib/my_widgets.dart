@@ -165,6 +165,7 @@ Future<dynamic> pSetRout(
   }
 }
 
+@Deprecated('Please use pDropDown instead of pDropDownButton')
 Widget pDropDownButton(
     String labelHint,
     String hintText,
@@ -195,6 +196,8 @@ Widget pDropDownButton(
     ),
   );
 }
+
+
 
 Future<void> pLaunchURL(String action,
     {URLType urlType = URLType.web,
@@ -282,7 +285,7 @@ pSnackBar(
     Color? backgroundColor,
     Color? borderColor,
     bool isError = false,
-    SnackPosition snackPosition = SnackPosition.top,
+    SnackPosition snackPosition = SnackPosition.TOP,
     Function(GetSnackBar snackBar)? onTap}) {
   Get.snackbar(isError ? 'Error' : title, message ?? '',
       colorText: isError ? Colors.white : colorText,
@@ -359,6 +362,9 @@ Future<void> pSetSettings({
   String? defaultDateTimeFormat,
   EdgeInsets? webDialogPadding,
   EdgeInsets? webDialogMargin,
+  bool? isHintCapitalizeFirst,
+  bool? usePreCheckFunctionInHttpCalls,
+  Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -426,6 +432,10 @@ Future<void> pSetSettings({
   Static.defaultDateTimeFormat = defaultDateTimeFormat;
   Static.webDialogPadding = webDialogPadding;
   Static.webDialogMargin = webDialogMargin;
+  HttpCalls.onHttpCallError = onHttpCallError;
+  Static.isHintCapitalizeFirst = isHintCapitalizeFirst??false;
+  Static.usePreCheckFunctionInHttpCalls = usePreCheckFunctionInHttpCalls;
+
 }
 
 String pRemoveHtmlIfNeeded(String text) {

@@ -1,3 +1,15 @@
+## 0.10.1
+* Change google_map_places_auto_complete to GoogleMapsHelper. 
+* add new function that create bytes from url for Map marker custom icon
+## 0.10.0
+* update Flutter at 1.19.1
+* fix double // issue in url in http calls 
+## 0.9.18
+* add error handler option in pSetSetting
+## 0.9.17
+* add error handler option in pSetSetting
+## 0.9.16
+* add loading overlay dialog
 ## 0.9.15
 * add option to upload binary image 
 * add defaultResponseWithoutJsonDecode option in post api

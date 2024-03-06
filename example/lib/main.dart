@@ -8,7 +8,7 @@ import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
-import 'package:my_widgets/widgets/google_map_places_auto_complete.dart';
+import 'package:my_widgets/widgets/google_maps_helper.dart';
 import 'package:my_widgets/widgets/input.dart';
 import 'package:my_widgets/widgets/searchable_dropdown.dart';
 import 'package:my_widgets/widgets/txt.dart';
@@ -39,6 +39,7 @@ Future<void> main() async {
       fontWeight: FontWeight.w600,
       defaultFontSize: Siz.body17,
       localization: 'ar',
+    onHttpCallError: callHttpError
   );
   runApp(const MyApp());
 }
@@ -71,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
         
-        body: MainWeb(),//buildMainPage(),
+        body: const MainWeb(),//buildMainPage(),
       ),
     );
   }
@@ -215,7 +216,7 @@ class _MyAppState extends State<MyApp> {
   void onChange(String value) {
     const String googleMapsApiKey = 'Mapkey';
     String other = ['components=country:PK', 'new=lahore'].join('&');
-    GoogleMapPlacesAutoComplete.getPlaces(value, googleMapsApiKey,
+    GoogleMapsHelper.getPlaces(value, googleMapsApiKey,
         otherOptions: other);
   }
 
@@ -228,4 +229,8 @@ class _MyAppState extends State<MyApp> {
               refreshList: true,
             ));
   }
+}
+
+callHttpError(dynamic error, response, bool? defaultResponse) {
+  pShowToast(message: 'error happning');
 }
