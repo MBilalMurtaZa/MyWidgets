@@ -19,37 +19,42 @@ class Dialogs {
     Widget? okButton,
     Widget? cancelButton,
     List<Widget>? buttonList,
+    bool isDismissible = true,
+
   }) async {
     return showPlatformDialog(
       context: context ?? Get.context!,
-      androidBarrierDismissible: true,
+      androidBarrierDismissible: isDismissible,
       useRootNavigator: true,
-      builder: (context) => BasicDialogAlert(
-        title: Text(title),
-        content: body ?? Text(message),
-        actions: buttonList ??
-            <Widget>[
-              okButton ??
-                  BasicDialogAction(
-                    title: Text(
-                      okBtn,
-                      style: okButtonTextStyle ??
-                          TextStyle(color: okButtonTextColor),
-                    ),
-                    onPressed: () =>
-                        Get.back(result: cancelBtn == null ? false : true),
-                  ),
-              if (cancelBtn != null || cancelButton != null)
-                cancelButton ??
+      builder: (context) => WillPopScope(
+        onWillPop: () async => isDismissible,
+        child: BasicDialogAlert(
+          title: Text(title),
+          content: body ?? Text(message),
+          actions: buttonList ??
+              <Widget>[
+                okButton ??
                     BasicDialogAction(
                       title: Text(
-                        cancelBtn ?? '',
-                        style: cancelButtonTextStyle ??
-                            TextStyle(color: cancelButtonTextColor),
+                        okBtn,
+                        style: okButtonTextStyle ??
+                            TextStyle(color: okButtonTextColor),
                       ),
-                      onPressed: () => Get.back(result: false),
+                      onPressed: () =>
+                          Get.back(result: cancelBtn == null ? false : true),
                     ),
-            ],
+                if (cancelBtn != null || cancelButton != null)
+                  cancelButton ??
+                      BasicDialogAction(
+                        title: Text(
+                          cancelBtn ?? '',
+                          style: cancelButtonTextStyle ??
+                              TextStyle(color: cancelButtonTextColor),
+                        ),
+                        onPressed: () => Get.back(result: false),
+                      ),
+              ],
+        ),
       ),
     );
   }

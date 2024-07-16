@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
@@ -33,6 +34,9 @@ class _MainWebState extends State<MainWeb> {
                   Wrap(
                     direction: Axis.horizontal,
                     children: [
+                      Btn(text: 'Dialog', bgColor: btnBG,onPressed: (){
+                        Dialogs.showNativeDialog(message: 'I am not dismiss able from back button',isDismissible: false);
+                      }),
                       Btn(text: 'Help', bgColor: btnBG,onPressed: (){
                         if(btnBG == Colors.green){
                           btnBG = Colors.red;

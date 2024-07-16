@@ -367,33 +367,36 @@ class Btn extends StatelessWidget {
   }
 
   Widget button(Widget child) {
-    return ElevatedButton(
-      style: style ??
-          ElevatedButton.styleFrom(
-              backgroundColor: isTextOnly
-                  ? Clr.colorTransparent
-                  : (bgColor ?? Static.btnBgColor),
-              foregroundColor: textColor,
-              disabledForegroundColor: onSurface,
-              elevation: isTextOnly ? 0 : elevation,
-              shadowColor: shadowColor,
-              shape: shape ??
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        radius ?? Static.btnRadius ?? Siz.defaultRadius),
-                  ),
-              side: side ??
-                  (hasBorder
-                      ? BorderSide(
-                      color: isTextOnly
-                          ? Clr.colorTransparent
-                          : borderColor ??
-                          Static.btnBorderColor ??
-                          Clr.colorPrimary,
-                      width: borderWidth!)
-                      : null)),
-      onPressed: onPressed,
-      child: child,
+    return IgnorePointer(
+      ignoring: onPressed == null,
+      child: ElevatedButton(
+        style: style ??
+            ElevatedButton.styleFrom(
+                backgroundColor: isTextOnly
+                    ? Clr.colorTransparent
+                    : (bgColor ?? Static.btnBgColor),
+                foregroundColor: textColor,
+                disabledForegroundColor: onSurface,
+                elevation: isTextOnly ? 0 : elevation,
+                shadowColor: shadowColor,
+                shape: shape ??
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          radius ?? Static.btnRadius ?? Siz.defaultRadius),
+                    ),
+                side: side ??
+                    (hasBorder
+                        ? BorderSide(
+                        color: isTextOnly
+                            ? Clr.colorTransparent
+                            : borderColor ??
+                            Static.btnBorderColor ??
+                            Clr.colorPrimary,
+                        width: borderWidth!)
+                        : null)),
+        onPressed: onPressed??(){},
+        child: child,
+      ),
     );
   }
 

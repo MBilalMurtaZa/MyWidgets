@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
 
   var searchAbleDropDownTap = TextEditingController();
 
-  var formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
         
-        body: const MainWeb(),//buildMainPage(),
+        body:  checkFormState(),//buildMainPage(),
       ),
     );
   }
@@ -228,6 +228,57 @@ class _MyAppState extends State<MyApp> {
               showBottomButton: false,
               refreshList: true,
             ));
+  }
+
+
+  var a = 10;
+  var b = 11;
+  checkFormState(){
+    return SafeArea(
+      child: Container(
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                readOnly: true,
+              ),
+              TxtFormInput(
+                preFix: IconButton(
+                  icon: Icon(Icons.abc),
+                  onPressed: ()=>pShowToast(message: 'abc'),
+                ),
+                postFix: IconButton(
+                  icon: Icon(Icons.abc),
+                  onPressed: ()=>pShowToast(message: 'abc'),
+                ),
+                readOnly: true,
+                validationConditionAddOn: (){
+                  if(a != b){
+                    return "a does't match b";
+                  }
+                  return null;
+                },
+                errorMessage: 'hello ',
+                enabled: false,
+                postFixTextColor: Colors.amber,
+              ),
+              MyDivider(),
+              Btn(
+                text: 'Check Validation',
+                bgColor: Clr.colorPrimary,
+                textColor: Clr.colorWhite,
+
+                onPressed: (){
+                  formKey.currentState!.validate();
+                },
+
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

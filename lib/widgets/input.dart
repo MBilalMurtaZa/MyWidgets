@@ -10,10 +10,10 @@ class TxtFormInput<T> extends StatefulWidget {
   final String? errorMessage, hintText, labelText, prefixText;
   final String? errorLengthMessage;
   final int? maxLines, minLines, maxLength, validationLength;
-  final double? textSize, hintTextSize, radius, prefixTextSize, height;
+  final double? textSize, hintTextSize, radius, prefixTextSize, postFixTextSize, height;
   final double borderWidth;
   final BorderRadius? borderRadius;
-  final Color? textColor, hintTextColor, prefixTextColor;
+  final Color? textColor, hintTextColor, prefixTextColor, postFixTextColor;
   final List<TextInputFormatter>? inputFormatters;
   final TextAlign textAlign;
   final TextCapitalization textCapitalization;
@@ -26,7 +26,7 @@ class TxtFormInput<T> extends StatefulWidget {
   final bool removeAllBorders;
   final bool autofocus;
   final bool hasCounter;
-  final bool showCursor;
+  final bool? showCursor;
   final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
@@ -38,10 +38,12 @@ class TxtFormInput<T> extends StatefulWidget {
   final GlobalKey<FormState>? formKey;
   final EdgeInsetsGeometry? contentPadding;
   final Color? fillColor, borderColor, cursorColor;
-  final TextStyle? labelStyle, hintStyle, style, prefixStyle;
+  final TextStyle? labelStyle, hintStyle, style, prefixStyle, postFixStyle;
   final BorderSide? borderSide;
   final bool? appDirectionLeftToRight;
   final bool? ignoringWithOnTap;
+  final bool readOnly;
+  final String? Function()? validationConditionAddOn;
 
   final double errorHeight;
   final bool showDropDown;
@@ -79,6 +81,7 @@ class TxtFormInput<T> extends StatefulWidget {
       this.showLabelStat,
       this.postFix,
       this.preFix,
+        this.postFixStyle,
       this.decoration,
       this.validator,
       this.formKey,
@@ -96,7 +99,9 @@ class TxtFormInput<T> extends StatefulWidget {
       this.removeAllBorders = false,
       this.prefixText,
       this.prefixTextSize,
+      this.postFixTextSize,
       this.prefixTextColor,
+      this.postFixTextColor,
       this.height,
       this.labelStyle,
       this.hintStyle,
@@ -105,8 +110,10 @@ class TxtFormInput<T> extends StatefulWidget {
       this.hasCounter = false,
       this.borderSide,
       this.appDirectionLeftToRight,
-      this.showCursor = true,
+      this.showCursor,
+      this.readOnly = false,
       this.ignoringWithOnTap,
+        this.validationConditionAddOn,
       this.cursorColor, this.errorHeight = 23, this.showDropDown = false,
         this.listDropDown,
         this.selectedDropDownValue,
@@ -188,6 +195,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                   showCursor: widget.showCursor,
                   maxLines: widget.isPassword ? 1 : widget.maxLines,
                   minLines: widget.minLines,
+                  readOnly: widget.readOnly,
                   maxLength: widget.maxLength,
                   inputFormatters: widget.inputFormatters,
                   textAlign: widget.textAlign,
@@ -316,6 +324,15 @@ class _TxtFormInputState extends State<TxtFormInput> {
                             Static.txtInoutDefaultContentPadding),
                         fillColor: widget.fillColor,
                         filled: widget.fillColor != null,
+                        suffixStyle: widget.postFixStyle ??
+                          Style.styleInput ??
+                            TextStyle(
+                            fontFamily: Static.fontFamily,
+                            color: widget.postFixTextColor ??
+                            widget.textColor ??
+                            Clr.colorTxt,
+                            fontSize: widget.postFixTextSize ?? widget.textSize,
+                          ),
                         prefixText: widget.prefixText,
                         prefixStyle: widget.prefixStyle ??
                             Style.styleInput ??
@@ -325,15 +342,15 @@ class _TxtFormInputState extends State<TxtFormInput> {
                                   widget.textColor ??
                                   Clr.colorTxt,
                               fontSize: widget.prefixTextSize ?? widget.textSize,
+
                             ),
                       ),
                   validator: widget.isOptional
                       ? null
                       : (widget.validator ?? (value) {
-                    setState(() {
-                      hasError = true;
-                    });
-
+                            setState(() {
+                              hasError = true;
+                            });
                             if (value == null || value.isEmpty) {
                               return widget.errorMessage ??
                                   ((widget.appDirectionLeftToRight ??
@@ -351,6 +368,13 @@ class _TxtFormInputState extends State<TxtFormInput> {
                             setState(() {
                               hasError = false;
                             });
+
+                            if(widget.validationConditionAddOn != null){
+                              String? response = widget.validationConditionAddOn!();
+                              if(response != null){
+                                return response;
+                              }
+                            }
 
                             return null;
                           }),
@@ -529,6 +553,15 @@ class _TxtFormInputState extends State<TxtFormInput> {
                               ),
                           labelStyle: widget.labelStyle ?? Style.labelInputStyle,
                           suffixIcon: widget.postFix,
+                          suffixStyle: widget.postFixStyle ??
+                              Style.styleInput ??
+                              TextStyle(
+                                fontFamily: Static.fontFamily,
+                                color: widget.postFixTextColor ??
+                                    widget.textColor ??
+                                    Clr.colorTxt,
+                                fontSize: widget.postFixTextSize ?? widget.textSize,
+                              ),
                           prefixIcon: widget.preFix,
                           counterText: widget.hasCounter ? null : '',
                           enabled: widget.enabled,

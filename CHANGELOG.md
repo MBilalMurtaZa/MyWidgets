@@ -1,3 +1,12 @@
+## 0.10.4
+* readonly in TxtFormInput
+* add readonly in btn
+## 0.10.4
+* fix minor issue
+## 0.10.3
+* fix minor issue
+## 0.10.2
+* fix minor issue
 ## 0.10.1
 * Change google_map_places_auto_complete to GoogleMapsHelper. 
 * add new function that create bytes from url for Map marker custom icon

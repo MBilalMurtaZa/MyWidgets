@@ -49,7 +49,7 @@ class GoogleMapsHelper {
 
 
   /// final bitmapDescriptor = BitmapDescriptor.fromBytes(await _getBytesFromUrl('https://example.com/your-marker-image.png'));
-  Future<Uint8List> getMapBytesFromUrl(String url) async {
+  static Future<Uint8List> getMapBytesFromUrl(String url) async {
     final response = await http.get(Uri.parse(url));
     final bytes = response.bodyBytes;
     final imageCodec = await ui.instantiateImageCodec(bytes, targetWidth: 150); // Resize the image
