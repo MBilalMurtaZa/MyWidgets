@@ -26,8 +26,8 @@ class Dialogs {
       context: context ?? Get.context!,
       androidBarrierDismissible: isDismissible,
       useRootNavigator: true,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => isDismissible,
+      builder: (context) => PopScope(
+        canPop: isDismissible,
         child: BasicDialogAlert(
           title: Text(title),
           content: body ?? Text(message),
@@ -78,10 +78,7 @@ class Dialogs {
     );
   }
 
-  static showOverlayLoadingDialog(
-      {BuildContext? context,
-      dismissOnTap = false,
-      Duration? animationTime}) async {
+  static showOverlayLoadingDialog({BuildContext? context, dismissOnTap = false, Duration? animationTime}) async {
     return showDialog(
       barrierDismissible: dismissOnTap,
       context: context ?? Get.context!,

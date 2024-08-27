@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
         
-        body:  checkFormState(),//buildMainPage(),
+        body:  buildMainPage(),//buildMainPage(),
       ),
     );
   }
@@ -98,6 +98,21 @@ class _MyAppState extends State<MyApp> {
 
               // Use Txt to show text with easy format options
               const Txt('I am Plane '),
+
+              TxtFormInput(
+                onTap: ()=> {
+                  pShowToast(message: 'OnTap called'),
+                },
+                controller: TextEditingController(text: "New text added"),
+                borderWidth: 1,
+                hintText: 'ie. your community',
+                labelText: 'Location',
+                borderRadius: BorderRadius.circular(12),
+                labelStyle: TextStyle(color: Clr.colorPrimary,fontWeight: FontWeight.w500,fontSize: 14),
+                labelPadding: 10,
+                readOnly: true,
+
+              ),
 
               const Txt(
                 'I am Colored ',
@@ -231,55 +246,6 @@ class _MyAppState extends State<MyApp> {
   }
 
 
-  var a = 10;
-  var b = 11;
-  checkFormState(){
-    return SafeArea(
-      child: Container(
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                readOnly: true,
-              ),
-              TxtFormInput(
-                preFix: IconButton(
-                  icon: Icon(Icons.abc),
-                  onPressed: ()=>pShowToast(message: 'abc'),
-                ),
-                postFix: IconButton(
-                  icon: Icon(Icons.abc),
-                  onPressed: ()=>pShowToast(message: 'abc'),
-                ),
-                readOnly: true,
-                validationConditionAddOn: (){
-                  if(a != b){
-                    return "a does't match b";
-                  }
-                  return null;
-                },
-                errorMessage: 'hello ',
-                enabled: false,
-                postFixTextColor: Colors.amber,
-              ),
-              MyDivider(),
-              Btn(
-                text: 'Check Validation',
-                bgColor: Clr.colorPrimary,
-                textColor: Clr.colorWhite,
-
-                onPressed: (){
-                  formKey.currentState!.validate();
-                },
-
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 callHttpError(dynamic error, response, bool? defaultResponse) {

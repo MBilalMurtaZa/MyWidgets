@@ -91,3 +91,8 @@ then hit below command
 ./gradlew signingReport
 ```
 
+
+if you want to create certificate for android from macbook you can use 
+```
+keytool -genkey -v -keystore ~/key-<flavor_name>.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key <flavor_name>
+```

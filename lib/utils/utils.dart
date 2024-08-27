@@ -112,6 +112,7 @@ class Static {
   static String? defaultDateTimeFormat;
   static EdgeInsets? webDialogPadding;
   static EdgeInsets? webDialogMargin;
+  static Widget? customLoadingWidget;
 
   static bool isHintCapitalizeFirst = false;
 

@@ -148,255 +148,242 @@ class _TxtFormInputState extends State<TxtFormInput> {
     return widget.showDropDown?dropDownTextField():buildTxtInput();
   }
 
-  Stack buildTxtInput() {
-    return Stack(
-    children: [
-      IgnorePointer(
-        ignoring: widget.onTap == null ? false : widget.ignoringWithOnTap ?? true,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.hasLabelOnTop ?? Static.txtInputHasLabelOnTop) ...[
-              (widget.hasLabel ?? Static.txtInputHasLabel)
-                  ? (Text.rich(TextSpan(
-                      text: widget.labelText ?? widget.hintText,
-                      children: <InlineSpan>[
-                        if (widget.showLabelStat ?? Static.txtInputHasLabelWithStar)
-                          TextSpan(
-                            text: widget.isOptional ? '' : ' *',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontFamily: Static.fontFamily,
-                            ),
-                          ),
-                      ],
-                      style: widget.labelStyle ??
-                          Style.labelInputStyle ??
-                          TextStyle(
-                              fontFamily: Static.fontFamily,
-                              color: widget.hintTextColor,
-                              fontSize: widget.hintTextSize ?? widget.textSize),
-                    )))
-                  : Container(),
-              MyDivider(
-                height: widget.labelPadding ?? Static.labelPadding ?? 1,
-              ),
-            ],
-            SizedBox(
-              height: widget.height == null?null: hasError?widget.height!+widget.errorHeight:widget.height,
-              child: Theme(
-                data: ThemeData(
-                  primaryColor: Colors.redAccent,
-                  primaryColorDark: Colors.red,
-                ),
-                child: TextFormField(
-                  controller: widget.controller,
-                  showCursor: widget.showCursor,
-                  maxLines: widget.isPassword ? 1 : widget.maxLines,
-                  minLines: widget.minLines,
-                  readOnly: widget.readOnly,
-                  maxLength: widget.maxLength,
-                  inputFormatters: widget.inputFormatters,
-                  textAlign: widget.textAlign,
-                  textCapitalization: widget.textCapitalization,
-                  style: widget.style ??
-                      Style.styleInput ??
-                      TextStyle(
-                        fontSize: widget.textSize,
-                        color: widget.textColor ?? Clr.colorTxt,
-                        fontFamily: Static.fontFamily,
-                      ),
-                  obscureText: widget.isPassword,
-                  cursorColor: widget.cursorColor,
-                  keyboardType: widget.keyboardType,
-                  onChanged: widget.onChanged ??
-                      (widget.formKey != null
-                          ? (value) {
-                              if (value.isNotEmpty) {
-                                widget.formKey!.currentWidget;
-                              }
-                            }
-                          : null),
-                  textInputAction: widget.textInputAction,
-                  onEditingComplete: widget.onEditingComplete,
-                  focusNode: widget.focusNode,
-                  autofocus: widget.autofocus,
-                  decoration: widget.decoration ??
-                      Static.inputDecoration ??
-                      InputDecoration(
-                        // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
-                        label: ((widget.hasLabel ?? Static.txtInputHasLabel) &&
-                                !(widget.hasLabelOnTop ??
-                                    Static.txtInputHasLabelOnTop))
-                            ? (Text.rich(TextSpan(
-                                text: widget.labelText ?? widget.hintText,
-                                children: <InlineSpan>[
-                                  if (widget.showLabelStat ??
-                                      Static.txtInputHasLabelWithStar)
-                                    TextSpan(
-                                      text: widget.isOptional ? '' : ' *',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontFamily: Static.fontFamily,
-                                      ),
-                                    ),
-                                ],
-                                style: widget.labelStyle ??
-                                    Style.labelInputStyle ??
-                                    TextStyle(
-                                      color: widget.hintTextColor,
-                                      fontFamily: Static.fontFamily,
-                                    ),
-                              )))
-                            : null,
-
-                        errorBorder: Static.errorBorder,
-                        enabledBorder:
-                            widget.hasBorder ?? Static.txtInputHasBorder ?? false
-                                ? Static.enabledBorder ??
-                                    OutlineInputBorder(
-                                      borderRadius: widget.borderRadius ??
-                                          BorderRadius.all(Radius.circular(
-                                              widget.radius ?? Siz.defaultRadius)),
-                                      borderSide: BorderSide(
-                                          width: widget.borderWidth,
-                                          color: widget.borderColor ??
-                                              Static.borderColor ??
-                                              Clr.colorGreyLight,
-                                          style: widget.removeAllBorders
-                                              ? BorderStyle.none
-                                              : BorderStyle.solid),
-                                    )
-                                : null,
-                        focusedBorder:
-                            widget.hasBorder ?? Static.txtInputHasBorder ?? false
-                                ? Static.focusedBorder ??
-                                    OutlineInputBorder(
-                                      borderRadius: widget.borderRadius ??
-                                          BorderRadius.all(Radius.circular(
-                                              widget.radius ?? Siz.defaultRadius)),
-                                      borderSide: BorderSide(
-                                          width: widget.borderWidth,
-                                          color: widget.borderColor ??
-                                              Static.borderColor ??
-                                              Clr.colorGreyLight,
-                                          style: widget.removeAllBorders
-                                              ? BorderStyle.none
-                                              : BorderStyle.solid),
-                                    )
-                                : null,
-                        border: widget.hasBorder ?? Static.txtInputHasBorder ?? false
-                            ? Static.border ??
-                                OutlineInputBorder(
-                                  borderRadius: widget.borderRadius ??
-                                      BorderRadius.all(Radius.circular(
-                                          widget.radius ?? Siz.defaultRadius)),
-                                  borderSide: widget.removeAllBorders
-                                      ? BorderSide.none
-                                      : widget.borderSide ??
-                                          BorderSide(
-                                              width: widget.borderWidth,
-                                              color: widget.borderColor ??
-                                                  Static.borderColor ??
-                                                  Clr.colorGreyLight,
-                                              style: widget.removeAllBorders
-                                                  ? BorderStyle.none
-                                                  : BorderStyle.solid),
-                                )
-                            : widget.removeAllBorders
-                                ? InputBorder.none
-                                : null,
-                        hintText: Static.isHintCapitalizeFirst?(widget.hintText!).capitalizeFirst: (widget.hintText!),
-                        hintStyle: widget.hintStyle ??
-                            Style.hintInputStyle ??
-                            TextStyle(
-                              fontSize: widget.hintTextSize ?? widget.textSize,
-                              color: widget.hintTextColor,
-                              fontFamily: Static.fontFamily,
-                            ),
-                        labelStyle: widget.labelStyle ?? Style.labelInputStyle,
-                        suffixIcon: widget.postFix,
-                        prefixIcon: widget.preFix,
-                        counterText: widget.hasCounter ? null : '',
-                        enabled: widget.enabled,
-                        contentPadding: (widget.contentPadding ??
-                            Static.txtInoutDefaultContentPadding),
-                        fillColor: widget.fillColor,
-                        filled: widget.fillColor != null,
-                        suffixStyle: widget.postFixStyle ??
-                          Style.styleInput ??
-                            TextStyle(
+  Widget buildTxtInput() {
+    // ignoring: widget.onTap == null ? false : widget.ignoringWithOnTap ?? true,
+    return Container(
+      color: Clr.colorTransparent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.hasLabelOnTop ?? Static.txtInputHasLabelOnTop) ...[
+            (widget.hasLabel ?? Static.txtInputHasLabel)
+                ? (Text.rich(TextSpan(
+                    text: widget.labelText ?? widget.hintText,
+                    children: <InlineSpan>[
+                      if (widget.showLabelStat ?? Static.txtInputHasLabelWithStar)
+                        TextSpan(
+                          text: widget.isOptional ? '' : ' *',
+                          style: TextStyle(
+                            color: Colors.red,
                             fontFamily: Static.fontFamily,
-                            color: widget.postFixTextColor ??
-                            widget.textColor ??
-                            Clr.colorTxt,
-                            fontSize: widget.postFixTextSize ?? widget.textSize,
                           ),
-                        prefixText: widget.prefixText,
-                        prefixStyle: widget.prefixStyle ??
-                            Style.styleInput ??
-                            TextStyle(
-                              fontFamily: Static.fontFamily,
-                              color: widget.prefixTextColor ??
-                                  widget.textColor ??
-                                  Clr.colorTxt,
-                              fontSize: widget.prefixTextSize ?? widget.textSize,
-
-                            ),
-                      ),
-                  validator: widget.isOptional
-                      ? null
-                      : (widget.validator ?? (value) {
-                            setState(() {
-                              hasError = true;
-                            });
-                            if (value == null || value.isEmpty) {
-                              return widget.errorMessage ??
-                                  ((widget.appDirectionLeftToRight ??
-                                          Static.appDirectionLeftToRight ??
-                                          true)
-                                      ? '${'Please Enter'.tr} ${widget.hintText}'
-                                      : '${widget.hintText} ${'Please Enter'.tr}');
-                            }
-                            if (widget.validationLength != null) {
-                              if (value.length < widget.validationLength!) {
-                                return widget.errorLengthMessage ??
-                                    'At least ${widget.validationLength} character required';
-                              }
-                            }
-                            setState(() {
-                              hasError = false;
-                            });
-
-                            if(widget.validationConditionAddOn != null){
-                              String? response = widget.validationConditionAddOn!();
-                              if(response != null){
-                                return response;
-                              }
-                            }
-
-                            return null;
-                          }),
-                ),
-              ),
+                        ),
+                    ],
+                    style: widget.labelStyle ??
+                        Style.labelInputStyle ??
+                        TextStyle(
+                            fontFamily: Static.fontFamily,
+                            color: widget.hintTextColor,
+                            fontSize: widget.hintTextSize ?? widget.textSize),
+                  )))
+                : Container(),
+            MyDivider(
+              height: widget.labelPadding ?? Static.labelPadding ?? 1,
             ),
           ],
-        ),
-      ),
-      if (widget.onTap != null)
-        GestureDetector(
-          onTap: widget.onTap,
-          child: Container(
-            color: Clr.colorTransparent,
-            height: (widget.hasLabelOnTop ?? false)
-                ? 70 + (widget.labelPadding ?? Static.labelPadding ?? 1)
-                : 48,
-            width: double.infinity,
+          SizedBox(
+            height: widget.height == null?null: hasError?widget.height!+widget.errorHeight:widget.height,
+            child: Theme(
+              data: ThemeData(
+                primaryColor: Colors.redAccent,
+                primaryColorDark: Colors.red,
+              ),
+              child: TextFormField(
+                controller: widget.controller,
+                showCursor: widget.showCursor,
+                maxLines: widget.isPassword ? 1 : widget.maxLines,
+                minLines: widget.minLines,
+                readOnly: widget.readOnly,
+                maxLength: widget.maxLength,
+                inputFormatters: widget.inputFormatters,
+                textAlign: widget.textAlign,
+                textCapitalization: widget.textCapitalization,
+                style: widget.style ??
+                    Style.styleInput ??
+                    TextStyle(
+                      fontSize: widget.textSize,
+                      color: widget.textColor ?? Clr.colorTxt,
+                      fontFamily: Static.fontFamily,
+                    ),
+                obscureText: widget.isPassword,
+                cursorColor: widget.cursorColor,
+                keyboardType: widget.keyboardType,
+                onChanged: widget.onChanged ??
+                    (widget.formKey != null
+                        ? (value) {
+                            if (value.isNotEmpty) {
+                              widget.formKey!.currentWidget;
+                            }
+                          }
+                        : null),
+                textInputAction: widget.textInputAction,
+                onEditingComplete: widget.onEditingComplete,
+                focusNode: widget.focusNode,
+                autofocus: widget.autofocus,
+                onTap: widget.onTap,
+                decoration: widget.decoration ??
+                    Static.inputDecoration ??
+                    InputDecoration(
+                      // label: hasLabel?Text(hasLabel?(hintText! + (isOptional?'':' *')): ''):null,
+                      label: ((widget.hasLabel ?? Static.txtInputHasLabel) &&
+                              !(widget.hasLabelOnTop ??
+                                  Static.txtInputHasLabelOnTop))
+                          ? (Text.rich(TextSpan(
+                              text: widget.labelText ?? widget.hintText,
+                              children: <InlineSpan>[
+                                if (widget.showLabelStat ??
+                                    Static.txtInputHasLabelWithStar)
+                                  TextSpan(
+                                    text: widget.isOptional ? '' : ' *',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontFamily: Static.fontFamily,
+                                    ),
+                                  ),
+                              ],
+                              style: widget.labelStyle ??
+                                  Style.labelInputStyle ??
+                                  TextStyle(
+                                    color: widget.hintTextColor,
+                                    fontFamily: Static.fontFamily,
+                                  ),
+                            )))
+                          : null,
+
+                      errorBorder: Static.errorBorder,
+                      enabledBorder:
+                          widget.hasBorder ?? Static.txtInputHasBorder ?? false
+                              ? Static.enabledBorder ??
+                                  OutlineInputBorder(
+                                    borderRadius: widget.borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            widget.radius ?? Siz.defaultRadius)),
+                                    borderSide: BorderSide(
+                                        width: widget.borderWidth,
+                                        color: widget.borderColor ??
+                                            Static.borderColor ??
+                                            Clr.colorGreyLight,
+                                        style: widget.removeAllBorders
+                                            ? BorderStyle.none
+                                            : BorderStyle.solid),
+                                  )
+                              : null,
+                      focusedBorder:
+                          widget.hasBorder ?? Static.txtInputHasBorder ?? false
+                              ? Static.focusedBorder ??
+                                  OutlineInputBorder(
+                                    borderRadius: widget.borderRadius ??
+                                        BorderRadius.all(Radius.circular(
+                                            widget.radius ?? Siz.defaultRadius)),
+                                    borderSide: BorderSide(
+                                        width: widget.borderWidth,
+                                        color: widget.borderColor ??
+                                            Static.borderColor ??
+                                            Clr.colorGreyLight,
+                                        style: widget.removeAllBorders
+                                            ? BorderStyle.none
+                                            : BorderStyle.solid),
+                                  )
+                              : null,
+                      border: widget.hasBorder ?? Static.txtInputHasBorder ?? false
+                          ? Static.border ??
+                              OutlineInputBorder(
+                                borderRadius: widget.borderRadius ??
+                                    BorderRadius.all(Radius.circular(
+                                        widget.radius ?? Siz.defaultRadius)),
+                                borderSide: widget.removeAllBorders
+                                    ? BorderSide.none
+                                    : widget.borderSide ??
+                                        BorderSide(
+                                            width: widget.borderWidth,
+                                            color: widget.borderColor ??
+                                                Static.borderColor ??
+                                                Clr.colorGreyLight,
+                                            style: widget.removeAllBorders
+                                                ? BorderStyle.none
+                                                : BorderStyle.solid),
+                              )
+                          : widget.removeAllBorders
+                              ? InputBorder.none
+                              : null,
+                      hintText: Static.isHintCapitalizeFirst?(widget.hintText!).capitalizeFirst: (widget.hintText!),
+                      hintStyle: widget.hintStyle ??
+                          Style.hintInputStyle ??
+                          TextStyle(
+                            fontSize: widget.hintTextSize ?? widget.textSize,
+                            color: widget.hintTextColor,
+                            fontFamily: Static.fontFamily,
+                          ),
+                      labelStyle: widget.labelStyle ?? Style.labelInputStyle,
+                      suffixIcon: widget.postFix,
+                      prefixIcon: widget.preFix,
+                      counterText: widget.hasCounter ? null : '',
+                      enabled: widget.enabled,
+                      contentPadding: (widget.contentPadding ??
+                          Static.txtInoutDefaultContentPadding),
+                      fillColor: widget.fillColor,
+                      filled: widget.fillColor != null,
+                      suffixStyle: widget.postFixStyle ??
+                        Style.styleInput ??
+                          TextStyle(
+                          fontFamily: Static.fontFamily,
+                          color: widget.postFixTextColor ??
+                          widget.textColor ??
+                          Clr.colorTxt,
+                          fontSize: widget.postFixTextSize ?? widget.textSize,
+                        ),
+                      prefixText: widget.prefixText,
+                      prefixStyle: widget.prefixStyle ??
+                          Style.styleInput ??
+                          TextStyle(
+                            fontFamily: Static.fontFamily,
+                            color: widget.prefixTextColor ??
+                                widget.textColor ??
+                                Clr.colorTxt,
+                            fontSize: widget.prefixTextSize ?? widget.textSize,
+
+                          ),
+                    ),
+                validator: widget.isOptional
+                    ? null
+                    : (widget.validator ?? (value) {
+                          setState(() {
+                            hasError = true;
+                          });
+                          if (value == null || value.isEmpty) {
+                            return widget.errorMessage ??
+                                ((widget.appDirectionLeftToRight ??
+                                        Static.appDirectionLeftToRight ??
+                                        true)
+                                    ? '${'Please Enter'.tr} ${widget.hintText}'
+                                    : '${widget.hintText} ${'Please Enter'.tr}');
+                          }
+                          if (widget.validationLength != null) {
+                            if (value.length < widget.validationLength!) {
+                              return widget.errorLengthMessage ??
+                                  'At least ${widget.validationLength} character required';
+                            }
+                          }
+                          setState(() {
+                            hasError = false;
+                          });
+
+                          if(widget.validationConditionAddOn != null){
+                            String? response = widget.validationConditionAddOn!();
+                            if(response != null){
+                              return response;
+                            }
+                          }
+
+                          return null;
+                        }),
+              ),
+            ),
           ),
-        )
-    ],
-  );
+        ],
+      ),
+    );
   }
 
   Widget dropDownTextField<T>(

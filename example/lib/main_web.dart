@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/dialogs/dialogs.dart';
-import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
@@ -148,7 +147,6 @@ class _MainWebState extends State<MainWeb> {
 
   onPressed(Function(bool p1) fn) async {
     fn(true);
-    HttpCalls.callGetApi('acafdasd', token: '');
     await Future.delayed(5.seconds);
     fn(false);
 
@@ -162,7 +160,7 @@ class _MainWebState extends State<MainWeb> {
 
     await ShowSnackBar.createHighlightOverlay(
       text: 'Hello I am alert',
-      context: context,
+      context: context.mounted?context: Get.context!,
       textColor: Colors.white,
       hasCloseIcon: true,
     );

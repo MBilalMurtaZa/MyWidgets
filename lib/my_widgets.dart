@@ -364,6 +364,7 @@ Future<void> pSetSettings({
   EdgeInsets? webDialogMargin,
   bool? isHintCapitalizeFirst,
   bool? usePreCheckFunctionInHttpCalls,
+  Widget? customLoadingWidget,
   Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError,
 }) async {
   await Dates.initializeDateFormat();
@@ -435,6 +436,7 @@ Future<void> pSetSettings({
   HttpCalls.onHttpCallError = onHttpCallError;
   Static.isHintCapitalizeFirst = isHintCapitalizeFirst??false;
   Static.usePreCheckFunctionInHttpCalls = usePreCheckFunctionInHttpCalls;
+  Static.customLoadingWidget = customLoadingWidget;
 
 }
 

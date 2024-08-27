@@ -8,16 +8,21 @@ class LoadingPro extends StatelessWidget {
   final bool isLinear;
   final Color? valueColor, backgroundColor;
   final bool? platFormIsIOS;
-  const LoadingPro(
-      {this.size,
-      this.isLinear = false,
-      this.valueColor,
-      this.backgroundColor,
-      this.platFormIsIOS,
-      super.key});
+  final Widget? customLoadingWidget;
+
+  const LoadingPro({
+    this.size,
+    this.isLinear = false,
+    this.valueColor,
+    this.backgroundColor,
+    this.platFormIsIOS,
+    this.customLoadingWidget,
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return customLoadingWidget??Static.customLoadingWidget??Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
@@ -32,7 +37,9 @@ class LoadingPro extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(
                       valueColor ?? Clr.colorPrimary),
                 )
-              : (platFormIsIOS ?? Static.defaultLoadingProIsIOS ?? GetPlatform.isIOS)
+              : (platFormIsIOS ??
+                      Static.defaultLoadingProIsIOS ??
+                      GetPlatform.isIOS)
                   ? CircleAvatar(
                       backgroundColor: backgroundColor ?? Clr.colorWhite,
                       child: CupertinoActivityIndicator(

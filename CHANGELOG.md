@@ -1,4 +1,11 @@
-## 0.10.4
+## 0.10.8
+* Fix minor issues.
+## 0.10.7
+* added customLoadingWidget option in loading pro for single time customisation. if you want to add across the whole app then you can use customLoadingWidget in pSetSetting() in main.dart
+* Fix minor issues.
+## 0.10.6
+* added customLoadingWidget option in loading pro for single time customisation. if you want to add across the whole app then you can use customLoadingWidget in pSetSetting() in main.dart
+## 0.10.5
 * readonly in TxtFormInput
 * add readonly in btn
 ## 0.10.4
