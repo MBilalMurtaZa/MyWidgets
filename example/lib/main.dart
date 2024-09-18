@@ -8,6 +8,7 @@ import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
+import 'package:my_widgets/widgets/get_images.dart';
 import 'package:my_widgets/widgets/google_maps_helper.dart';
 import 'package:my_widgets/widgets/input.dart';
 import 'package:my_widgets/widgets/searchable_dropdown.dart';
@@ -88,7 +89,10 @@ class _MyAppState extends State<MyApp> {
                     color: Clr.colorGreen, shape: BoxShape.circle),
                 height: 100,
                 width: 100,
+                child: const GetImage(imagePath: 'https://storage.googleapis.com/cms-storage-bucket/65361d7e1dfa118aa63b.png',
+                ),
               ),
+
 
               // Use Txt to show text with easy format options
 

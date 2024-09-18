@@ -1,3 +1,11 @@
+## 0.11.1
+* Add zoom option in GetImage
+* add option in case of error
+## 0.11.0
+* Add zoom option in GetImage
+* add background and much more 
+## 0.10.9
+* Fix minor issues.
 ## 0.10.8
 * Fix minor issues.
 ## 0.10.7

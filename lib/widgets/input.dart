@@ -42,7 +42,7 @@ class TxtFormInput<T> extends StatefulWidget {
   final BorderSide? borderSide;
   final bool? appDirectionLeftToRight;
   final bool? ignoringWithOnTap;
-  final bool readOnly;
+  final bool? readOnly;
   final String? Function()? validationConditionAddOn;
 
   final double errorHeight;
@@ -111,7 +111,7 @@ class TxtFormInput<T> extends StatefulWidget {
       this.borderSide,
       this.appDirectionLeftToRight,
       this.showCursor,
-      this.readOnly = false,
+      this.readOnly,
       this.ignoringWithOnTap,
         this.validationConditionAddOn,
       this.cursorColor, this.errorHeight = 23, this.showDropDown = false,
@@ -194,7 +194,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                 showCursor: widget.showCursor,
                 maxLines: widget.isPassword ? 1 : widget.maxLines,
                 minLines: widget.minLines,
-                readOnly: widget.readOnly,
+                readOnly: widget.readOnly == null ? widget.onTap == null ? false: true : widget.readOnly!,
                 maxLength: widget.maxLength,
                 inputFormatters: widget.inputFormatters,
                 textAlign: widget.textAlign,

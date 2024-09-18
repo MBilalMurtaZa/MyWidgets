@@ -15,6 +15,11 @@ class GetImage extends StatelessWidget {
   final Color? imageColor, loadingColor;
   final BorderRadius? borderRadius;
   final GestureTapCallback? onTap;
+  final BoxDecoration? backgroundDecoration;
+  final PageController? pageController;
+  final Function(int)? onPageChanged;
+  final PreferredSizeWidget? appBar;
+
   const GetImage(
       {super.key,
       this.imagePath,
@@ -26,9 +31,17 @@ class GetImage extends StatelessWidget {
       this.imageColor,
       this.borderRadius,
       this.loadingColor,
-      this.onTap});
+      this.onTap,
+      this.backgroundDecoration,
+      this.pageController,
+      this.onPageChanged,
+      this.appBar
+      });
+
+
   static String defaultImage = 'assets/default.png';
   static bool defImageIsAsset = true;
+
   @override
   Widget build(BuildContext context) {
     bool isAsset = isAssets;
@@ -41,9 +54,15 @@ class GetImage extends StatelessWidget {
               ? () {
                   pSetRout(
                       page: () => FullPhotoView(
-                            images: [imagePath ?? defaultImage],
-                            isAsset: isAsset,
-                          ));
+                        images: [imagePath ?? defaultImage],
+                        isAsset: isAsset,
+                        isSingleImage: true,
+                        backgroundDecoration: backgroundDecoration,
+                        onPageChanged: onPageChanged,
+                        pageController: pageController,
+                        appBar: appBar,
+                      ),
+                  );
                 }
               : null),
       child: ClipRRect(
