@@ -75,7 +75,7 @@ class HttpCalls {
     bool isTypeJson = true,
     Map<String, String>? customHeader,
     String? changeLocalization,
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
@@ -101,7 +101,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
 
     if (headerAddOns != null) {
@@ -167,14 +167,14 @@ class HttpCalls {
     bool hasEncoded = true,
     required String token,
     bool? defaultResponse,
-        bool defaultResponseWithoutJsonDecode = false,
+    bool defaultResponseWithoutJsonDecode = false,
     bool? withStream,
     bool? utf8Convert,
     isTypeJson = true,
     Map<String, String>? customHeader,
     String? paramAsBody,
     String? changeLocalization,
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
@@ -197,7 +197,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -274,7 +274,7 @@ class HttpCalls {
     bool isTypeJson = true,
     Map<String, String>? customHeader,
     String? changeLocalization,
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
@@ -299,7 +299,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -364,7 +364,7 @@ class HttpCalls {
         Uint8List? paramAsBodyBinary,
       Map<String, String>? customHeader,
       String? changeLocalization,
-      String tokenKey = 'Bearer',
+      String tokenKey = 'Bearer ',
       bool? useDefaultURl,
       bool? showLogs,
         bool? usePreCheckFn,
@@ -390,7 +390,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -460,7 +460,7 @@ class HttpCalls {
       Map<String, String>? customHeader,
       String? paramAsBody,
       String? changeLocalization,
-      String tokenKey = 'Bearer',
+      String tokenKey = 'Bearer ',
       bool? useDefaultURl,
       bool? showLogs,
         bool? usePreCheckFn,
@@ -484,7 +484,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -544,7 +544,7 @@ class HttpCalls {
     bool isTypeJson = true,
     String? changeLocalization,
     String requestType = 'POST',
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
         bool? usePreCheckFn,
@@ -566,7 +566,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -610,7 +610,7 @@ class HttpCalls {
     bool isTypeJson = true,
     String? changeLocalization,
     String requestType = 'POST',
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
         bool? usePreCheckFn,
@@ -632,7 +632,7 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -704,7 +704,7 @@ class HttpCalls {
     required String userName,
     Map<String, String>? customHeader,
     bool? defaultResponse,
-    String tokenKey = 'Bearer',
+    String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
         bool? usePreCheckFn,
@@ -717,7 +717,7 @@ class HttpCalls {
     var header = {'Accept': 'application/json'};
 
     if (hasAuth) {
-      header[HttpHeaders.authorizationHeader] = '$tokenKey $token';
+      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);

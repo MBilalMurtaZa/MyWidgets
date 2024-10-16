@@ -96,6 +96,7 @@ class Static {
   static double? btnHeight;
   static double? btnRadius;
   static Color? btnBgColor;
+  static Color? btnShadowColor;
   static Color? btnTextColor;
   static Color? btnBorderColor;
   static bool? appDirectionLeftToRight;
@@ -113,10 +114,15 @@ class Static {
   static EdgeInsets? webDialogPadding;
   static EdgeInsets? webDialogMargin;
   static Widget? customLoadingWidget;
-
   static bool isHintCapitalizeFirst = false;
-
   static bool? usePreCheckFunctionInHttpCalls;
+  static String? responseDataKey;
+  static String? responseMessageKey;
+  static String? responseErrorMessageKey;
+  static String? responseStatusCodeKey;
+  static String? responseStatusKey;
+  static String? httpCallTokenKey;
+  static bool canHttpCallAddBearerAsPreToken = true;
 
   Static._();
 }

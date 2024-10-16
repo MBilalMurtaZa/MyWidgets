@@ -1,9 +1,16 @@
+## 0.11.3
+* add custom keys to handle all kind of responses from http calls
+* now you handle custom tokens with header keys `httpCallTokenKey` property in pSetSettings as well.  
+## 0.11.2
+* Add btnShadowColor
 ## 0.11.1
 * Add zoom option in GetImage
 * add option in case of error
 ## 0.11.0
 * Add zoom option in GetImage
 * add background and much more 
+## 0.10.9
+* Fix minor issues.
 ## 0.10.9
 * Fix minor issues.
 ## 0.10.8

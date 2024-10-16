@@ -345,11 +345,12 @@ Future<void> pSetSettings({
   double? btnHeight,
   double? btnRadius,
   Color? btnBgColor,
+  Color? btnShadowColor,
   Color? btnTextColor,
   Color? btnBorderColor,
   bool? appDirectionLeftToRight,
   String? fontFamily,
-  int stopDecodingFromErrorCode = 400,
+  int stopDecodingFromErrorCode = 600,
   bool? defaultLoadingProIsIOS,
   Toast defaultToastLength = Toast.LENGTH_SHORT,
   int httpCallTimeoutInSec = 20,
@@ -365,8 +366,28 @@ Future<void> pSetSettings({
   bool? isHintCapitalizeFirst,
   bool? usePreCheckFunctionInHttpCalls,
   Widget? customLoadingWidget,
+  /// user can define custom json key get Data in ViewResponse model data property
+  String? responseDataKey,
+  /// user can define custom json key get Message in ViewResponse model message property
+  String? responseMessageKey,
+  /// user can define custom json key get Error Message in ViewResponse  model errorMessage property
+  String? responseErrorMessageKey,
+  /// user can define custom json key get Status Code in ViewResponse model statusCode property
+  String? responseStatusCodeKey,
+  /// user can define custom json key get status in ViewResponse model status property
+  String? responseStatusKey,
+  /// user can define custom token key in http call header ViewResponse model status property
+  String? httpCallTokenKey,
+  bool canHttpCallAddBearerAsPreToken = true,
   Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError,
 }) async {
+  Static.responseDataKey = responseDataKey;
+  Static.responseMessageKey = responseMessageKey;
+  Static.responseErrorMessageKey = responseErrorMessageKey;
+  Static.responseStatusCodeKey = responseStatusCodeKey;
+  Static.responseStatusKey = responseStatusKey;
+  Static.httpCallTokenKey = httpCallTokenKey;
+  Static.canHttpCallAddBearerAsPreToken = canHttpCallAddBearerAsPreToken;
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
   Clr.colorSecondary = secondaryColor;
@@ -415,6 +436,7 @@ Future<void> pSetSettings({
   Static.btnHeight = btnHeight;
   Static.btnRadius = btnRadius;
   Static.btnBgColor = btnBgColor;
+  Static.btnShadowColor = btnShadowColor;
   Static.btnTextColor = btnTextColor;
   Static.btnBorderColor = btnBorderColor;
   Static.appDirectionLeftToRight = appDirectionLeftToRight;

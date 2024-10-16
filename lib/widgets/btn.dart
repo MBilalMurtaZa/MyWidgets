@@ -378,7 +378,7 @@ class Btn extends StatelessWidget {
                 foregroundColor: textColor,
                 disabledForegroundColor: onSurface,
                 elevation: isTextOnly ? 0 : elevation,
-                shadowColor: shadowColor,
+                shadowColor: shadowColor??Static.btnShadowColor,
                 shape: shape ??
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(

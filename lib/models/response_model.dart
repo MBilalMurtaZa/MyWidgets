@@ -1,3 +1,5 @@
+import 'package:my_widgets/utils/utils.dart';
+
 class ViewResponse {
   bool status;
   String message;
@@ -13,21 +15,27 @@ class ViewResponse {
       this.statusCode = ''});
 
   ViewResponse.fromJson(Map<String, dynamic> json)
-      : status = json['status'] ?? json['Status'] ?? false,
-        message = json['message'] ??
+      : status = json[(Static.responseStatusKey??'')] ??
+          json['status'] ??
+          json['Status'] ?? false,
+        message = json[(Static.responseMessageKey??'')]??
+            json['message'] ??
             json['Message'] ??
             json['MESSAGE'] ??
             'No message received from Server ',
-        errorMessage = json['errorMessage'] ??
+        errorMessage = json[(Static.responseErrorMessageKey??'')]??
+            json['errorMessage'] ??
             json['ErrorMessage'] ??
             'No error message received from Server ',
-        data = json['data'] ??
+        data = json[(Static.responseDataKey??'')]??
+            json['data'] ??
             json['Data'] ??
             json['DATA'] ??
             json['response'] ??
             json['Response'] ??
             json['RESPONSE'],
-        statusCode = json['status_code'] ??
+        statusCode = json[(Static.responseStatusCodeKey??'')]??
+            json['status_code'] ??
             json['statusCode'] ??
             json['StatusCode'] ??
             json['STATUSCODE'] ??
