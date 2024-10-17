@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains searchable dropdown.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/my_widgets.dart';
@@ -110,7 +113,7 @@ class SearchableDropdown extends StatelessWidget {
                 if (showBottomButton && multiSelect) ...[
                   BtnSF(
                       text: confirmButtonText,
-                      onPressed:  controller.onSavePressed,
+                      onPressed: controller.onSavePressed,
                       width: bottomButtonWidth ?? Get.width * 0.8,
                       bgColor: bottomButtonColor,
                       hasBorder: bottomButtonHasBorder ?? false,

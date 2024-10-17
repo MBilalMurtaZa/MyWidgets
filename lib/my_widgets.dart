@@ -1,4 +1,7 @@
-library my_widgets;
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains my widgets.
+
+library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +19,6 @@ enum RouteType { push, pushReplace, pushRemoveUntil, pushReplaceAll }
 enum URLType { call, sms, web, email }
 
 enum LoadingProPlatForm { android, iOS }
-
-
 
 class MyWidgets {}
 
@@ -197,8 +198,6 @@ Widget pDropDownButton(
   );
 }
 
-
-
 Future<void> pLaunchURL(String action,
     {URLType urlType = URLType.web,
     LaunchMode? mode,
@@ -366,22 +365,30 @@ Future<void> pSetSettings({
   bool? isHintCapitalizeFirst,
   bool? usePreCheckFunctionInHttpCalls,
   Widget? customLoadingWidget,
+
   /// user can define custom json key get Data in ViewResponse model data property
   String? responseDataKey,
+
   /// user can define custom json key get Message in ViewResponse model message property
   String? responseMessageKey,
+
   /// user can define custom json key get Error Message in ViewResponse  model errorMessage property
   String? responseErrorMessageKey,
+
   /// user can define custom json key get Status Code in ViewResponse model statusCode property
   String? responseStatusCodeKey,
+
   /// user can define custom json key get Pagination in ViewResponse model Pagination property
   String? responsePaginationKey,
+
   /// user can define custom json key get status in ViewResponse model status property
   String? responseStatusKey,
+
   /// user can define custom token key in http call header ViewResponse model status property
   String? httpCallTokenKey,
   bool canHttpCallAddBearerAsPreToken = true,
-  Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError,
+  Function(dynamic error, dynamic response, bool? defaultResponse)?
+      onHttpCallError,
 }) async {
   Static.responseDataKey = responseDataKey;
   Static.responseMessageKey = responseMessageKey;
@@ -459,10 +466,9 @@ Future<void> pSetSettings({
   Static.webDialogPadding = webDialogPadding;
   Static.webDialogMargin = webDialogMargin;
   HttpCalls.onHttpCallError = onHttpCallError;
-  Static.isHintCapitalizeFirst = isHintCapitalizeFirst??false;
+  Static.isHintCapitalizeFirst = isHintCapitalizeFirst ?? false;
   Static.usePreCheckFunctionInHttpCalls = usePreCheckFunctionInHttpCalls;
   Static.customLoadingWidget = customLoadingWidget;
-
 }
 
 String pRemoveHtmlIfNeeded(String text) {
@@ -497,8 +503,4 @@ pCurrencyFormat(dynamic value,
     pShowToast(message: 'You Enter Invalid Amount');
     value = 0;
   }
-
-
-
-
 }

@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains http calls.
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -22,7 +25,8 @@ class HttpCalls {
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
   static late int httpCallTimeoutInSec;
-  static Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError;
+  static Function(dynamic error, dynamic response, bool? defaultResponse)?
+      onHttpCallError;
   static String internetIssue =
       'Seems like internet issue please check your device internet';
   static String? localization;
@@ -34,22 +38,20 @@ class HttpCalls {
   HttpCalls._();
 
   static Uri getRequestURL(String postFix, {bool? useDefaultURl}) {
-
     if (useDefaultURl ?? Static.useDefaultURl ?? true) {
-
       String fullURL = sServerURL + postFix;
-      if(fullURL.contains('://')){
+      if (fullURL.contains('://')) {
         List<String> list = fullURL.split('://');
         list.last = list.last.replaceAll('//', '/');
-        fullURL =  list.join('://');
+        fullURL = list.join('://');
       }
       debugPrint(Uri.parse(fullURL).toString());
       return Uri.parse(fullURL);
     } else {
-      if(postFix.contains('://')){
+      if (postFix.contains('://')) {
         List<String> list = postFix.split('://');
         list.last = list.last.replaceAll('//', '/');
-        postFix =  list.join('://');
+        postFix = list.join('://');
       }
       debugPrint(Uri.parse(postFix).toString());
       return Uri.parse(postFix);
@@ -79,37 +81,38 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
   }) async {
     dynamic response;
 
     try {
-    await callPreCheckFn(usePreCheckFn);
+      await callPreCheckFn(usePreCheckFn);
 
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    showLog(url, showLog: showLogs, logName: endPoint);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      showLog(url, showLog: showLogs, logName: endPoint);
 
-    final Map<String, String> header = {};
+      final Map<String, String> header = {};
 
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
 
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
 
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
 
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('GET', url);
@@ -154,7 +157,6 @@ class HttpCalls {
         }
       }
     } on Exception catch (e) {
-
       response = errorHandler(e, response, defaultResponse);
     }
     return response;
@@ -178,34 +180,34 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
   }) async {
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    showLog(params, showLog: showLogs, logName: endPoint);
+      await callPreCheckFn(usePreCheckFn);
+      showLog(params, showLog: showLogs, logName: endPoint);
 
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
-    final Map<String, String> header = {};
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      final Map<String, String> header = {};
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
-
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
 
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('POST', url);
@@ -216,12 +218,14 @@ class HttpCalls {
         var result = await Response.fromStream(streamedResponse);
         if (result.statusCode < Static.stopDecodingFromErrorCode) {
           if (utf8Convert ?? httpResponseUtf8Convert) {
-            if(defaultResponseWithoutJsonDecode){
+            if (defaultResponseWithoutJsonDecode) {
               response = result;
-            }else{
-              response = HttpCalls.getDataObject(Response(utf8.decoder.convert(result.bodyBytes), streamedResponse.statusCode), defaultResponse: defaultResponse);
+            } else {
+              response = HttpCalls.getDataObject(
+                  Response(utf8.decoder.convert(result.bodyBytes),
+                      streamedResponse.statusCode),
+                  defaultResponse: defaultResponse);
             }
-
 
             showLog(utf8.decoder.convert(result.bodyBytes),
                 enableJsonEncode: false, showLog: showLogs, logName: endPoint);
@@ -252,7 +256,7 @@ class HttpCalls {
         }
       }
     } catch (e) {
-      if(kDebugMode){
+      if (kDebugMode) {
         print(e);
       }
       response = errorHandler(e, response, defaultResponse);
@@ -278,34 +282,35 @@ class HttpCalls {
     bool? useDefaultURl,
     bool? showLogs,
     int? callTimeoutInSec,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
   }) async {
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    showLog((params), showLog: showLogs, logName: endPoint);
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      await callPreCheckFn(usePreCheckFn);
+      showLog((params), showLog: showLogs, logName: endPoint);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
-    final Map<String, String> header = {
-      'X-localization': '',
-      'content-type': 'application/json'
-    };
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      final Map<String, String> header = {
+        'X-localization': '',
+        'content-type': 'application/json'
+      };
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PATCH', url);
         request.body = paramAsBody ?? json.encode(params);
@@ -361,20 +366,18 @@ class HttpCalls {
       bool? utf8Convert,
       bool isTypeJson = true,
       String? paramAsBody,
-        Uint8List? paramAsBodyBinary,
+      Uint8List? paramAsBodyBinary,
       Map<String, String>? customHeader,
       String? changeLocalization,
       String tokenKey = 'Bearer ',
       bool? useDefaultURl,
       bool? showLogs,
-        bool? usePreCheckFn,
-
+      bool? usePreCheckFn,
       int? callTimeoutInSec}) async {
     dynamic response;
 
     await callPreCheckFn(usePreCheckFn);
     showLog((params), showLog: showLogs, logName: endPoint);
-
 
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
@@ -390,7 +393,8 @@ class HttpCalls {
     }
 
     if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
+      header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+          '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
     }
     if (headerAddOns != null) {
       header.addAll(headerAddOns!);
@@ -398,16 +402,17 @@ class HttpCalls {
     showLog((customHeader ?? httpHeader ?? header),
         showLog: showLogs, logName: endPoint);
     try {
-      if(paramAsBodyBinary != null){
-        var response = await http.put(Uri.parse(endPoint), body: paramAsBodyBinary);
+      if (paramAsBodyBinary != null) {
+        var response =
+            await http.put(Uri.parse(endPoint), body: paramAsBodyBinary);
         return response;
       }
       if (withStream ?? httpCallsWithStream) {
         var request = http.Request('PUT', url);
-        if(paramAsBodyBinary != null){
+        if (paramAsBodyBinary != null) {
           request.bodyBytes = paramAsBodyBinary;
-      }
-      request.body = json.encode(params);
+        }
+        request.body = json.encode(params);
         request.headers.addAll(customHeader ?? httpHeader ?? header);
         var streamedResponse = await request.send().timeout(
             Duration(seconds: callTimeoutInSec ?? httpCallTimeoutInSec));
@@ -463,35 +468,36 @@ class HttpCalls {
       String tokenKey = 'Bearer ',
       bool? useDefaultURl,
       bool? showLogs,
-        bool? usePreCheckFn,
+      bool? usePreCheckFn,
       int? callTimeoutInSec}) async {
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    showLog((params), showLog: showLogs, logName: endPoint);
+      await callPreCheckFn(usePreCheckFn);
+      showLog((params), showLog: showLogs, logName: endPoint);
 
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
 
-    final Map<String, String> header = {};
+      final Map<String, String> header = {};
 
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
 
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
 
       var request = http.Request('DELETE', url);
       request.body = paramAsBody ?? json.encode(params);
@@ -522,9 +528,10 @@ class HttpCalls {
   }
 
   static Future<void> callPreCheckFn(bool? usePreCheckFn) async {
-    if(preCheckFunction != null && (usePreCheckFn??Static.usePreCheckFunctionInHttpCalls??false)){
-      bool result =  await preCheckFunction!();
-      if(!result){
+    if (preCheckFunction != null &&
+        (usePreCheckFn ?? Static.usePreCheckFunctionInHttpCalls ?? false)) {
+      bool result = await preCheckFunction!();
+      if (!result) {
         throw Exception('pre-check fn error');
       }
     }
@@ -547,33 +554,34 @@ class HttpCalls {
     String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    final Map<String, String> header = {};
+      await callPreCheckFn(usePreCheckFn);
+      final Map<String, String> header = {};
 
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
 
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
       var request = MultipartRequest(
         requestType,
         url,
@@ -613,37 +621,38 @@ class HttpCalls {
     String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    final Map<String, String> header = {};
+      await callPreCheckFn(usePreCheckFn);
+      final Map<String, String> header = {};
 
-    if ((localization ?? changeLocalization) != null) {
-      header['X-localization'] = localization ?? changeLocalization ?? '';
-      header['Accept-Language'] = localization ?? changeLocalization ?? '';
-    }
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
 
-    if (isTypeJson) {
-      header[HttpHeaders.contentTypeHeader] = 'application/json';
-    }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
 
-    showLog((dataParams), showLog: showLogs, logName: endPoint);
+      showLog((dataParams), showLog: showLogs, logName: endPoint);
 
-    showLog((fileParams), showLog: showLogs, logName: endPoint);
+      showLog((fileParams), showLog: showLogs, logName: endPoint);
 
       var request = MultipartRequest(
         requestType,
@@ -707,24 +716,25 @@ class HttpCalls {
     String tokenKey = 'Bearer ',
     bool? useDefaultURl,
     bool? showLogs,
-        bool? usePreCheckFn,
+    bool? usePreCheckFn,
     int? callTimeoutInSec,
   }) async {
     dynamic response;
     try {
-    await callPreCheckFn(usePreCheckFn);
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
-    var header = {'Accept': 'application/json'};
+      await callPreCheckFn(usePreCheckFn);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      var header = {'Accept': 'application/json'};
 
-    if (hasAuth) {
-      header[Static.httpCallTokenKey??HttpHeaders.authorizationHeader] = '${Static.canHttpCallAddBearerAsPreToken?tokenKey:''}$token';
-    }
-    if (headerAddOns != null) {
-      header.addAll(headerAddOns!);
-    }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+            '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) {
+        header.addAll(headerAddOns!);
+      }
 
-    showLog((customHeader ?? httpHeader ?? header),
-        showLog: showLogs, logName: endPoint);
+      showLog((customHeader ?? httpHeader ?? header),
+          showLog: showLogs, logName: endPoint);
 
       var request = http.MultipartRequest(
         'POST',
@@ -746,24 +756,22 @@ class HttpCalls {
       response =
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
     } catch (e) {
-
       response = errorHandler(e, response, defaultResponse);
     }
     return response;
   }
 
   static dynamic errorHandler(error, response, bool? defaultResponse) {
-
     dynamic returnData;
-    if(error.message is http.Response){
+    if (error.message is http.Response) {
       Response r = error.message;
       if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
         returnData = ViewResponse(
           status: false,
-          statusCode:r.statusCode,
+          statusCode: r.statusCode,
           message: 'Something went wrong please try again',
-          errorMessage: r.reasonPhrase??'Something went wrong please try again',
-
+          errorMessage:
+              r.reasonPhrase ?? 'Something went wrong please try again',
         );
       } else {
         Map<String, dynamic> userMap = {
@@ -772,15 +780,13 @@ class HttpCalls {
           'statusCode': r.statusCode,
           'message': error.contains('SocketException') ? internetIssue : error,
           'Message': error.contains('SocketException') ? internetIssue : error,
-
         };
         returnData = userMap;
       }
-    }
-    else if(error.message is String){
+    } else if (error.message is String) {
       String r = error.message;
       if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
-        returnData =  ViewResponse(
+        returnData = ViewResponse(
           status: false,
           statusCode: 101,
           message: 'Something went wrong please try again',
@@ -794,12 +800,11 @@ class HttpCalls {
           'message': r.contains('SocketException') ? internetIssue : r,
           'Message': r.contains('SocketException') ? internetIssue : r,
         };
-        returnData =  userMap;
+        returnData = userMap;
       }
-    }
-    else{
+    } else {
       if (defaultResponse ?? HttpCalls.httpCallsDefaultResponse) {
-        returnData =  ViewResponse(
+        returnData = ViewResponse(
           status: false,
           statusCode: 102,
           message: 'Something went wrong please try again',
@@ -813,12 +818,13 @@ class HttpCalls {
           'message': "Unknown Error",
           'Message': 'Unknown Error',
         };
-        returnData =  userMap;
+        returnData = userMap;
       }
     }
 
-    if(HttpCalls.onHttpCallError != null){
-      HttpCalls.onHttpCallError!(error, returnData, defaultResponse ?? HttpCalls.httpCallsDefaultResponse);
+    if (HttpCalls.onHttpCallError != null) {
+      HttpCalls.onHttpCallError!(error, returnData,
+          defaultResponse ?? HttpCalls.httpCallsDefaultResponse);
     }
 
     return returnData;

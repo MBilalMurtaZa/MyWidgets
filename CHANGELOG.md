@@ -1,3 +1,5 @@
+## 1.0.0
+* Fix all issues 
 ## 0.11.4
 * add extra custom keys to handle paginated responses from http calls
 ## 0.11.3

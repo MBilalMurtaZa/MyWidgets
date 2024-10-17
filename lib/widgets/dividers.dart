@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains dividers.
+
 import 'package:flutter/material.dart';
 
 import '../utils/utils.dart';

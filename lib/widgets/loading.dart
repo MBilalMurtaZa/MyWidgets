@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains loading.
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,34 +25,36 @@ class LoadingPro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return customLoadingWidget??Static.customLoadingWidget??Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: backgroundColor,
-      ),
-      padding: const EdgeInsets.all(5),
-      child: Center(
-          child: isLinear
-              ? LinearProgressIndicator(
-                  backgroundColor: backgroundColor,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                      valueColor ?? Clr.colorPrimary),
-                )
-              : (platFormIsIOS ??
-                      Static.defaultLoadingProIsIOS ??
-                      GetPlatform.isIOS)
-                  ? CircleAvatar(
-                      backgroundColor: backgroundColor ?? Clr.colorWhite,
-                      child: CupertinoActivityIndicator(
-                        color: valueColor ?? Clr.colorPrimary,
-                      ),
-                    )
-                  : CircularProgressIndicator(
+    return customLoadingWidget ??
+        Static.customLoadingWidget ??
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: backgroundColor,
+          ),
+          padding: const EdgeInsets.all(5),
+          child: Center(
+              child: isLinear
+                  ? LinearProgressIndicator(
+                      backgroundColor: backgroundColor,
                       valueColor: AlwaysStoppedAnimation<Color>(
                           valueColor ?? Clr.colorPrimary),
-                    )),
-    );
+                    )
+                  : (platFormIsIOS ??
+                          Static.defaultLoadingProIsIOS ??
+                          GetPlatform.isIOS)
+                      ? CircleAvatar(
+                          backgroundColor: backgroundColor ?? Clr.colorWhite,
+                          child: CupertinoActivityIndicator(
+                            color: valueColor ?? Clr.colorPrimary,
+                          ),
+                        )
+                      : CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              valueColor ?? Clr.colorPrimary),
+                        )),
+        );
   }
 }

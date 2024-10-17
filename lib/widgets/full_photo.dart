@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains full photo.
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -19,7 +22,6 @@ class FullPhotoView extends StatelessWidget {
   final ImageErrorWidgetBuilder? errorWidget;
   final LoadingBuilder? loadingBuilder;
 
-
   const FullPhotoView({
     super.key,
     this.isAsset = false,
@@ -32,15 +34,15 @@ class FullPhotoView extends StatelessWidget {
     this.appBar,
     this.errorWidget,
     this.loadingBuilder,
-
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar??AppBar(
-        title: Text(titleText),
-      ),
+      appBar: appBar ??
+          AppBar(
+            title: Text(titleText),
+          ),
       body: isSingleImage ? _buildSingleImagePreview() : _buildMultiImageView(),
     );
   }
@@ -48,14 +50,14 @@ class FullPhotoView extends StatelessWidget {
   _buildSingleImagePreview() {
     return PhotoView(
       imageProvider: buildProvider(),
-      loadingBuilder: loadingBuilder??loadingBuilderWidget,
+      loadingBuilder: loadingBuilder ?? loadingBuilderWidget,
       initialScale: PhotoViewComputedScale.contained * 0.8,
-      errorBuilder: errorWidget??(context, url, error) => const Icon(Icons.error),
+      errorBuilder:
+          errorWidget ?? (context, url, error) => const Icon(Icons.error),
       heroAttributes: PhotoViewHeroAttributes(tag: images.first),
       backgroundDecoration: backgroundDecoration,
     );
   }
-
 
   buildProvider() {
     return isAsset ? AssetImage(images.first) : NetworkImage(images.first);
@@ -91,26 +93,26 @@ class FullPhotoView extends StatelessWidget {
     return PhotoViewGallery.builder(
       scrollPhysics: const BouncingScrollPhysics(),
       builder: (BuildContext context, int index) {
-        if(isAsset){
+        if (isAsset) {
           return PhotoViewGalleryPageOptions(
             imageProvider: AssetImage(images[index]),
             initialScale: PhotoViewComputedScale.contained * 0.8,
             heroAttributes: PhotoViewHeroAttributes(tag: images[index][index]),
-            errorBuilder: errorWidget??(context, url, error) => const Icon(Icons.error),
+            errorBuilder:
+                errorWidget ?? (context, url, error) => const Icon(Icons.error),
           );
-        }else{
+        } else {
           return PhotoViewGalleryPageOptions(
             imageProvider: NetworkImage(images[index]),
             initialScale: PhotoViewComputedScale.contained * 0.8,
             heroAttributes: PhotoViewHeroAttributes(tag: images[index]),
-            errorBuilder: errorWidget??(context, url, error) => const Icon(Icons.error),
+            errorBuilder:
+                errorWidget ?? (context, url, error) => const Icon(Icons.error),
           );
         }
-
       },
       itemCount: images.length,
-
-      loadingBuilder: loadingBuilder??loadingBuilderWidget,
+      loadingBuilder: loadingBuilder ?? loadingBuilderWidget,
       backgroundDecoration: backgroundDecoration,
       pageController: pageController,
       onPageChanged: onPageChanged,
@@ -123,7 +125,10 @@ class FullPhotoView extends StatelessWidget {
         width: 20.0,
         height: 20.0,
         child: CircularProgressIndicator(
-          value: event == null ? 0 : event.cumulativeBytesLoaded / ((event.expectedTotalBytes??1).toInt()),
+          value: event == null
+              ? 0
+              : event.cumulativeBytesLoaded /
+                  ((event.expectedTotalBytes ?? 1).toInt()),
         ),
       ),
     );

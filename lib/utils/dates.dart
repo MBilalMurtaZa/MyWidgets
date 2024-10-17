@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains dates.
+
 import 'package:flutter/foundation.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -30,13 +33,14 @@ class Dates {
   }
 
   static DateFormat pDateFormatter({String? localization}) {
-    var formatter = DateFormat(Static.defaultDateFormat??pGetDate, localization ?? HttpCalls.localization ?? 'en');
+    var formatter = DateFormat(Static.defaultDateFormat ?? pGetDate,
+        localization ?? HttpCalls.localization ?? 'en');
     return formatter;
   }
 
   static DateFormat pDateTimeFormatter({String? localization}) {
-    return DateFormat(
-        Static.defaultDateTimeFormat??pGetDateTime, localization ?? HttpCalls.localization ?? 'en');
+    return DateFormat(Static.defaultDateTimeFormat ?? pGetDateTime,
+        localization ?? HttpCalls.localization ?? 'en');
   }
 
   static String pDateToString(DateTime? dateTime,
@@ -59,7 +63,8 @@ class Dates {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = pDateTimeFormatter(localization: localization).format(dateTime);
+      String formatted =
+          pDateTimeFormatter(localization: localization).format(dateTime);
       return formatted;
     } catch (e) {
       if (kDebugMode) {
@@ -75,7 +80,8 @@ class Dates {
       if (dateTime == null) {
         return defaultValue ?? '';
       }
-      String formatted = DateFormat(format, localization ?? HttpCalls.localization ?? 'en')
+      String formatted =
+          DateFormat(format, localization ?? HttpCalls.localization ?? 'en')
               .format(dateTime);
       return formatted;
     } catch (e) {

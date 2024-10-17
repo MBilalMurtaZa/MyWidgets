@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains btn.
+
 import 'package:flutter/material.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/loading.dart';
@@ -71,10 +74,9 @@ class BtnSF extends StatefulWidget {
       this.width,
       this.height,
       this.makeInverse = false,
-        this.loadingWidget,
-        this.loadingColor,
-        this.onPressedCallBack
-      });
+      this.loadingWidget,
+      this.loadingColor,
+      this.onPressedCallBack});
 
   @override
   State<BtnSF> createState() => _BtnSFState();
@@ -93,11 +95,12 @@ class _BtnSFState extends State<BtnSF> {
 
   @override
   void initState() {
-    textColor = (widget.textColor??Static.btnTextColor);
-    bgColor = (widget.bgColor??Static.btnBgColor);
-    borderColor = (widget.borderColor??Static.btnBorderColor);
+    textColor = (widget.textColor ?? Static.btnTextColor);
+    bgColor = (widget.bgColor ?? Static.btnBgColor);
+    borderColor = (widget.borderColor ?? Static.btnBorderColor);
     onHover = widget.onHover;
-    loadingColor = widget.loadingColor??(widget.textColor??Static.btnTextColor);
+    loadingColor =
+        widget.loadingColor ?? (widget.textColor ?? Static.btnTextColor);
     foregroundColor = widget.foregroundColor;
     super.initState();
   }
@@ -158,8 +161,7 @@ class _BtnSFState extends State<BtnSF> {
     }
   }
 
-
-  showText(){
+  showText() {
     return Text(widget.text!, style: widget.textStyle ?? textStyleLocal());
   }
 
@@ -184,16 +186,28 @@ class _BtnSFState extends State<BtnSF> {
                       ? BorderSide(
                           color: widget.isTextOnly
                               ? Clr.colorTransparent
-                              : widget.borderColor ?? Static.btnBorderColor ?? Clr.colorPrimary,
+                              : widget.borderColor ??
+                                  Static.btnBorderColor ??
+                                  Clr.colorPrimary,
                           width: widget.borderWidth!)
                       : null)),
-      onPressed: widget.onPressed??(widget.onPressedCallBack != null?()=>widget.onPressedCallBack!(onLoadingChange):null),
-      onHover: onHover != null?(val)=> onHover!(val, onHoverLocal) : onHoverLocal,
+      onPressed: widget.onPressed ??
+          (widget.onPressedCallBack != null
+              ? () => widget.onPressedCallBack!(onLoadingChange)
+              : null),
+      onHover:
+          onHover != null ? (val) => onHover!(val, onHoverLocal) : onHoverLocal,
       child: Stack(
         alignment: Alignment.center,
         children: [
           child,
-          isLoading?(widget.loadingWidget??LoadingPro(size: 20,valueColor: loadingColor??textColor,)):Container()
+          isLoading
+              ? (widget.loadingWidget ??
+                  LoadingPro(
+                    size: 20,
+                    valueColor: loadingColor ?? textColor,
+                  ))
+              : Container()
         ],
       ),
     );
@@ -203,45 +217,43 @@ class _BtnSFState extends State<BtnSF> {
     if (widget.makeInverse) {
       setState(() {
         if (val) {
-          textColor = (widget.bgColor??Static.btnBgColor);
-          bgColor = (widget.textColor??Static.btnTextColor);
-          if(isLoading){
+          textColor = (widget.bgColor ?? Static.btnBgColor);
+          bgColor = (widget.textColor ?? Static.btnTextColor);
+          if (isLoading) {
             textColor = loadingColor;
           }
         } else {
-          textColor = (widget.textColor??Static.btnTextColor);
-          bgColor = (widget.bgColor??Static.btnBgColor);
-          if(isLoading){
+          textColor = (widget.textColor ?? Static.btnTextColor);
+          bgColor = (widget.bgColor ?? Static.btnBgColor);
+          if (isLoading) {
             textColor = loadingColor;
           }
         }
 
-        if(loadingColor == (widget.bgColor??Static.btnBgColor)){
-          loadingColor = (widget.textColor??Static.btnTextColor);
-        }else{
-          loadingColor = (widget.bgColor??Static.btnBgColor);
+        if (loadingColor == (widget.bgColor ?? Static.btnBgColor)) {
+          loadingColor = (widget.textColor ?? Static.btnTextColor);
+        } else {
+          loadingColor = (widget.bgColor ?? Static.btnBgColor);
         }
-
-
       });
     }
   }
-  onLoadingChange(bool start){
+
+  onLoadingChange(bool start) {
     setState(() {
       isLoading = start;
-      if(start){
-        textColor = (widget.bgColor??Static.btnBgColor);
-        foregroundColor = (widget.bgColor??Static.btnBgColor);
-        loadingColor = (widget.textColor??Static.btnTextColor);
-      }else{
-        textColor = (widget.textColor??Static.btnTextColor);
+      if (start) {
+        textColor = (widget.bgColor ?? Static.btnBgColor);
+        foregroundColor = (widget.bgColor ?? Static.btnBgColor);
+        loadingColor = (widget.textColor ?? Static.btnTextColor);
+      } else {
+        textColor = (widget.textColor ?? Static.btnTextColor);
         foregroundColor = widget.foregroundColor;
         loadingColor = widget.loadingColor;
       }
-      if (widget.makeInverse){
+      if (widget.makeInverse) {
         onHoverLocal(start);
       }
-
     });
   }
 
@@ -252,7 +264,6 @@ class _BtnSFState extends State<BtnSF> {
         fontWeight: widget.hasBold ? FontWeight.bold : FontWeight.normal);
   }
 }
-
 
 // for mob use
 class Btn extends StatelessWidget {
@@ -378,7 +389,7 @@ class Btn extends StatelessWidget {
                 foregroundColor: textColor,
                 disabledForegroundColor: onSurface,
                 elevation: isTextOnly ? 0 : elevation,
-                shadowColor: shadowColor??Static.btnShadowColor,
+                shadowColor: shadowColor ?? Static.btnShadowColor,
                 shape: shape ??
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
@@ -387,14 +398,14 @@ class Btn extends StatelessWidget {
                 side: side ??
                     (hasBorder
                         ? BorderSide(
-                        color: isTextOnly
-                            ? Clr.colorTransparent
-                            : borderColor ??
-                            Static.btnBorderColor ??
-                            Clr.colorPrimary,
-                        width: borderWidth!)
+                            color: isTextOnly
+                                ? Clr.colorTransparent
+                                : borderColor ??
+                                    Static.btnBorderColor ??
+                                    Clr.colorPrimary,
+                            width: borderWidth!)
                         : null)),
-        onPressed: onPressed??(){},
+        onPressed: onPressed ?? () {},
         child: child,
       ),
     );

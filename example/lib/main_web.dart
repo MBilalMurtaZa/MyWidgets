@@ -6,7 +6,6 @@ import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
 import 'package:my_widgets/widgets/snack_bar.dart';
 
-
 class MainWeb extends StatefulWidget {
   const MainWeb({super.key});
 
@@ -15,7 +14,6 @@ class MainWeb extends StatefulWidget {
 }
 
 class _MainWebState extends State<MainWeb> {
-
   Color btnBG = Colors.green;
   @override
   Widget build(BuildContext context) {
@@ -29,31 +27,42 @@ class _MainWebState extends State<MainWeb> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   Wrap(
                     direction: Axis.horizontal,
                     children: [
-                      Btn(text: 'Dialog', bgColor: btnBG,onPressed: (){
-                        Dialogs.showNativeDialog(message: 'I am not dismiss able from back button',isDismissible: false);
-                      }),
-                      Btn(text: 'Help', bgColor: btnBG,onPressed: (){
-                        if(btnBG == Colors.green){
-                          btnBG = Colors.red;
-                        }else{
-                          btnBG = Colors.green;
-                        }
-                      },
-                      isLoose: false,),
-                      Btn(text: 'Help', bgColor: btnBG,onPressed: (){
-                        if(btnBG == Colors.green){
-                          btnBG = Colors.red;
-                        }else{
-                          btnBG = Colors.green;
-                        }
-                        setState(() {
-
-                        });
-                      },),
+                      Btn(
+                          text: 'Dialog',
+                          bgColor: btnBG,
+                          onPressed: () {
+                            Dialogs.showNativeDialog(
+                                message:
+                                    'I am not dismiss able from back button',
+                                isDismissible: false);
+                          }),
+                      Btn(
+                        text: 'Help',
+                        bgColor: btnBG,
+                        onPressed: () {
+                          if (btnBG == Colors.green) {
+                            btnBG = Colors.red;
+                          } else {
+                            btnBG = Colors.green;
+                          }
+                        },
+                        isLoose: false,
+                      ),
+                      Btn(
+                        text: 'Help',
+                        bgColor: btnBG,
+                        onPressed: () {
+                          if (btnBG == Colors.green) {
+                            btnBG = Colors.red;
+                          } else {
+                            btnBG = Colors.green;
+                          }
+                          setState(() {});
+                        },
+                      ),
                     ],
                   ),
                   TxtFormInput(
@@ -81,13 +90,15 @@ class _MainWebState extends State<MainWeb> {
                   TxtFormInput(
                     hintText: 'Prefix input',
                     hasLabelOnTop: false,
-                    preFix: Icon(Icons.person_2_outlined, color: Colors.blueAccent.shade100),
+                    preFix: Icon(Icons.person_2_outlined,
+                        color: Colors.blueAccent.shade100),
                   ),
                   const MyDivider(),
                   TxtFormInput(
                     hintText: 'Postfix input',
                     hasLabelOnTop: false,
-                    postFix: Icon(Icons.person_2_outlined, color: Colors.blueAccent.shade100),
+                    postFix: Icon(Icons.person_2_outlined,
+                        color: Colors.blueAccent.shade100),
                   ),
                   const MyDivider(),
                   Row(
@@ -95,7 +106,7 @@ class _MainWebState extends State<MainWeb> {
                     children: [
                       BtnSF(
                         text: 'Click me for dialog',
-                        onPressedCallBack: (fn)=>onPressed(fn),
+                        onPressedCallBack: (fn) => onPressed(fn),
                         borderWidth: 0.3,
                         hasBorder: true,
                         borderColor: Colors.blueAccent,
@@ -109,8 +120,10 @@ class _MainWebState extends State<MainWeb> {
                       const Spacer(),
                       BtnSF(
                         text: 'Click me for alert',
-                        postFix: const Icon(Icons.add,),
-                        onPressedCallBack: (fn)=> onAlertTap(fn),
+                        postFix: const Icon(
+                          Icons.add,
+                        ),
+                        onPressedCallBack: (fn) => onAlertTap(fn),
                         bgColor: Colors.blueAccent,
                         textColor: Colors.white,
                         makeInverse: true,
@@ -118,7 +131,6 @@ class _MainWebState extends State<MainWeb> {
                       ),
                     ],
                   ),
-
                   const MyDivider(),
                   switchButton(),
                 ],
@@ -126,22 +138,20 @@ class _MainWebState extends State<MainWeb> {
             ),
           ),
         ),
-
       ],
     );
   }
 
   bool switchValue = true;
-  switchButton(){
-
+  switchButton() {
     return Switch(
       activeColor: Colors.blueAccent,
-      value: switchValue, onChanged: (bool value) {
-      setState(() {
-        switchValue = !switchValue;
-      });
-    },
-
+      value: switchValue,
+      onChanged: (bool value) {
+        setState(() {
+          switchValue = !switchValue;
+        });
+      },
     );
   }
 
@@ -149,8 +159,6 @@ class _MainWebState extends State<MainWeb> {
     fn(true);
     await Future.delayed(5.seconds);
     fn(false);
-
-    
   }
 
   onAlertTap(Function(bool p1) fn) async {
@@ -160,10 +168,9 @@ class _MainWebState extends State<MainWeb> {
 
     await ShowSnackBar.createHighlightOverlay(
       text: 'Hello I am alert',
-      context: context.mounted?context: Get.context!,
+      context: context.mounted ? context : Get.context!,
       textColor: Colors.white,
       hasCloseIcon: true,
     );
-
   }
 }

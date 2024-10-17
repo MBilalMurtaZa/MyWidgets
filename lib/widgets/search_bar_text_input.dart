@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains search bar text input.
+
 import 'package:flutter/material.dart';
 import 'package:my_widgets/utils/utils.dart';
 import 'package:my_widgets/widgets/dividers.dart';

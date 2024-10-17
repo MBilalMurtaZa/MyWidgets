@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains google maps helper.
+
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:typed_data';
@@ -46,17 +49,14 @@ class GoogleMapsHelper {
     return null;
   }
 
-
-
   /// final bitmapDescriptor = BitmapDescriptor.fromBytes(await _getBytesFromUrl('https://example.com/your-marker-image.png'));
   static Future<Uint8List> getMapBytesFromUrl(String url) async {
     final response = await http.get(Uri.parse(url));
     final bytes = response.bodyBytes;
-    final imageCodec = await ui.instantiateImageCodec(bytes, targetWidth: 150); // Resize the image
+    final imageCodec = await ui.instantiateImageCodec(bytes,
+        targetWidth: 150); // Resize the image
     final frame = await imageCodec.getNextFrame();
     final data = await frame.image.toByteData(format: ui.ImageByteFormat.png);
     return data!.buffer.asUint8List();
   }
-
- 
 }

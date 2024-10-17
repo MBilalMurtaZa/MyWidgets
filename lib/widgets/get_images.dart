@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains get images.
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../my_widgets.dart';
@@ -35,9 +38,7 @@ class GetImage extends StatelessWidget {
       this.backgroundDecoration,
       this.pageController,
       this.onPageChanged,
-      this.appBar
-      });
-
+      this.appBar});
 
   static String defaultImage = 'assets/default.png';
   static bool defImageIsAsset = true;
@@ -53,15 +54,15 @@ class GetImage extends StatelessWidget {
           (Static.defaultImageClick
               ? () {
                   pSetRout(
-                      page: () => FullPhotoView(
-                        images: [imagePath ?? defaultImage],
-                        isAsset: isAsset,
-                        isSingleImage: true,
-                        backgroundDecoration: backgroundDecoration,
-                        onPageChanged: onPageChanged,
-                        pageController: pageController,
-                        appBar: appBar,
-                      ),
+                    page: () => FullPhotoView(
+                      images: [imagePath ?? defaultImage],
+                      isAsset: isAsset,
+                      isSingleImage: true,
+                      backgroundDecoration: backgroundDecoration,
+                      onPageChanged: onPageChanged,
+                      pageController: pageController,
+                      appBar: appBar,
+                    ),
                   );
                 }
               : null),

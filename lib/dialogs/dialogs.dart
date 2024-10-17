@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains dialogs.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:get/get.dart';
@@ -20,7 +23,6 @@ class Dialogs {
     Widget? cancelButton,
     List<Widget>? buttonList,
     bool isDismissible = true,
-
   }) async {
     return showPlatformDialog(
       context: context ?? Get.context!,
@@ -78,7 +80,10 @@ class Dialogs {
     );
   }
 
-  static showOverlayLoadingDialog({BuildContext? context, dismissOnTap = false, Duration? animationTime}) async {
+  static showOverlayLoadingDialog(
+      {BuildContext? context,
+      dismissOnTap = false,
+      Duration? animationTime}) async {
     return showDialog(
       barrierDismissible: dismissOnTap,
       context: context ?? Get.context!,

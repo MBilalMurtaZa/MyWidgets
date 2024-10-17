@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains snack bar.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/my_widgets.dart';
@@ -56,7 +59,8 @@ class ShowSnackBar {
                       hasBorder: borderColor != null,
                     ),
                     padding: padding ??
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
                     margin: margin ?? const EdgeInsets.all(30),
                     constraints: BoxConstraints(
                         minWidth: Get.width * 0.4,

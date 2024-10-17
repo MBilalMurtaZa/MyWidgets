@@ -1,3 +1,6 @@
+// This file is part of a Flutter package created by Bilal MurtaZa.
+// Purpose: This file contains dialog for page.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_widgets/my_widgets.dart';
