@@ -6,13 +6,16 @@ class ViewResponse {
   String errorMessage;
   dynamic data;
   dynamic statusCode;
+  dynamic pagination;
 
   ViewResponse(
       {this.status = false,
       this.message = '',
       this.errorMessage = '',
       this.data,
-      this.statusCode = ''});
+      this.statusCode = '',
+      this.pagination = '',
+      });
 
   ViewResponse.fromJson(Map<String, dynamic> json)
       : status = json[(Static.responseStatusKey??'')] ??
@@ -39,6 +42,9 @@ class ViewResponse {
             json['statusCode'] ??
             json['StatusCode'] ??
             json['STATUSCODE'] ??
+            'No code received from Server ',
+        pagination = json[(Static.responsePaginationKey??'')]??
+            json['pagination'] ??
             'No code received from Server ';
 }
 

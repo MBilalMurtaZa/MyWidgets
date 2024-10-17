@@ -1,3 +1,5 @@
+## 0.11.4
+* add extra custom keys to handle paginated responses from http calls
 ## 0.11.3
 * add custom keys to handle all kind of responses from http calls
 * now you handle custom tokens with header keys `httpCallTokenKey` property in pSetSettings as well.  

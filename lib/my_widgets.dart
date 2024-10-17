@@ -374,6 +374,8 @@ Future<void> pSetSettings({
   String? responseErrorMessageKey,
   /// user can define custom json key get Status Code in ViewResponse model statusCode property
   String? responseStatusCodeKey,
+  /// user can define custom json key get Pagination in ViewResponse model Pagination property
+  String? responsePaginationKey,
   /// user can define custom json key get status in ViewResponse model status property
   String? responseStatusKey,
   /// user can define custom token key in http call header ViewResponse model status property
@@ -385,6 +387,7 @@ Future<void> pSetSettings({
   Static.responseMessageKey = responseMessageKey;
   Static.responseErrorMessageKey = responseErrorMessageKey;
   Static.responseStatusCodeKey = responseStatusCodeKey;
+  Static.responsePaginationKey = responsePaginationKey;
   Static.responseStatusKey = responseStatusKey;
   Static.httpCallTokenKey = httpCallTokenKey;
   Static.canHttpCallAddBearerAsPreToken = canHttpCallAddBearerAsPreToken;
@@ -494,4 +497,8 @@ pCurrencyFormat(dynamic value,
     pShowToast(message: 'You Enter Invalid Amount');
     value = 0;
   }
+
+
+
+
 }

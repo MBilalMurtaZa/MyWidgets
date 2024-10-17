@@ -120,6 +120,7 @@ class Static {
   static String? responseMessageKey;
   static String? responseErrorMessageKey;
   static String? responseStatusCodeKey;
+  static String? responsePaginationKey;
   static String? responseStatusKey;
   static String? httpCallTokenKey;
   static bool canHttpCallAddBearerAsPreToken = true;
