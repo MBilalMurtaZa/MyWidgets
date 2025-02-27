@@ -259,7 +259,8 @@ class Btn extends StatelessWidget {
   final String? text;
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
-  final bool hasBorder, isLoose, hasBold, isTextOnly;
+  final bool hasBorder, isLoose, hasBold, isTextOnly, isLoading;
+  final bool isSecondary;
   final double? radius,
       textSize,
       verticalPadding,
@@ -267,8 +268,9 @@ class Btn extends StatelessWidget {
       borderWidth,
       width,
       height;
-  final Widget? preFix;
-  final Widget? postFix;
+
+  final FontWeight? fontWeight;
+  final Widget? preFix, postFix, loadingWidget;
   final TextStyle? textStyle;
   final ButtonStyle? style;
   final EdgeInsetsGeometry? padding;
@@ -281,6 +283,9 @@ class Btn extends StatelessWidget {
     super.key,
     required this.text,
     this.onPressed,
+    this.isSecondary = false,
+    this.loadingWidget,
+    this.isLoading = false,
     this.textColor,
     this.bgColor,
     this.borderColor,
@@ -292,6 +297,7 @@ class Btn extends StatelessWidget {
     this.textSize,
     this.preFix,
     this.postFix,
+    this.fontWeight,
     this.textStyle,
     this.verticalPadding = 4,
     this.borderWidth = 1,
@@ -320,51 +326,44 @@ class Btn extends StatelessWidget {
   }
 
   Widget buildButton() {
-    if (preFix != null && postFix == null) {
-      return button(
-        Row(
-          mainAxisSize: isLoose ? MainAxisSize.max : MainAxisSize.min,
-          children: [
-            preFix!,
-            MyVerticalDivider(width: verticalPadding!),
-            Text(text!, style: textStyle ?? textStyleLocal()),
-          ],
-        ),
-      );
-    } else if (preFix != null && postFix != null) {
-      return button(
-        Row(
-          mainAxisSize: isLoose ? MainAxisSize.max : MainAxisSize.min,
-          children: [
-            preFix!,
-            MyVerticalDivider(width: verticalPadding!),
-            Text(text!, style: textStyle ?? textStyleLocal()),
-            MyVerticalDivider(width: verticalPadding!),
-            postFix!,
-          ],
-        ),
-      );
-    } else if (postFix != null && preFix == null) {
-      return button(
-        Row(
-          mainAxisSize: isLoose ? MainAxisSize.max : MainAxisSize.min,
-          children: [
-            Text(text!, style: textStyle ?? textStyleLocal()),
-            MyVerticalDivider(width: verticalPadding!),
-            postFix!,
-          ],
-        ),
-      );
-    } else {
-      return button(Row(
+    List<Widget> children = [];
+
+    if(isLoading){
+      children.add(loadingWidget?? defaultLoader());
+    }else{
+      if (preFix != null) {
+        children.add(preFix!);
+        children.add(MyVerticalDivider(width: verticalPadding!));
+      }
+
+      children.add(Text(text!, style: textStyle ?? textStyleLocal()));
+
+      if (postFix != null) {
+        children.add(MyVerticalDivider(width: verticalPadding!));
+        children.add(postFix!);
+      } 
+    }
+    
+    return button(
+      Row(
         mainAxisSize: isLoose ? MainAxisSize.max : MainAxisSize.min,
         mainAxisAlignment: mainAxisAlignment,
-        children: [
-          Text(text!, style: textStyle ?? textStyleLocal()),
-        ],
-      ));
-    }
+        children: children,
+      ),
+    );
   }
+
+  Widget defaultLoader() {
+    return Static.customBtnLoader ?? SizedBox(
+      height: 16,
+      width: 16,
+      child: CircularProgressIndicator(
+        color: textColor ?? Colors.white,
+        strokeWidth: 2,
+      ),
+    );
+  }
+
 
   Widget button(Widget child) {
     return IgnorePointer(
@@ -404,6 +403,6 @@ class Btn extends StatelessWidget {
     return TextStyle(
         color: isTextOnly ? (textColor ?? Clr.colorBlack) : textColor,
         fontSize: textSize,
-        fontWeight: hasBold ? FontWeight.bold : FontWeight.normal);
+        fontWeight: hasBold ? FontWeight.bold : (fontWeight ?? Static.btnFontWeight ?? FontWeight.normal));
   }
 }

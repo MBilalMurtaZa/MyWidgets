@@ -34,10 +34,13 @@ Future<void> main() async {
       txtInputHasBorder: true,
       txtInputHasLabel: true,
       txtInputHasLabelOnTop: true,
+      btnFontWeight: FontWeight.w100,
       txtInputHasLabelWithStar: false,
+      customBtnLoader: Txt('text'),
       txtInoutDefaultContentPadding: const EdgeInsets.symmetric(horizontal: 10),
       fontWeight: FontWeight.w600,
       defaultFontSize: Siz.body17,
+      txtInputHeight: 48,
       localization: 'ar',
     onHttpCallError: callHttpError
   );
@@ -72,7 +75,8 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
         
-        body:  checkFormState(),//buildMainPage(),
+        // body:  //buildMainPage(),
+        body: checkFormState(),
       ),
     );
   }
@@ -235,14 +239,12 @@ class _MyAppState extends State<MyApp> {
   var b = 11;
   checkFormState(){
     return SafeArea(
-      child: Container(
-        child: Form(
-          key: formKey,
+      child: Form(
+        key: formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              TextFormField(
-                readOnly: true,
-              ),
               TxtFormInput(
                 preFix: IconButton(
                   icon: Icon(Icons.abc),
@@ -252,28 +254,28 @@ class _MyAppState extends State<MyApp> {
                   icon: Icon(Icons.abc),
                   onPressed: ()=>pShowToast(message: 'abc'),
                 ),
-                readOnly: true,
-                validationConditionAddOn: (){
-                  if(a != b){
-                    return "a does't match b";
-                  }
-                  return null;
-                },
-                errorMessage: 'hello ',
-                enabled: false,
-                postFixTextColor: Colors.amber,
+                errorMessage: 'hello',
+                enabled: true,
+                postFixErrorIcon: Icon(Icons.add),
+                errorStyle: TextStyle(fontSize: 14),
               ),
               MyDivider(),
               Btn(
                 text: 'Check Validation',
                 bgColor: Clr.colorPrimary,
                 textColor: Clr.colorWhite,
-
+                preFix: Icon(Icons.minimize),
+                isLoading: false,
+                hasBold: true,
+                fontWeight: FontWeight.w500,
+                loadingWidget: Txt('loading...'),
+                width: double.infinity,
+                // postFix: Icon(Icons.add),
                 onPressed: (){
                   formKey.currentState!.validate();
                 },
 
-              )
+              ),
             ],
           ),
         ),

@@ -252,7 +252,9 @@ class HttpCalls {
         }
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       response = errorHandler(e, response, defaultResponse);
     }
 

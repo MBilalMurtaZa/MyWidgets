@@ -17,8 +17,6 @@ enum URLType { call, sms, web, email }
 
 enum LoadingProPlatForm { android, iOS }
 
-
-
 class MyWidgets {}
 
 BoxDecoration pBoxDecoration(
@@ -35,10 +33,13 @@ BoxDecoration pBoxDecoration(
     Color? borderColor,
     List<BoxShadow>? boxShadow,
     Color shadowColor = Clr.colorWhite,
-    double shadowRadius = 0,
+    BlurStyle blurStyle = BlurStyle.normal,
+    double shadowRadius = 0.0,
+    double spreadRadius = 0.0,
     Offset shadowOffset = const Offset(0.0, 0.0),
     Gradient? gradient,
     BorderStyle borderStyle = BorderStyle.solid,
+    double strokeAlign = BorderSide.strokeAlignInside,
     BoxShape? shape}) {
   return BoxDecoration(
       borderRadius: shape == null
@@ -50,6 +51,7 @@ BoxDecoration pBoxDecoration(
               ? Border.all(
                   color: borderColor ?? Clr.colorTransparent,
                   width: borderWidth,
+                  strokeAlign: strokeAlign,
                   style: borderStyle)
               : null),
       color: color,
@@ -73,6 +75,8 @@ BoxDecoration pBoxDecoration(
             BoxShadow(
                 color: shadowColor,
                 blurRadius: shadowRadius,
+                spreadRadius: spreadRadius,
+                blurStyle: blurStyle,
                 offset: shadowOffset),
           ],
       gradient: gradient);
@@ -196,8 +200,6 @@ Widget pDropDownButton(
     ),
   );
 }
-
-
 
 Future<void> pLaunchURL(String action,
     {URLType urlType = URLType.web,
@@ -342,7 +344,12 @@ Future<void> pSetSettings({
   InputBorder? txtInputBorder,
   Color? txtInputBorderColor,
   double? txtInputLabelPadding,
+  Widget? txtInputPostFixErrorIcon,
+  TextStyle? txtInputErrorStyle,
+  double? txtInputHeight,
   double? btnHeight,
+  FontWeight? btnFontWeight,
+  Widget? customBtnLoader,
   double? btnRadius,
   Color? btnBgColor,
   Color? btnTextColor,
@@ -364,7 +371,8 @@ Future<void> pSetSettings({
   EdgeInsets? webDialogMargin,
   bool? isHintCapitalizeFirst,
   bool? usePreCheckFunctionInHttpCalls,
-  Function(dynamic error,dynamic response, bool? defaultResponse)? onHttpCallError,
+  Function(dynamic error, dynamic response, bool? defaultResponse)?
+      onHttpCallError,
 }) async {
   await Dates.initializeDateFormat();
   Clr.colorPrimary = primaryColor;
@@ -411,7 +419,12 @@ Future<void> pSetSettings({
   Static.border = txtInputBorder;
   Static.borderColor = txtInputBorderColor;
   Static.labelPadding = txtInputLabelPadding;
+  Static.txtInputPostFixErrorIcon = txtInputPostFixErrorIcon;
+  Static.txtInputErrorStyle = txtInputErrorStyle;
+  Static.txtInputHeight = txtInputHeight;
   Static.btnHeight = btnHeight;
+  Static.btnFontWeight = btnFontWeight;
+  Static.customBtnLoader = customBtnLoader;
   Static.btnRadius = btnRadius;
   Static.btnBgColor = btnBgColor;
   Static.btnTextColor = btnTextColor;
@@ -433,9 +446,8 @@ Future<void> pSetSettings({
   Static.webDialogPadding = webDialogPadding;
   Static.webDialogMargin = webDialogMargin;
   HttpCalls.onHttpCallError = onHttpCallError;
-  Static.isHintCapitalizeFirst = isHintCapitalizeFirst??false;
+  Static.isHintCapitalizeFirst = isHintCapitalizeFirst ?? false;
   Static.usePreCheckFunctionInHttpCalls = usePreCheckFunctionInHttpCalls;
-
 }
 
 String pRemoveHtmlIfNeeded(String text) {

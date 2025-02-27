@@ -15,6 +15,10 @@ class GetImage extends StatelessWidget {
   final Color? imageColor, loadingColor;
   final BorderRadius? borderRadius;
   final GestureTapCallback? onTap;
+  final Widget? customPlaceholder,
+      customPlaceholderChild,
+      customErrorWidget,
+      customErrorWidgetChild;
   const GetImage(
       {super.key,
       this.imagePath,
@@ -26,9 +30,15 @@ class GetImage extends StatelessWidget {
       this.imageColor,
       this.borderRadius,
       this.loadingColor,
-      this.onTap});
+      this.onTap,
+      this.customPlaceholder,
+      this.customErrorWidget,
+      this.customPlaceholderChild,
+      this.customErrorWidgetChild});
+
   static String defaultImage = 'assets/default.png';
   static bool defImageIsAsset = true;
+
   @override
   Widget build(BuildContext context) {
     bool isAsset = isAssets;
@@ -73,26 +83,30 @@ class GetImage extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => Container(
-                  height: height,
-                  width: width,
-                  decoration: pBoxDecoration(
-                    borderRadius: borderRadius ??
-                        BorderRadius.circular(radius ?? Siz.defaultRadius),
-                  ),
-                  child: LoadingPro(
-                    valueColor: loadingColor ?? Clr.colorPrimary,
-                  ),
-                ),
-                errorWidget: (context, url, error) => Container(
-                  height: height,
-                  width: width,
-                  decoration: pBoxDecoration(
-                    borderRadius: borderRadius ??
-                        BorderRadius.circular(radius ?? Siz.defaultRadius),
-                  ),
-                  child: Image.asset(defaultImage),
-                ),
+                placeholder: (context, url) =>
+                    customPlaceholder ??
+                    Container(
+                      height: height,
+                      width: width,
+                      decoration: pBoxDecoration(
+                        borderRadius: borderRadius ??
+                            BorderRadius.circular(radius ?? Siz.defaultRadius),
+                      ),
+                      child: customPlaceholderChild ?? LoadingPro(
+                        valueColor: loadingColor ?? Clr.colorPrimary,
+                      ),
+                    ),
+                errorWidget: (context, url, error) =>
+                    customErrorWidget ??
+                    Container(
+                      height: height,
+                      width: width,
+                      decoration: pBoxDecoration(
+                        borderRadius: borderRadius ??
+                            BorderRadius.circular(radius ?? Siz.defaultRadius),
+                      ),
+                      child: customErrorWidgetChild ?? Image.asset(defaultImage),
+                    ),
               ),
       ),
     );

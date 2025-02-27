@@ -93,7 +93,12 @@ class Static {
   static InputBorder? border;
   static Color? borderColor;
   static double? labelPadding;
+  static Widget? txtInputPostFixErrorIcon;
+  static TextStyle? txtInputErrorStyle;
+  static double? txtInputHeight;
   static double? btnHeight;
+  static FontWeight? btnFontWeight;
+  static Widget? customBtnLoader;
   static double? btnRadius;
   static Color? btnBgColor;
   static Color? btnTextColor;
