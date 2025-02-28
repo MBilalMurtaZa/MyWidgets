@@ -260,7 +260,6 @@ class Btn extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
   final bool hasBorder, isLoose, hasBold, isTextOnly, isLoading;
-  final bool isSecondary;
   final double? radius,
       textSize,
       verticalPadding,
@@ -283,7 +282,6 @@ class Btn extends StatelessWidget {
     super.key,
     required this.text,
     this.onPressed,
-    this.isSecondary = false,
     this.loadingWidget,
     this.isLoading = false,
     this.textColor,
