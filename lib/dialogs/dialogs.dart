@@ -20,7 +20,6 @@ class Dialogs {
     Widget? cancelButton,
     List<Widget>? buttonList,
     bool isDismissible = true,
-
   }) async {
     return showPlatformDialog(
       context: context ?? Get.context!,
