@@ -2,7 +2,6 @@
 // Purpose: This file contains my widgets.
 
 library;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_widgets/services/http_calls.dart';
 import 'package:my_widgets/utils/dates.dart';
+import 'package:my_widgets/utils/enums.dart';
 import 'package:my_widgets/widgets/get_images.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'utils/utils.dart';
@@ -81,7 +81,7 @@ BoxDecoration pBoxDecoration(
 
 pShowToast(
     {required String message,
-    Color colorText = Colors.white,
+    Color? colorText,
     Color? backgroundColor,
     Color? errorBackgroundColor,
     bool isError = false,
@@ -89,12 +89,12 @@ pShowToast(
     Toast? toastLength}) {
   Fluttertoast.showToast(
     msg: message,
-    toastLength: toastLength ?? Static.toastLength,
-    gravity: toastGravity ?? ToastGravity.TOP,
+    toastLength: toastLength ?? Static.toastLength??Toast.LENGTH_LONG,
+    gravity: toastGravity ?? Static.toastGravity??ToastGravity.CENTER,
     backgroundColor: isError
         ? ((errorBackgroundColor ?? Colors.red))
-        : (backgroundColor ?? Clr.colorPrimary),
-    textColor: colorText,
+        : (backgroundColor ?? Static.toastBackgroundColor?? Clr.colorPrimary),
+    textColor: colorText??Static.toastTextColor??Colors.white,
     fontSize: 16.0,
   );
 }
@@ -137,32 +137,75 @@ Widget pSetCard(
 
 Future<dynamic> pSetRout(
     {required dynamic page,
-    RouteType routeType = RouteType.push,
-    bool fullscreenDialog = false,
-    BuildContext? context,
-    Duration? duration,
-    Curve? curve,
-    Transition? transition}) async {
+      RouteType routeType = RouteType.push,
+      bool fullscreenDialog = false,
+      BuildContext? context,
+      Duration? duration,
+      Curve? curve,
+      Transition? transition,
+      bool? opaque,
+      int? id,
+      String? routeName,
+      dynamic arguments,
+      Bindings? binding,
+      bool preventDuplicates = true,
+      bool? popGesture,
+      double Function(BuildContext context)? gestureWidth,
+      RoutePredicate? predicate,
+    }) async {
   pFocusOut(context: context);
   switch (routeType) {
     case RouteType.push:
-      // return Navigator.push(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
       return Get.to(
         page,
         fullscreenDialog: fullscreenDialog,
         duration: duration,
         curve: curve,
         transition: transition,
+        preventDuplicates: preventDuplicates??false,
+        routeName: routeName,
+        arguments: arguments,
+        binding: binding,
+        gestureWidth: gestureWidth,
+        id: id,
+        opaque: opaque,
+        popGesture: popGesture,
       );
     case RouteType.pushReplace:
-      return Get.off(page, fullscreenDialog: fullscreenDialog);
+      return Get.off(
+        page,
+        fullscreenDialog: fullscreenDialog,
+        duration: duration,
+        curve: curve,
+        transition: transition,
+        preventDuplicates: preventDuplicates??false,
+        routeName: routeName,
+        arguments: arguments,
+        binding: binding,
+        gestureWidth: gestureWidth,
+        id: id,
+        opaque: opaque??false,
+        popGesture: popGesture,
+      );
     case RouteType.pushReplaceAll:
-      return Get.offAll(page, fullscreenDialog: fullscreenDialog);
+      return Get.offAll(
+        page,
+        fullscreenDialog: fullscreenDialog,
+        duration: duration,
+        curve: curve,
+        transition: transition,
+        routeName: routeName,
+        arguments: arguments,
+        binding: binding,
+        gestureWidth: gestureWidth,
+        id: id,
+        opaque: opaque??false,
+        popGesture: popGesture,
+        predicate: predicate,
+      );
     // return Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> page, fullscreenDialog: fullscreenDialog));
     case RouteType.pushRemoveUntil:
-      return Navigator.pushAndRemoveUntil(context ?? Get.context!,
-          MaterialPageRoute(builder: (context) => page), (route) => false);
-    // return Get.offUntil(MaterialPageRoute(builder: (context)=> page), (route) => false);
+      return Navigator.pushAndRemoveUntil(context ?? Get.context!, MaterialPageRoute(builder: (context) => page), (route) => false);
   }
 }
 
@@ -193,6 +236,45 @@ Widget pDropDownButton(
         value: selectedValue,
         items: listDropDown,
         onChanged: onChange,
+      ),
+    ),
+  );
+}
+Widget pDropDown<T>(
+    String labelHint,
+    String hintText,
+    List<DropdownMenuItem<T>> listDropDown,
+    T? selectedValue,
+    Function(T? val)? onChange,
+
+    {bool isExpanded = true,
+      double paddingHorizontal = 0.0,
+      bool enabled = true,
+      FocusNode? focusNode,
+      bool hasBorder = false,
+      Widget? postFix,
+      Widget? preFix,
+      DropdownButtonBuilder? itemBuilder,
+
+    }) {
+  return IgnorePointer(
+    ignoring: !enabled,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
+      margin: const EdgeInsets.only(bottom: 5),
+      child: DropdownButtonFormField(
+        decoration: InputDecoration(
+          labelText: labelHint,
+          border: hasBorder ? const OutlineInputBorder() : null,
+          suffixIcon: postFix,
+          prefixIcon: preFix,
+        ),
+        focusNode: focusNode,
+        isExpanded: true,
+        value: selectedValue,
+        items: listDropDown,
+        onChanged: onChange,
+        selectedItemBuilder: itemBuilder,
       ),
     ),
   );
@@ -305,7 +387,7 @@ Future<void> pSetSettings({
   bool isLive = true,
   String defaultImage = 'assets/default.png',
   bool defImageIsAsset = true,
-  httpCallsDefaultResponse = true,
+  bool httpCallsDefaultResponse = true,
   double defaultFontSize = 14.0,
   double defaultRadius = 8.0,
   double defaultBtnHeight = 50,
@@ -335,6 +417,7 @@ Future<void> pSetSettings({
   InputDecoration? inputDecoration,
   Map<String, String>? httpHeader,
   Map<String, String>? httpHeaderAddOns,
+  Map<String, String>? httpParamsAddOns,
   InputBorder? txtInputEnabledBorder,
   InputBorder? txtInputFocusedBorder,
   InputBorder? txtInputErrorBorder,
@@ -349,9 +432,12 @@ Future<void> pSetSettings({
   Color? btnBorderColor,
   bool? appDirectionLeftToRight,
   String? fontFamily,
+  String? txtFontFamily,
+  String? btnFontFamily,
+  String? txtInputFontFamily,
   int stopDecodingFromErrorCode = 600,
   bool? defaultLoadingProIsIOS,
-  Toast defaultToastLength = Toast.LENGTH_SHORT,
+  Toast? defaultToastLength,
   int httpCallTimeoutInSec = 20,
   Matrix4? onHoverDefaultMatrix4,
   double? onHoverDefaultScale,
@@ -365,6 +451,11 @@ Future<void> pSetSettings({
   bool? isHintCapitalizeFirst,
   bool? usePreCheckFunctionInHttpCalls,
   Widget? customLoadingWidget,
+  Color? toastBackgroundColor,
+  Color? toastTextColor,
+  MyToastGravity? toastGravity,
+  Future Function()? httpCallPreFunction,
+  Future Function()? httpCallPostFunction,
 
   /// user can define custom json key get Data in ViewResponse model data property
   String? responseDataKey,
@@ -378,6 +469,9 @@ Future<void> pSetSettings({
   /// user can define custom json key get Status Code in ViewResponse model statusCode property
   String? responseStatusCodeKey,
 
+  /// user can define custom json key get Error Code in ViewResponse model statusCode property
+  String? responseErrorCodeKey,
+
   /// user can define custom json key get Pagination in ViewResponse model Pagination property
   String? responsePaginationKey,
 
@@ -387,6 +481,7 @@ Future<void> pSetSettings({
   /// user can define custom token key in http call header ViewResponse model status property
   String? httpCallTokenKey,
   bool canHttpCallAddBearerAsPreToken = true,
+
   Function(dynamic error, dynamic response, bool? defaultResponse)?
       onHttpCallError,
 }) async {
@@ -394,6 +489,7 @@ Future<void> pSetSettings({
   Static.responseMessageKey = responseMessageKey;
   Static.responseErrorMessageKey = responseErrorMessageKey;
   Static.responseStatusCodeKey = responseStatusCodeKey;
+  Static.responseErrorCodeKey = responseErrorCodeKey;
   Static.responsePaginationKey = responsePaginationKey;
   Static.responseStatusKey = responseStatusKey;
   Static.httpCallTokenKey = httpCallTokenKey;
@@ -426,6 +522,7 @@ Future<void> pSetSettings({
   HttpCalls.localization = localization;
   HttpCalls.httpHeader = httpHeader;
   HttpCalls.headerAddOns = httpHeaderAddOns;
+  HttpCalls.httpParamsAddOns = httpParamsAddOns;
   Clr.colorTxt = txtColor ?? Clr.colorBlack;
   Clr.colorTxtInput = txtInputColor ?? Clr.colorBlack;
   Style.textStyle = txtStyle;
@@ -436,6 +533,7 @@ Future<void> pSetSettings({
   Static.currencyLocale = currencyLocale;
   Static.currencySymbol = currencySymbol;
   Static.isCurrencyCompact = isCurrencyCompact;
+  Static.currencyDecimal = currencyDecimal;
   Static.inputDecoration = inputDecoration;
   Static.enabledBorder = txtInputEnabledBorder;
   Static.focusedBorder = txtInputFocusedBorder;
@@ -452,6 +550,9 @@ Future<void> pSetSettings({
   Static.appDirectionLeftToRight = appDirectionLeftToRight;
   Static.useDefaultURl = useDefaultURl;
   Static.fontFamily = fontFamily;
+  Static.txtFontFamily = txtFontFamily;
+  Static.btnFontFamily = btnFontFamily;
+  Static.txtInputFontFamily = txtInputFontFamily;
   Static.stopDecodingFromErrorCode = stopDecodingFromErrorCode;
   Static.defaultLoadingProIsIOS = defaultLoadingProIsIOS;
   Static.toastLength = defaultToastLength;
@@ -469,6 +570,11 @@ Future<void> pSetSettings({
   Static.isHintCapitalizeFirst = isHintCapitalizeFirst ?? false;
   Static.usePreCheckFunctionInHttpCalls = usePreCheckFunctionInHttpCalls;
   Static.customLoadingWidget = customLoadingWidget;
+  Static.toastBackgroundColor = toastBackgroundColor;
+  Static.toastTextColor = toastTextColor;
+  Static.toastGravity = ToastGravity.values.firstWhereOrNull((test)=> test.name == toastGravity?.value);
+  HttpCalls.httpCallPreFunction = httpCallPreFunction;
+  HttpCalls.httpCallPostFunction = httpCallPostFunction;
 }
 
 String pRemoveHtmlIfNeeded(String text) {
@@ -504,3 +610,5 @@ pCurrencyFormat(dynamic value,
     value = 0;
   }
 }
+
+

@@ -23,6 +23,7 @@ class Txt extends StatelessWidget {
   final int? maxLine;
   final TextAlign textAlign;
   final TextDecoration? textDecoration;
+  final TextScaler? textScaler;
   final Function()? onTap;
 
   const Txt(
@@ -44,6 +45,7 @@ class Txt extends StatelessWidget {
     this.removeHTML = false,
     this.onTap,
     this.lineHeight,
+    this.textScaler,
     super.key,
   });
 
@@ -58,7 +60,7 @@ class Txt extends StatelessWidget {
             TextStyle(
               fontWeight: hasBold
                   ? fontWeight ?? Static.fontWeight ?? FontWeight.bold
-                  : FontWeight.normal,
+                  : fontWeight ?? Static.fontWeight ??FontWeight.normal,
               fontStyle: hasItalic ? FontStyle.italic : FontStyle.normal,
               decoration: textDecoration ??
                   (hasUnderLine
@@ -72,11 +74,12 @@ class Txt extends StatelessWidget {
                   (checkOverFlow
                       ? TextOverflow.ellipsis
                       : TextOverflow.visible),
-              fontFamily: fontFamily,
+              fontFamily: fontFamily??Static.txtFontFamily??Static.fontFamily,
               height: lineHeight,
             ),
         maxLines: maxLine,
         textAlign: textAlign,
+        textScaler: textScaler,
       ),
     );
   }

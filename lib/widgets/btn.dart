@@ -191,7 +191,7 @@ class _BtnSFState extends State<BtnSF> {
                                   Clr.colorPrimary,
                           width: widget.borderWidth!)
                       : null)),
-      onPressed: widget.onPressed ??
+      onPressed: isLoading?(){}: widget.onPressed ??
           (widget.onPressedCallBack != null
               ? () => widget.onPressedCallBack!(onLoadingChange)
               : null),
@@ -271,6 +271,8 @@ class Btn extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
   final bool hasBorder, isLoose, hasBold, isTextOnly;
+  final FontWeight? fontWeight;
+  final String? fontFamily;
   final double? radius,
       textSize,
       verticalPadding,
@@ -319,6 +321,8 @@ class Btn extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.width,
     this.height,
+    this.fontWeight,
+    this.fontFamily
   });
 
   @override
@@ -415,6 +419,10 @@ class Btn extends StatelessWidget {
     return TextStyle(
         color: isTextOnly ? (textColor ?? Clr.colorBlack) : textColor,
         fontSize: textSize,
-        fontWeight: hasBold ? FontWeight.bold : FontWeight.normal);
+        fontWeight: hasBold
+            ? fontWeight ?? Static.fontWeight ?? FontWeight.bold
+            : fontWeight ?? Static.fontWeight ??FontWeight.normal,
+      fontFamily: fontFamily??Static.btnFontFamily??Static.fontFamily
+    );
   }
 }

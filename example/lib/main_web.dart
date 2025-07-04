@@ -162,15 +162,16 @@ class _MainWebState extends State<MainWeb> {
   }
 
   onAlertTap(Function(bool p1) fn) async {
+    print('abc alsdfnas');
     fn(true);
     await Future.delayed(5.seconds);
     fn(false);
 
-    await ShowSnackBar.createHighlightOverlay(
-      text: 'Hello I am alert',
-      context: context.mounted ? context : Get.context!,
-      textColor: Colors.white,
-      hasCloseIcon: true,
-    );
+    // await ShowSnackBar.createHighlightOverlay(
+    //   text: 'Hello I am alert',
+    //   context: context.mounted ? context : Get.context!,
+    //   textColor: Colors.white,
+    //   hasCloseIcon: true,
+    // );
   }
 }

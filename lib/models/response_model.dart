@@ -1,6 +1,7 @@
 // This file is part of a Flutter package created by Bilal MurtaZa.
 // Purpose: This file contains response model.
 
+import 'package:http/http.dart';
 import 'package:my_widgets/utils/utils.dart';
 
 class ViewResponse {
@@ -9,7 +10,10 @@ class ViewResponse {
   String errorMessage;
   dynamic data;
   dynamic statusCode;
+  dynamic errorCode;
+  dynamic apiStatusCode;
   dynamic pagination;
+  Response? rawResponse;
 
   ViewResponse({
     this.status = false,
@@ -17,13 +21,16 @@ class ViewResponse {
     this.errorMessage = '',
     this.data,
     this.statusCode = '',
+    this.apiStatusCode,
     this.pagination = '',
+    this.rawResponse,
   });
 
-  ViewResponse.fromJson(Map<String, dynamic> json)
+  ViewResponse.fromJson(Map<String, dynamic> json, {Response? response})
       : status = json[(Static.responseStatusKey ?? '')] ??
             json['status'] ??
             json['Status'] ??
+            json['statusCode'] == '000'??
             false,
         message = json[(Static.responseMessageKey ?? '')] ??
             json['message'] ??
@@ -47,7 +54,17 @@ class ViewResponse {
             json['StatusCode'] ??
             json['STATUSCODE'] ??
             'No code received from Server ',
+        errorCode = json[(Static.responseErrorCodeKey ?? '')] ??
+            json['error_code'] ??
+            json['errorCode'] ??
+            json['ErrorCode'] ??
+            json['ERRORCODE'] ??
+            json['ERROR_CODE'] ??
+            json['error_code'] ??
+            'No code received from Server ',
+        apiStatusCode = json['apiStatusCode']??'',
         pagination = json[(Static.responsePaginationKey ?? '')] ??
             json['pagination'] ??
-            'No code received from Server ';
+            'No code received from Server ',
+        rawResponse = response;
 }

@@ -1,3 +1,34 @@
+## 1.1.7
+* Fix connectivity issue,
+## 1.1.6
+* Added internet connectivity check in http calls, now you can set flag in pSetSettings to true or false to enable or disable this feature.
+## 1.1.5
+* Stop calling onPressed while BtnSF in loading state  
+## 1.1.4
+* added multiselect dropdown
+## 1.1.3
+* added pre defined Formatters for inputs 
+  * MaxValueInputFormatter
+  * MinValueInputFormatter
+  * PhoneNumberInputFormatter
+  * PasswordInputFormatter
+* 
+## 1.1.2
+* added txtFontFamily option in pSetSettings,
+* added btnFontFamily option in pSetSettings,
+* added txtInputFontFamily option in pSetSettings,
+* added MyToastGravity option in pSetSettings
+* resolve fontWeight issue in txt
+
+## 1.1.1
+* fix minor issues
+## 1.1.0
+* added httpParamsAddOns in pSetSetting() 
+* added httpCallPreFunction in pSetSetting()=> if user want to run anything before api call like start loader 
+* added httpCallPostFunction in pSetSetting() => if user want to run anything after api call like stop loader
+* set get image in case of error.
+## 1.0.1
+* Add minor keys flexibility
 ## 1.0.0
 * Fix all issues 
 ## 0.11.4

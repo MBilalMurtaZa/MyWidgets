@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/my_widgets.dart';
+import 'package:my_widgets/services/http_calls.dart';
+import 'package:my_widgets/services/internet_status_service.dart';
 import 'package:my_widgets/utils/dates.dart';
 import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
@@ -18,6 +20,7 @@ import 'package:get/get.dart';
 import 'main_web.dart';
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Pref.getPref();
 
@@ -72,7 +75,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
 
-        body: buildMainPage(), //buildMainPage(),
+        body: MainWeb(), //buildMainPage(),
       ),
     );
   }

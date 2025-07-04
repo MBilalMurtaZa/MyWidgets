@@ -11,6 +11,7 @@ class TxtFormInput<T> extends StatefulWidget {
   final TextEditingController? controller;
   final String? errorMessage, hintText, labelText, prefixText;
   final String? errorLengthMessage;
+  final String? fontFamily;
   final int? maxLines, minLines, maxLength, validationLength;
   final double? textSize,
       hintTextSize,
@@ -34,7 +35,7 @@ class TxtFormInput<T> extends StatefulWidget {
   final bool autofocus;
   final bool hasCounter;
   final bool? showCursor;
-  final bool? hasBorder, hasLabel, showLabelStat, hasLabelOnTop;
+  final bool? hasBorder, hasLabel, showLabelStar, hasLabelOnTop;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final VoidCallback? onEditingComplete;
@@ -85,7 +86,7 @@ class TxtFormInput<T> extends StatefulWidget {
     this.hasLabel,
     this.hasBorder,
     this.hasLabelOnTop,
-    this.showLabelStat,
+    this.showLabelStar,
     this.postFix,
     this.preFix,
     this.postFixStyle,
@@ -127,6 +128,7 @@ class TxtFormInput<T> extends StatefulWidget {
     this.listDropDown,
     this.selectedDropDownValue,
     this.onDropDownChanged,
+    this.fontFamily,
   });
 
   @override
@@ -163,20 +165,20 @@ class _TxtFormInputState extends State<TxtFormInput> {
                 ? (Text.rich(TextSpan(
                     text: widget.labelText ?? widget.hintText,
                     children: <InlineSpan>[
-                      if (widget.showLabelStat ??
+                      if (widget.showLabelStar ??
                           Static.txtInputHasLabelWithStar)
                         TextSpan(
                           text: widget.isOptional ? '' : ' *',
                           style: TextStyle(
                             color: Colors.red,
-                            fontFamily: Static.fontFamily,
+                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                           ),
                         ),
                     ],
                     style: widget.labelStyle ??
                         Style.labelInputStyle ??
                         TextStyle(
-                            fontFamily: Static.fontFamily,
+                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                             color: widget.hintTextColor,
                             fontSize: widget.hintTextSize ?? widget.textSize),
                   )))
@@ -215,7 +217,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                     TextStyle(
                       fontSize: widget.textSize,
                       color: widget.textColor ?? Clr.colorTxt,
-                      fontFamily: Static.fontFamily,
+                      fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                     ),
                 obscureText: widget.isPassword,
                 cursorColor: widget.cursorColor,
@@ -243,13 +245,13 @@ class _TxtFormInputState extends State<TxtFormInput> {
                           ? (Text.rich(TextSpan(
                               text: widget.labelText ?? widget.hintText,
                               children: <InlineSpan>[
-                                if (widget.showLabelStat ??
+                                if (widget.showLabelStar ??
                                     Static.txtInputHasLabelWithStar)
                                   TextSpan(
                                     text: widget.isOptional ? '' : ' *',
                                     style: TextStyle(
                                       color: Colors.red,
-                                      fontFamily: Static.fontFamily,
+                                      fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                                     ),
                                   ),
                               ],
@@ -257,7 +259,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                                   Style.labelInputStyle ??
                                   TextStyle(
                                     color: widget.hintTextColor,
-                                    fontFamily: Static.fontFamily,
+                                    fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                                   ),
                             )))
                           : null,
@@ -330,7 +332,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                           TextStyle(
                             fontSize: widget.hintTextSize ?? widget.textSize,
                             color: widget.hintTextColor,
-                            fontFamily: Static.fontFamily,
+                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                           ),
                       labelStyle: widget.labelStyle ?? Style.labelInputStyle,
                       suffixIcon: widget.postFix,
@@ -344,7 +346,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                       suffixStyle: widget.postFixStyle ??
                           Style.styleInput ??
                           TextStyle(
-                            fontFamily: Static.fontFamily,
+                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                             color: widget.postFixTextColor ??
                                 widget.textColor ??
                                 Clr.colorTxt,
@@ -354,7 +356,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                       prefixStyle: widget.prefixStyle ??
                           Style.styleInput ??
                           TextStyle(
-                            fontFamily: Static.fontFamily,
+                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                             color: widget.prefixTextColor ??
                                 widget.textColor ??
                                 Clr.colorTxt,
@@ -419,20 +421,20 @@ class _TxtFormInputState extends State<TxtFormInput> {
                     ? (Text.rich(TextSpan(
                         text: widget.labelText ?? widget.hintText,
                         children: <InlineSpan>[
-                          if (widget.showLabelStat ??
+                          if (widget.showLabelStar ??
                               Static.txtInputHasLabelWithStar)
                             TextSpan(
                               text: widget.isOptional ? '' : ' *',
                               style: TextStyle(
                                 color: Colors.red,
-                                fontFamily: Static.fontFamily,
+                                fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                               ),
                             ),
                         ],
                         style: widget.labelStyle ??
                             Style.labelInputStyle ??
                             TextStyle(
-                                fontFamily: Static.fontFamily,
+                                fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                                 color: widget.hintTextColor,
                                 fontSize:
                                     widget.hintTextSize ?? widget.textSize),
@@ -463,7 +465,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                         TextStyle(
                           fontSize: widget.textSize,
                           color: widget.textColor ?? Clr.colorTxt,
-                          fontFamily: Static.fontFamily,
+                          fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                         ),
                     focusNode: widget.focusNode,
                     autofocus: widget.autofocus,
@@ -478,13 +480,13 @@ class _TxtFormInputState extends State<TxtFormInput> {
                                   ? (Text.rich(TextSpan(
                                       text: widget.labelText ?? widget.hintText,
                                       children: <InlineSpan>[
-                                        if (widget.showLabelStat ??
+                                        if (widget.showLabelStar ??
                                             Static.txtInputHasLabelWithStar)
                                           TextSpan(
                                             text: widget.isOptional ? '' : ' *',
                                             style: TextStyle(
                                               color: Colors.red,
-                                              fontFamily: Static.fontFamily,
+                                              fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                                             ),
                                           ),
                                       ],
@@ -492,7 +494,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                                           Style.labelInputStyle ??
                                           TextStyle(
                                             color: widget.hintTextColor,
-                                            fontFamily: Static.fontFamily,
+                                            fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                                           ),
                                     )))
                                   : null,
@@ -567,7 +569,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                                 fontSize:
                                     widget.hintTextSize ?? widget.textSize,
                                 color: widget.hintTextColor,
-                                fontFamily: Static.fontFamily,
+                                fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily
                               ),
                           labelStyle:
                               widget.labelStyle ?? Style.labelInputStyle,
@@ -575,7 +577,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                           suffixStyle: widget.postFixStyle ??
                               Style.styleInput ??
                               TextStyle(
-                                fontFamily: Static.fontFamily,
+                                fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                                 color: widget.postFixTextColor ??
                                     widget.textColor ??
                                     Clr.colorTxt,
@@ -593,7 +595,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                           prefixStyle: widget.prefixStyle ??
                               Style.styleInput ??
                               TextStyle(
-                                fontFamily: Static.fontFamily,
+                                fontFamily: widget.fontFamily??Static.txtInputFontFamily??Static.fontFamily,
                                 color: widget.prefixTextColor ??
                                     widget.textColor ??
                                     Clr.colorTxt,

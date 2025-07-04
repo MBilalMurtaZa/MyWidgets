@@ -86,6 +86,9 @@ class Static {
   static double? defaultFontSize;
   static String? currencySymbol;
   static String? fontFamily;
+  static String? txtFontFamily;
+  static String? btnFontFamily;
+  static String? txtInputFontFamily;
   static String? currencyLocale;
   static bool isCurrencyCompact = false;
   static int? currencyDecimal;
@@ -106,7 +109,7 @@ class Static {
   static bool? defaultLoadingProIsIOS;
   static bool? useDefaultURl;
   static int stopDecodingFromErrorCode = 400;
-  static Toast toastLength = Toast.LENGTH_SHORT;
+  static Toast? toastLength;
   static Matrix4? onHoverDefaultMatrix4;
   static double? onHoverDefaultScale;
   static Duration? onHoverDefaultAnimatedDuration;
@@ -123,10 +126,15 @@ class Static {
   static String? responseMessageKey;
   static String? responseErrorMessageKey;
   static String? responseStatusCodeKey;
+  static String? responseErrorCodeKey;
   static String? responsePaginationKey;
   static String? responseStatusKey;
   static String? httpCallTokenKey;
   static bool canHttpCallAddBearerAsPreToken = true;
+  static Color? toastBackgroundColor;
+  static Color? toastTextColor;
+  static ToastGravity? toastGravity;
+
 
   Static._();
 }

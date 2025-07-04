@@ -1,6 +1,6 @@
 name: my_widgets
 description: 'MyWidgets provides a collection of reusable widgets, utilities, dialogs, and services for Flutter, simplifying common tasks and enabling powerful actions with minimal code'
-version: 1.0.0
+version: 1.1.7
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:
@@ -11,23 +11,24 @@ dependencies:
   flutter:
     sdk: flutter
 
-  http: ^1.2.2
-  shared_preferences: ^2.3.2
+  http: ^1.4.0
+  shared_preferences: ^2.5.3
   cached_network_image: ^3.4.1
-  fluttertoast: ^8.2.8
-  get: ^4.6.6
+  fluttertoast: ^8.2.12
+  get: ^4.7.2
   url_launcher: ^6.3.1
-  intl: ^0.19.0
+  intl: ^0.20.2
   photo_view: ^0.15.0
   flutter_dialogs: ^3.0.0
+  connectivity_plus: ^6.1.4
 
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-  lint: ^2.3.0
+  flutter_lints: ^6.0.0
+  lint: ^2.8.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

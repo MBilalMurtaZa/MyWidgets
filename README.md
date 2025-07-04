@@ -129,10 +129,10 @@ To find the SHA1 and SHA-256 keys, navigate to your Android folder in the termin
 ./gradlew signingReport
 ```
 
-## Generating Android Certificates
+## Generating Android Certificates for flavors 
 To create a certificate for Android from a MacBook, use the following command:
 ```
-keytool -genkey -v -keystore ~/key-<flavor_name>.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key <flavor_name>
+keytool -genkey -v -keystore ~/key-<flavor_name>.jks -keyalg RSA -keysize 2048 -validity 10000 -alias <flavor_name>
 ```
 
 ## Related Packages

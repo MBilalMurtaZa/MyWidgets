@@ -111,7 +111,7 @@ class GetImage extends StatelessWidget {
                     borderRadius: borderRadius ??
                         BorderRadius.circular(radius ?? Siz.defaultRadius),
                   ),
-                  child: Image.asset(defaultImage),
+                  child: Image.asset(defaultImage, width: width, height: height,fit: fit,),
                 ),
               ),
       ),

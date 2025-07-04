@@ -61,18 +61,29 @@ class Dialogs {
     );
   }
 
-  static showCustomDialog(
-      {BuildContext? context,
-      dismissOnTap = false,
-      required Widget body,
-      Widget? closeBtn,
-      Duration? animationTime}) async {
+  static showCustomDialog({
+    BuildContext? context,
+    dismissOnTap = false,
+    required Widget body,
+    Widget? closeBtn,
+    Duration? animationTime,
+    double? height,
+    double? width,
+    Color? bgColor,
+    EdgeInsets? padding,
+    EdgeInsets? margin,
+  }) async {
     return showDialog(
       barrierDismissible: dismissOnTap,
       context: context ?? Get.context!,
       builder: (BuildContext context) {
         return ShowCustomDialog(
           body,
+          height: height,
+          width: width,
+          padding: padding,
+          bgColor: bgColor,
+          margin: margin,
           closeBtn: closeBtn,
           animationTime: animationTime ?? 200.milliseconds,
         );
