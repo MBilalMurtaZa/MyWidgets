@@ -1,6 +1,6 @@
 name: my_widgets
 description: 'MyWidgets provides a collection of reusable widgets, utilities, dialogs, and services for Flutter, simplifying common tasks and enabling powerful actions with minimal code'
-version: 1.1.7
+version: 1.1.9
 homepage: https://github.com/MBilalMurtaZa/MyWidgets.git
 
 environment:

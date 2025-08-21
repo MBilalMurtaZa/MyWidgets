@@ -1,4 +1,8 @@
-## 1.1.7
+## 1.1.9
+* added Request type in http call logs, 
+## 1.1.8
+* add platform builtin all httpCalls 
+* ## 1.1.8
 * Fix connectivity issue,
 ## 1.1.6
 * Added internet connectivity check in http calls, now you can set flag in pSetSettings to true or false to enable or disable this feature.

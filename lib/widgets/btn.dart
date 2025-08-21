@@ -271,6 +271,7 @@ class Btn extends StatelessWidget {
   final VoidCallback? onPressed;
   final Color? textColor, bgColor, shadowColor, onSurface, borderColor;
   final bool hasBorder, isLoose, hasBold, isTextOnly;
+  final double? decorationThickness;
   final FontWeight? fontWeight;
   final String? fontFamily;
   final double? radius,
@@ -297,6 +298,7 @@ class Btn extends StatelessWidget {
     this.textColor,
     this.bgColor,
     this.borderColor,
+    this.decorationThickness,
     this.hasBorder = true,
     this.isLoose = false,
     this.hasBold = false,
@@ -422,7 +424,9 @@ class Btn extends StatelessWidget {
         fontWeight: hasBold
             ? fontWeight ?? Static.fontWeight ?? FontWeight.bold
             : fontWeight ?? Static.fontWeight ??FontWeight.normal,
-      fontFamily: fontFamily??Static.btnFontFamily??Static.fontFamily
+      fontFamily: fontFamily??Static.btnFontFamily??Static.fontFamily,
+      decorationThickness: decorationThickness,
+      decorationColor: isTextOnly ? (textColor ?? Clr.colorBlack) : textColor,
     );
   }
 }

@@ -523,8 +523,8 @@ Future<void> pSetSettings({
   HttpCalls.httpHeader = httpHeader;
   HttpCalls.headerAddOns = httpHeaderAddOns;
   HttpCalls.httpParamsAddOns = httpParamsAddOns;
-  Clr.colorTxt = txtColor ?? Clr.colorBlack;
-  Clr.colorTxtInput = txtInputColor ?? Clr.colorBlack;
+  Clr.colorTxt = txtColor;
+  Clr.colorTxtInput = txtInputColor;
   Style.textStyle = txtStyle;
   Style.labelInputStyle = labelInputStyle;
   Style.hintInputStyle = hintInputStyle;

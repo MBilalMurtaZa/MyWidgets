@@ -13,8 +13,8 @@ class Clr {
   static const Color colorWhite = Colors.white;
   static const Color colorGreen = Colors.green;
   static const Color colorBlack = Colors.black;
-  static Color colorTxt = Colors.black;
-  static Color colorTxtInput = Colors.black;
+  static Color? colorTxt ;
+  static Color? colorTxtInput;
 
   Clr._();
 }

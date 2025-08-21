@@ -1,13 +1,9 @@
-// This file is part of a Flutter package created by Bilal MurtaZa.
-// Purpose: This file contains http calls.
-
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/my_widgets.dart';
 import '../models/response_model.dart';
 import '../utils/utils.dart';
@@ -41,7 +37,7 @@ class HttpCalls {
 
   HttpCalls._();
 
-  static Uri getRequestURL(String postFix, {bool? useDefaultURl}) {
+  static Uri getRequestURL(String postFix, {bool? useDefaultURl, required String requestType}) {
     if (useDefaultURl ?? Static.useDefaultURl ?? true) {
       String fullURL = sServerURL + postFix;
       if (fullURL.contains('://')) {
@@ -49,7 +45,7 @@ class HttpCalls {
         list.last = list.last.replaceAll('//', '/');
         fullURL = list.join('://');
       }
-      debugPrint(Uri.parse(fullURL).toString());
+      debugPrint("$requestType Request with URL: $fullURL");
       return Uri.parse(fullURL);
     } else {
       if (postFix.contains('://')) {
@@ -57,7 +53,7 @@ class HttpCalls {
         list.last = list.last.replaceAll('//', '/');
         postFix = list.join('://');
       }
-      debugPrint(Uri.parse(postFix).toString());
+      debugPrint("$requestType Request with URL: ${Uri.parse(postFix).toString()}");
       return Uri.parse(postFix);
     }
   }
@@ -69,6 +65,24 @@ class HttpCalls {
       return ViewResponse.fromJson(userMap, response: result);
     }
     return userMap;
+  }
+  
+  static String getPlatform() {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return 'Android';
+      case TargetPlatform.iOS:
+        return 'iOS';
+      case TargetPlatform.fuchsia:
+        return 'Fuchsia';
+      case TargetPlatform.macOS:
+        return 'macOS';
+      case TargetPlatform.windows:
+        return 'Windows';
+      case TargetPlatform.linux:
+        return 'Linux';
+      
+    }
   }
 
   static Future<dynamic> callGetApi(
@@ -109,10 +123,12 @@ class HttpCalls {
 
       await callPreCheckFn(usePreCheckFn);
 
-      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'GET');
       showLog(url, showLog: showLogs, logName: endPoint);
 
-      final Map<String, String> header = {};
+      final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
 
       if ((localization ?? changeLocalization) != null) {
         header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -231,9 +247,11 @@ class HttpCalls {
       await callPreCheckFn(usePreCheckFn);
       showLog(params, showLog: showLogs, logName: endPoint);
 
-      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'POST');
 
-      final Map<String, String> header = {};
+      final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
       if ((localization ?? changeLocalization) != null) {
         header['X-localization'] = localization ?? changeLocalization ?? '';
         header['Accept-Language'] = localization ?? changeLocalization ?? '';
@@ -361,7 +379,7 @@ class HttpCalls {
       }
       await callPreCheckFn(usePreCheckFn);
       showLog((params), showLog: showLogs, logName: endPoint);
-      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'PATCH');
 
       final Map<String, String> header = {
         'X-localization': '',
@@ -480,9 +498,11 @@ class HttpCalls {
     await callPreCheckFn(usePreCheckFn);
     showLog((params), showLog: showLogs, logName: endPoint);
 
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'PUT');
 
-    final Map<String, String> header = {};
+    final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
 
     if ((localization ?? changeLocalization) != null) {
       header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -600,9 +620,11 @@ class HttpCalls {
       await callPreCheckFn(usePreCheckFn);
       showLog((params), showLog: showLogs, logName: endPoint);
 
-      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'DELETE');
 
-      final Map<String, String> header = {};
+      final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
 
       if ((localization ?? changeLocalization) != null) {
         header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -702,7 +724,7 @@ class HttpCalls {
       response = errorHandler('SocketException', response, defaultResponse);
       return response;
     }
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: requestType);
     try {
       if(callHttpCallPreFunction){
         if(httpCallPreFunction != null){
@@ -712,7 +734,9 @@ class HttpCalls {
         }
       }
       await callPreCheckFn(usePreCheckFn);
-      final Map<String, String> header = {};
+      final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
 
       if ((localization ?? changeLocalization) != null) {
         header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -794,7 +818,7 @@ class HttpCalls {
       response = errorHandler('SocketException', response, defaultResponse);
       return response;
     }
-    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+    Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: requestType);
 
     try {
 
@@ -806,7 +830,9 @@ class HttpCalls {
         }
       }
       await callPreCheckFn(usePreCheckFn);
-      final Map<String, String> header = {};
+      final Map<String, String> header = {
+        'platform': getPlatform(),
+      };
 
       if ((localization ?? changeLocalization) != null) {
         header['X-localization'] = localization ?? changeLocalization ?? '';
@@ -929,7 +955,7 @@ class HttpCalls {
         }
       }
       await callPreCheckFn(usePreCheckFn);
-      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl);
+      Uri url = HttpCalls.getRequestURL(endPoint, useDefaultURl: useDefaultURl, requestType: 'POST');
       var header = {'Accept': 'application/json'};
 
       if (hasAuth) {
@@ -1053,7 +1079,7 @@ class HttpCalls {
     return returnData;
   }
 
-  static void showLog(data,
+  static void showLog(dynamic data,
       {bool? showLog,
       bool enableJsonEncode = true,
       bool showPrint = false,
