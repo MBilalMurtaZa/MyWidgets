@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:my_widgets/my_widgets.dart';
 import '../models/response_model.dart';
 import '../utils/utils.dart';
+import 'multipart_request_with_progress.dart';
 
 // bool trustSelfSigned = true;
 // HttpClient httpClient = new HttpClient()
@@ -717,7 +718,8 @@ class HttpCalls {
         bool callHttpCallPreFunction = true,
         Future<T> Function<T>()? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
-  }) async {
+  }) async
+  {
      dynamic response;
     if(!isInternetAvailable){
       pShowToast(message: internetIssue);
@@ -811,7 +813,8 @@ class HttpCalls {
         bool callHttpCallPreFunction = true,
         Future<T> Function<T>()? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
-  }) async {
+  }) async
+  {
      dynamic response;
     if(!isInternetAvailable){
       pShowToast(message: internetIssue);
@@ -915,6 +918,270 @@ class HttpCalls {
     return response;
   }
 
+
+
+  static Future<dynamic> uploadFilesWithProgress(
+      String endPoint,
+      Map<String, String> fileParams, {
+        List<File>? files,
+        bool isUserAvatar = false,
+        bool hasAuth = true,
+        Map<String, String>? dataParams,
+        required String token,
+        bool? defaultResponse,
+        Map<String, String>? customHeader,
+        bool isTypeJson = true,
+        String? changeLocalization,
+        String requestType = 'POST',
+        String tokenKey = 'Bearer ',
+        bool? useDefaultURl,
+        bool? showLogs,
+        bool? usePreCheckFn,
+        int? callTimeoutInSec,
+        Future<T> Function<T>()? httpCallPreFunction,
+        bool callHttpCallPreFunction = true,
+        Future<T> Function<T>()? httpCallPostFunction,
+        bool callHttpCallPostFunction = true,
+        void Function(int sentBytes, int totalBytes)? onProgress,
+      }) async
+  {
+    dynamic response;
+    if (!isInternetAvailable) {
+      pShowToast(message: internetIssue);
+      response = errorHandler('SocketException', response, defaultResponse);
+      return response;
+    }
+
+    final Uri url = HttpCalls.getRequestURL(
+      endPoint,
+      useDefaultURl: useDefaultURl,
+      requestType: requestType,
+    );
+
+    try {
+      if (callHttpCallPreFunction) {
+        if (httpCallPreFunction != null) {
+          await httpCallPreFunction();
+        } else {
+          if (HttpCalls.httpCallPreFunction != null) {
+            await HttpCalls.httpCallPreFunction!();
+          }
+        }
+      }
+
+      await callPreCheckFn(usePreCheckFn);
+
+      final Map<String, String> header = {'platform': getPlatform()};
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+        '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) header.addAll(headerAddOns!);
+
+      showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+      showLog((dataParams), showLog: showLogs, logName: endPoint);
+      showLog((fileParams), showLog: showLogs, logName: endPoint);
+
+      // Use the progress-aware request
+      final request = MultipartRequestWithProgress(
+        requestType,
+        url,
+        onProgress: onProgress, // <<— report progress here
+      );
+
+      if (files != null) {
+        for (final file in files) {
+          request.files.add(
+            http.MultipartFile(
+              'file',
+              http.ByteStream(file.openRead()),
+              await file.length(),
+              filename: file.path.split('/').last,
+            ),
+          );
+        }
+      } else {
+        await Future.forEach(
+          fileParams.entries,
+              (MapEntry<String, String> file) async {
+            showLog(file.key, showLog: showLogs, logName: endPoint);
+            showLog(file.value, showLog: showLogs, logName: endPoint);
+            request.files.add(await http.MultipartFile.fromPath(file.key, file.value));
+          },
+        );
+      }
+
+      request.headers.addAll(customHeader ?? httpHeader ?? header);
+      if (dataParams != null) request.fields.addAll(dataParams);
+
+      final streamedResponse = await request.send();
+      final result = await http.Response.fromStream(streamedResponse);
+
+      showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+
+      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+
+      if (callHttpCallPostFunction) {
+        if (httpCallPostFunction != null) {
+          await httpCallPostFunction();
+        } else {
+          if (HttpCalls.httpCallPostFunction != null) {
+            await HttpCalls.httpCallPostFunction!();
+          }
+        }
+      }
+    } catch (e) {
+      response = errorHandler(e, response, defaultResponse);
+    }
+
+    return response;
+  }
+
+
+  static Future<dynamic> uploadFilesWithSeparatorProgress(
+      String endPoint,
+      Map<String, String> fileParams, {
+        List<File>? files,
+        bool isUserAvatar = false,
+        bool hasAuth = true,
+        Map<String, String>? dataParams,
+        required String token,
+        bool? defaultResponse,
+        Map<String, String>? customHeader,
+        bool isTypeJson = true,
+        String? changeLocalization,
+        String requestType = 'POST',
+        String tokenKey = 'Bearer ',
+        bool? useDefaultURl,
+        bool? showLogs,
+        bool? usePreCheckFn,
+        int? callTimeoutInSec,
+        Future<T> Function<T>()? httpCallPreFunction,
+        bool callHttpCallPreFunction = true,
+        Future<T> Function<T>()? httpCallPostFunction,
+        bool callHttpCallPostFunction = true,
+
+        /// NEW: progress callback for individual file
+        void Function(int sentBytes, int totalBytes, String fileName)? onFileProgress,
+      }) async {
+    dynamic response;
+    if (!isInternetAvailable) {
+      pShowToast(message: internetIssue);
+      response = errorHandler('SocketException', response, defaultResponse);
+      return response;
+    }
+
+    final Uri url = HttpCalls.getRequestURL(
+      endPoint,
+      useDefaultURl: useDefaultURl,
+      requestType: requestType,
+    );
+
+    try {
+      if (callHttpCallPreFunction) {
+        if (httpCallPreFunction != null) {
+          await httpCallPreFunction();
+        } else {
+          if (HttpCalls.httpCallPreFunction != null) {
+            await HttpCalls.httpCallPreFunction!();
+          }
+        }
+      }
+
+      await callPreCheckFn(usePreCheckFn);
+
+      final Map<String, String> header = {'platform': getPlatform()};
+      if ((localization ?? changeLocalization) != null) {
+        header['X-localization'] = localization ?? changeLocalization ?? '';
+        header['Accept-Language'] = localization ?? changeLocalization ?? '';
+      }
+      if (isTypeJson) {
+        header[HttpHeaders.contentTypeHeader] = 'application/json';
+      }
+      if (hasAuth) {
+        header[Static.httpCallTokenKey ?? HttpHeaders.authorizationHeader] =
+        '${Static.canHttpCallAddBearerAsPreToken ? tokenKey : ''}$token';
+      }
+      if (headerAddOns != null) header.addAll(headerAddOns!);
+
+      showLog((customHeader ?? httpHeader ?? header), showLog: showLogs, logName: endPoint);
+      showLog((dataParams), showLog: showLogs, logName: endPoint);
+      showLog((fileParams), showLog: showLogs, logName: endPoint);
+
+      final request = MultipartRequestWithProgress(
+        requestType,
+        url,
+        onProgress: (sent, total) {
+          // You need to use the correct file name here, which will be dynamically passed
+          if (files != null) {
+            for (final file in files) {
+              final fileName = file.path.split('/').last; // Extract file name
+              onFileProgress?.call(sent, total, fileName); // Pass dynamic file name
+            }
+          }
+        },
+      );
+
+      if (files != null) {
+        for (final file in files) {
+          request.files.add(
+            http.MultipartFile(
+              'file',
+              http.ByteStream(file.openRead()),
+              await file.length(),
+              filename: file.path.split('/').last, // Dynamic file name
+            ),
+          );
+        }
+      } else {
+        await Future.forEach(
+          fileParams.entries,
+              (MapEntry<String, String> file) async {
+            final fileName = file.key; // Extract dynamic file name from params
+            showLog(file.key, showLog: showLogs, logName: endPoint);
+            showLog(file.value, showLog: showLogs, logName: endPoint);
+            request.files.add(await http.MultipartFile.fromPath(file.key, file.value));
+            // Pass dynamic file name to progress callback
+            onFileProgress?.call(0, 0, fileName);
+          },
+        );
+      }
+
+      request.headers.addAll(customHeader ?? httpHeader ?? header);
+      if (dataParams != null) request.fields.addAll(dataParams);
+
+      final streamedResponse = await request.send();
+      final result = await http.Response.fromStream(streamedResponse);
+
+      showLog(result.body.toString(), enableJsonEncode: false, showLog: showLogs, logName: endPoint);
+
+      response = HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
+
+      if (callHttpCallPostFunction) {
+        if (httpCallPostFunction != null) {
+          await httpCallPostFunction();
+        } else {
+          if (HttpCalls.httpCallPostFunction != null) {
+            await HttpCalls.httpCallPostFunction!();
+          }
+        }
+      }
+    } catch (e) {
+      response = errorHandler(e, response, defaultResponse);
+    }
+
+    return response;
+  }
+
+
+
   @Deprecated('Please use uploadFile function to upload multipart')
   static Future<dynamic> uploadImage(
     String filename,
@@ -936,7 +1203,8 @@ class HttpCalls {
         bool callHttpCallPreFunction = true,
         Future<T> Function<T>()? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
-  }) async {
+  }) async
+  {
     dynamic response;
     if(!isInternetAvailable){
       pShowToast(message: internetIssue);
@@ -1002,6 +1270,9 @@ class HttpCalls {
     }
     return response;
   }
+
+
+
 
   static dynamic errorHandler(error, response, bool? defaultResponse) {
     dynamic returnData;

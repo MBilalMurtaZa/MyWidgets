@@ -1,4 +1,9 @@
-## 1.1.9
+## 1.1.11
+* added delay option in Get Images function for better performance in list view builder,
+## 1.1.10
+* added new Http call for file upload with live upload percentage with named uploadFilesWithSeparatorProgress
+* in this api you can track n Numbers files uploading with percentage in one go. 
+* ## 1.1.9
 * added Request type in http call logs, 
 ## 1.1.8
 * add platform builtin all httpCalls 
