@@ -5,10 +5,10 @@ class MultipartRequestWithProgress extends http.MultipartRequest {
   final void Function(int sent, int total)? onProgress;
 
   MultipartRequestWithProgress(
-      String method,
-      Uri url, {
+      super.method,
+      super.url, {
         this.onProgress,
-      }) : super(method, url);
+      });
 
   @override
   http.ByteStream finalize() {

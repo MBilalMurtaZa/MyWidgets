@@ -1,3 +1,6 @@
+## 1.1.12
+* fix get image issue square issue while loading.  
+* added "onHttpCallError" function to handle errors globally.
 ## 1.1.11
 * added delay option in Get Images function for better performance in list view builder,
 ## 1.1.10
@@ -99,7 +102,7 @@
 ## 0.9.10
 * fix hot issue
 ## 0.9.9
-* miner fixes like snackbar border error height in textfield
+* miner fixes like snack bar border error height in text field
 ## 0.9.8
 * add web dialogs more properties 
 ## 0.9.7
@@ -110,7 +113,7 @@
 * add onHover
 * fix btn default values
 ## 0.9.4
-* add autoClose optional in snackbar 
+* add autoClose optional in snack bar 
 ## 0.9.3
 * add onPressedCallBack in Btn
 ## 0.9.2

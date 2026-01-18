@@ -29,7 +29,7 @@ class Pref {
   static const String option8 = 'option8';
   static const String option9 = 'option9';
 
-  static getPref() async {
+  static Future<void> getPref() async {
     prefs = await SharedPreferences.getInstance();
   }
 
@@ -49,19 +49,19 @@ class Pref {
     return prefs!.getDouble(key) ?? defaultValue;
   }
 
-  static setPrefString(String prefsKey, String value) {
+  static void setPrefString(String prefsKey, String value) {
     prefs!.setString(prefsKey, value);
   }
 
-  static setPrefDouble(String prefsKey, double value) {
+  static void setPrefDouble(String prefsKey, double value) {
     prefs!.setDouble(prefsKey, value);
   }
 
-  static setPrefInt(String prefsKey, int value) {
+  static void setPrefInt(String prefsKey, int value) {
     prefs!.setInt(prefsKey, value);
   }
 
-  static setPrefBoolean(String key, bool value) {
+  static void setPrefBoolean(String key, bool value) {
     prefs!.setBool(key, value);
   }
 }

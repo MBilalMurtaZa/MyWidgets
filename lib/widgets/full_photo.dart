@@ -47,7 +47,7 @@ class FullPhotoView extends StatelessWidget {
     );
   }
 
-  _buildSingleImagePreview() {
+  PhotoView _buildSingleImagePreview() {
     return PhotoView(
       imageProvider: buildProvider(),
       loadingBuilder: loadingBuilder ?? loadingBuilderWidget,
@@ -59,11 +59,11 @@ class FullPhotoView extends StatelessWidget {
     );
   }
 
-  buildProvider() {
+  dynamic buildProvider() {
     return isAsset ? AssetImage(images.first) : NetworkImage(images.first);
   }
 
-  Widget buildLoading(context, event) => Center(
+  Widget buildLoading(BuildContext context, event) => Center(
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -89,7 +89,7 @@ class FullPhotoView extends StatelessWidget {
         ),
       );
 
-  _buildMultiImageView() {
+  PhotoViewGallery _buildMultiImageView() {
     return PhotoViewGallery.builder(
       scrollPhysics: const BouncingScrollPhysics(),
       builder: (BuildContext context, int index) {

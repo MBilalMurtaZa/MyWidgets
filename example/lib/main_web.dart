@@ -4,7 +4,6 @@ import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/widgets/btn.dart';
 import 'package:my_widgets/widgets/dividers.dart';
 import 'package:my_widgets/widgets/input.dart';
-import 'package:my_widgets/widgets/snack_bar.dart';
 
 class MainWeb extends StatefulWidget {
   const MainWeb({super.key});
@@ -145,7 +144,7 @@ class _MainWebState extends State<MainWeb> {
   bool switchValue = true;
   switchButton() {
     return Switch(
-      activeColor: Colors.blueAccent,
+      activeThumbColor: Colors.blueAccent,
       value: switchValue,
       onChanged: (bool value) {
         setState(() {
@@ -162,7 +161,6 @@ class _MainWebState extends State<MainWeb> {
   }
 
   onAlertTap(Function(bool p1) fn) async {
-    print('abc alsdfnas');
     fn(true);
     await Future.delayed(5.seconds);
     fn(false);

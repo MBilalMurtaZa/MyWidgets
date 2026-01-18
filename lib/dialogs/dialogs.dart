@@ -61,7 +61,7 @@ class Dialogs {
     );
   }
 
-  static showCustomDialog({
+  static Future<Future> showCustomDialog({
     BuildContext? context,
     dismissOnTap = false,
     required Widget body,
@@ -91,7 +91,7 @@ class Dialogs {
     );
   }
 
-  static showOverlayLoadingDialog(
+  static Future<Future> showOverlayLoadingDialog(
       {BuildContext? context,
       dismissOnTap = false,
       Duration? animationTime}) async {

@@ -24,7 +24,7 @@ class HttpCalls {
   static bool httpResponseUtf8Convert = false;
   static bool httpCallsDefaultResponse = true;
   static Future Function()? httpCallPreFunction;
-  static Future Function()? httpCallPostFunction;
+  static Future Function(dynamic)? httpCallPostFunction;
   static late int httpCallTimeoutInSec;
   static Function(dynamic error, dynamic response, bool? defaultResponse)? onHttpCallError;
   static String internetIssue = 'Seems like internet issue please check your device internet';
@@ -103,7 +103,7 @@ class HttpCalls {
     bool? usePreCheckFn,
     Future<T> Function<T>()? httpCallPreFunction,
     bool callHttpCallPreFunction = true,
-    Future<T> Function<T>()? httpCallPostFunction,
+    Future<T> Function<T>(T)? httpCallPostFunction,
     bool callHttpCallPostFunction = true,
   }) async {
      dynamic response;
@@ -196,9 +196,9 @@ class HttpCalls {
 
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } on Exception catch (e) {
@@ -228,7 +228,7 @@ class HttpCalls {
     bool? usePreCheckFn,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
   }) async {
      dynamic response;
@@ -326,9 +326,9 @@ class HttpCalls {
 
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();;
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -361,7 +361,7 @@ class HttpCalls {
     bool? usePreCheckFn,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
   }) async {
      dynamic response;
@@ -449,9 +449,9 @@ class HttpCalls {
       }
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -479,7 +479,7 @@ class HttpCalls {
       int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
       }) async {
      dynamic response;
@@ -572,9 +572,9 @@ class HttpCalls {
       }
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -601,7 +601,7 @@ class HttpCalls {
       int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
       }) async {
      dynamic response;
@@ -675,9 +675,9 @@ class HttpCalls {
       }
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -716,7 +716,7 @@ class HttpCalls {
     int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
   }) async
   {
@@ -779,9 +779,9 @@ class HttpCalls {
 
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -811,7 +811,7 @@ class HttpCalls {
     int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
   }) async
   {
@@ -906,9 +906,9 @@ class HttpCalls {
           HttpCalls.getDataObject(result, defaultResponse: defaultResponse);
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -938,9 +938,9 @@ class HttpCalls {
         bool? showLogs,
         bool? usePreCheckFn,
         int? callTimeoutInSec,
-        Future<T> Function<T>()? httpCallPreFunction,
+        Future<T> Function<T>(T)? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(T)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
         void Function(int sentBytes, int totalBytes)? onProgress,
       }) async
@@ -961,7 +961,7 @@ class HttpCalls {
     try {
       if (callHttpCallPreFunction) {
         if (httpCallPreFunction != null) {
-          await httpCallPreFunction();
+          await httpCallPreFunction(response);
         } else {
           if (HttpCalls.httpCallPreFunction != null) {
             await HttpCalls.httpCallPreFunction!();
@@ -1030,10 +1030,10 @@ class HttpCalls {
 
       if (callHttpCallPostFunction) {
         if (httpCallPostFunction != null) {
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         } else {
           if (HttpCalls.httpCallPostFunction != null) {
-            await HttpCalls.httpCallPostFunction!();
+            await HttpCalls.httpCallPostFunction!(response);
           }
         }
       }
@@ -1065,7 +1065,7 @@ class HttpCalls {
         int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
 
         /// NEW: progress callback for individual file
@@ -1166,10 +1166,10 @@ class HttpCalls {
 
       if (callHttpCallPostFunction) {
         if (httpCallPostFunction != null) {
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         } else {
           if (HttpCalls.httpCallPostFunction != null) {
-            await HttpCalls.httpCallPostFunction!();
+            await HttpCalls.httpCallPostFunction!(response);
           }
         }
       }
@@ -1201,7 +1201,7 @@ class HttpCalls {
     int? callTimeoutInSec,
         Future<T> Function<T>()? httpCallPreFunction,
         bool callHttpCallPreFunction = true,
-        Future<T> Function<T>()? httpCallPostFunction,
+        Future<T> Function<T>(dynamic)? httpCallPostFunction,
         bool callHttpCallPostFunction = true,
   }) async
   {
@@ -1260,9 +1260,9 @@ class HttpCalls {
 
       if(callHttpCallPostFunction){
         if(httpCallPostFunction != null){
-          await httpCallPostFunction();
+          await httpCallPostFunction(response);
         }else{
-          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!();
+          if(HttpCalls.httpCallPostFunction != null)await HttpCalls.httpCallPostFunction!(response);
         }
       }
     } catch (e) {
@@ -1274,7 +1274,7 @@ class HttpCalls {
 
 
 
-  static dynamic errorHandler(error, response, bool? defaultResponse) {
+  static dynamic errorHandler(dynamic error, response, bool? defaultResponse) {
     dynamic returnData;
     if (error.message is http.Response) {
       Response r = error.message;

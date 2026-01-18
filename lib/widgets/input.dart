@@ -457,7 +457,7 @@ class _TxtFormInputState extends State<TxtFormInput> {
                   ),
                   child: DropdownButtonFormField(
                     isExpanded: true,
-                    value: widget.selectedDropDownValue,
+                    initialValue: widget.selectedDropDownValue,
                     items: widget.listDropDown,
                     onChanged: widget.onDropDownChanged!,
                     style: widget.style ??

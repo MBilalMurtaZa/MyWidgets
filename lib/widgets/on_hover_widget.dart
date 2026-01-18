@@ -38,10 +38,7 @@ class _OnHoverWidgetState extends State<OnHoverWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Matrix4 hoveredTransform = widget.hoveredMatrix4 ??
-        Static.onHoverDefaultMatrix4 ??
-        Matrix4.identity()
-      ..scale(widget.hoverScale ?? Static.onHoverDefaultScale ?? 1.1);
+    Matrix4 hoveredTransform = widget.hoveredMatrix4 ?? Static.onHoverDefaultMatrix4 ?? Matrix4.identity()..scale(widget.hoverScale ?? Static.onHoverDefaultScale ?? 1.1);
     var transform = isHovered ? hoveredTransform : Matrix4.identity();
     return GestureDetector(
       onTap: widget.onTap,
@@ -66,5 +63,5 @@ class _OnHoverWidgetState extends State<OnHoverWidget> {
     );
   }
 
-  onEntered(bool isHovered) => setState(() => this.isHovered = isHovered);
+  void onEntered(bool isHovered) => setState(() => this.isHovered = isHovered);
 }

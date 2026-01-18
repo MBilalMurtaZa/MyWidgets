@@ -105,7 +105,7 @@ class MultiSelectOptionViewState<T> extends State<MultiSelectDropDown<T>> {
     });
   }
 
-  toggleItem(T item) {
+  void toggleItem(T item) {
     setState(() {
       if (selectedItems.contains(item)) {
         selectedItems.remove(item);

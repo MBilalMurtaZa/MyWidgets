@@ -161,7 +161,7 @@ class _BtnSFState extends State<BtnSF> {
     }
   }
 
-  showText() {
+  Text showText() {
     return Text(widget.text!, style: widget.textStyle ?? textStyleLocal());
   }
 
@@ -213,7 +213,7 @@ class _BtnSFState extends State<BtnSF> {
     );
   }
 
-  onHoverLocal(bool val) {
+  void onHoverLocal(bool val) {
     if (widget.makeInverse) {
       setState(() {
         if (val) {
@@ -239,7 +239,7 @@ class _BtnSFState extends State<BtnSF> {
     }
   }
 
-  onLoadingChange(bool start) {
+  void onLoadingChange(bool start) {
     setState(() {
       isLoading = start;
       if (start) {
@@ -257,7 +257,7 @@ class _BtnSFState extends State<BtnSF> {
     });
   }
 
-  textStyleLocal() {
+  TextStyle textStyleLocal() {
     return TextStyle(
         color: widget.isTextOnly ? (textColor ?? Clr.colorBlack) : textColor,
         fontSize: widget.textSize,
@@ -417,7 +417,7 @@ class Btn extends StatelessWidget {
     );
   }
 
-  textStyleLocal() {
+  TextStyle textStyleLocal() {
     return TextStyle(
         color: isTextOnly ? (textColor ?? Clr.colorBlack) : textColor,
         fontSize: textSize,

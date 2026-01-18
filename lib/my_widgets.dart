@@ -79,7 +79,7 @@ BoxDecoration pBoxDecoration(
       gradient: gradient);
 }
 
-pShowToast(
+void pShowToast(
     {required String message,
     Color? colorText,
     Color? backgroundColor,
@@ -99,13 +99,15 @@ pShowToast(
   );
 }
 
-pFocusOut({BuildContext? context, bool isHide = true, FocusNode? focusNode}) {
+Future pFocusOut({BuildContext? context, bool isHide = true, FocusNode? focusNode}) async {
   FocusScope.of(context ?? Get.context!).requestFocus(focusNode ?? FocusNode());
   if (isHide) {
     return;
+  }else{
+    return SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
-  return SystemChannels.textInput.invokeMethod('TextInput.hide');
+
 }
 
 Widget pSetCard(
@@ -162,7 +164,7 @@ Future<dynamic> pSetRout(
         duration: duration,
         curve: curve,
         transition: transition,
-        preventDuplicates: preventDuplicates??false,
+        preventDuplicates: preventDuplicates,
         routeName: routeName,
         arguments: arguments,
         binding: binding,
@@ -178,7 +180,7 @@ Future<dynamic> pSetRout(
         duration: duration,
         curve: curve,
         transition: transition,
-        preventDuplicates: preventDuplicates??false,
+        preventDuplicates: preventDuplicates,
         routeName: routeName,
         arguments: arguments,
         binding: binding,
@@ -271,7 +273,7 @@ Widget pDropDown<T>(
         ),
         focusNode: focusNode,
         isExpanded: true,
-        value: selectedValue,
+        initialValue: selectedValue,
         items: listDropDown,
         onChanged: onChange,
         selectedItemBuilder: itemBuilder,
@@ -359,7 +361,7 @@ Future<bool> launchUrlBody(
           webViewConfiguration ?? const WebViewConfiguration());
 }
 
-pSnackBar(
+void pSnackBar(
     {String title = 'Info',
     required String? message,
     Color colorText = Clr.colorWhite,
@@ -455,7 +457,7 @@ Future<void> pSetSettings({
   Color? toastTextColor,
   MyToastGravity? toastGravity,
   Future Function()? httpCallPreFunction,
-  Future Function()? httpCallPostFunction,
+  Future Function(dynamic)? httpCallPostFunction,
 
   /// user can define custom json key get Data in ViewResponse model data property
   String? responseDataKey,
@@ -581,11 +583,7 @@ String pRemoveHtmlIfNeeded(String text) {
   return text.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ' ');
 }
 
-pCurrencyFormat(dynamic value,
-    {String? locale,
-    String? symbol,
-    int? decimalDigits,
-    bool? isCurrencyCompact}) {
+String pCurrencyFormat(dynamic value, {String? locale, String? symbol, int? decimalDigits, bool? isCurrencyCompact}) {
   try {
     if (value == null || value == '') {
       value = 0;
@@ -609,6 +607,8 @@ pCurrencyFormat(dynamic value,
     pShowToast(message: 'You Enter Invalid Amount');
     value = 0;
   }
+
+  return '';
 }
 
 

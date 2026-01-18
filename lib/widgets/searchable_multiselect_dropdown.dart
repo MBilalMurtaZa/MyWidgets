@@ -68,7 +68,6 @@ class CustomMultiSelectDropdownState<T> extends State<CustomMultiSelectDropdown<
   OverlayEntry _createOverlayEntry() {
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
 
     return OverlayEntry(
       builder: (context) => Positioned(

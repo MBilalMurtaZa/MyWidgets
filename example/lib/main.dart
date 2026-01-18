@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:my_widgets/dialogs/dialogs.dart';
 import 'package:my_widgets/my_widgets.dart';
-import 'package:my_widgets/services/http_calls.dart';
-import 'package:my_widgets/services/internet_status_service.dart';
 import 'package:my_widgets/utils/dates.dart';
 import 'package:my_widgets/utils/pref.dart';
 import 'package:my_widgets/utils/utils.dart';
@@ -75,7 +73,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Example My Widgets'),
         ),
 
-        body: MainWeb(), //buildMainPage(),
+        body: buildMainPage(),
       ),
     );
   }
@@ -86,14 +84,15 @@ class _MyAppState extends State<MyApp> {
       child: Form(
         child: ListView(
           children: [
-            Container(
-              decoration:
-                  pBoxDecoration(color: Clr.colorGreen, shape: BoxShape.circle),
-              height: 100,
-              width: 100,
-              child: const GetImage(
-                imagePath:
-                    'https://storage.googleapis.com/cms-storage-bucket/65361d7e1dfa118aa63b.png',
+            const Center(
+              child: GetImage(
+                imagePath: 'https://storage.googleapis.com/cms-storage-bucket/65361d7e1dfa118aa63b.png',
+                height: 100,
+                width: 100,
+                radius: 150,
+                fit: BoxFit.fill,
+                isAssets: false,
+                imageLoadingDelay: Duration(seconds: 200),
               ),
             ),
 

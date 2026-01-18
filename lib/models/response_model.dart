@@ -32,15 +32,15 @@ class ViewResponse {
             json['Status'] ??
             json['statusCode'] == '000'??
             false,
-        message = json[(Static.responseMessageKey ?? '')] ??
+        message = (json[(Static.responseMessageKey ?? '')] ??
             json['message'] ??
             json['Message'] ??
             json['MESSAGE'] ??
-            'No message received from Server ',
-        errorMessage = json[(Static.responseErrorMessageKey ?? '')] ??
+            'No message received from Server ').toString(),
+        errorMessage = (json[(Static.responseErrorMessageKey ?? '')] ??
             json['errorMessage'] ??
             json['ErrorMessage'] ??
-            'No error message received from Server ',
+            'No error message received from Server ').toString(),
         data = json[(Static.responseDataKey ?? '')] ??
             json['data'] ??
             json['Data'] ??
